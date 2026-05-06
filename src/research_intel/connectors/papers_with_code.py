@@ -1,0 +1,151 @@
+from __future__ import annotations
+
+import os
+
+from research_intel.connectors.base import ContentConnector
+from research_intel.connectors.http_client import ConnectorError, build_url, get_url, stable_id
+from research_intel.models import ContentItem, ContentType, UserProfile
+
+
+class PapersWithCodeConnector(ContentConnector):
+    source_name = "papers_with_code"
+
+    def fetch(self, profile: UserProfile) -> list[ContentItem]:
+        items: list[ContentItem] = []
+        for query in self._queries(profile):
+            try:
+                items.extend(self._search_papers(query))
+            except ConnectorError:
+                continue
+            try:
+                items.extend(self._search_repositories(query))
+            except ConnectorError:
+                continue
+        return _dedupe(items)
+
+    def _queries(self, profile: UserProfile) -> list[str]:
+        terms = [*profile.research_domains[:3], *profile.methods[:2]]
+        return [" ".join(term.strip().split()) for term in terms if term.strip()][: int(os.getenv("LIVE_MAX_QUERIES_PER_SOURCE", "2"))]
+
+    def _search_papers(self, query: str) -> list[ContentItem]:
+        url = build_url("https://paperswithcode.com/api/v1/papers/", {"q": query})
+        payload = get_url(url, timeout=10).json()
+        return [self._paper_to_item(item) for item in payload.get("results", [])[:6]]
+
+    def _search_repositories(self, query: str) -> list[ContentItem]:
+        url = build_url("https://paperswithcode.com/api/v1/repositories/", {"q": query})
+        payload = get_url(url, timeout=10).json()
+        return [self._repo_to_item(item) for item in payload.get("results", [])[:6]]
+
+    def _paper_to_item(self, paper: dict[str, object]) -> ContentItem:
+        title = str(paper.get("title") or "Untitled Papers with Code paper")
+        abstract = str(paper.get("abstract") or "")
+        paper_id = str(paper.get("id") or paper.get("arxiv_id") or title)
+        tags = _infer_tags(title, abstract, [])
+        links = {
+            "paper": str(paper.get("url_abs") or paper.get("url_pdf") or ""),
+            "pdf": str(paper.get("url_pdf") or ""),
+            "pwc": f"https://paperswithcode.com/paper/{paper_id}",
+        }
+        return ContentItem(
+            item_id=stable_id("pwc_paper", paper_id),
+            content_type=ContentType.PAPER,
+            title=title,
+            url=links["paper"] or links["pwc"],
+            source="papers_with_code",
+            summary=abstract,
+            tags=tags,
+            authors=[str(author) for author in paper.get("authors", [])] if isinstance(paper.get("authors"), list) else [],
+            published_at=str(paper.get("published") or ""),
+            metrics={},
+            technical_signals={
+                "has_experiments": any(term in abstract.lower() for term in ("experiment", "evaluation", "benchmark")),
+                "has_ablation": "ablation" in abstract.lower(),
+                "has_strong_baselines": any(term in abstract.lower() for term in ("baseline", "state-of-the-art", "sota")),
+                "has_code": True,
+                "has_benchmark": "benchmark" in abstract.lower(),
+                "baseline_count": 1,
+                "novelty": 6.4,
+                "technical_depth": "medium",
+                "trend_signal": 6.5,
+                "has_known_gap": "limitation" in abstract.lower() or "challenge" in abstract.lower(),
+                "benchmark_gap": "benchmark" in abstract.lower(),
+                "technical_core": abstract[:500],
+                "pwc_has_code": True,
+            },
+            links=links,
+            raw=paper,
+        )
+
+    def _repo_to_item(self, repo: dict[str, object]) -> ContentItem:
+        url = str(repo.get("url") or repo.get("github_url") or "")
+        name = str(repo.get("name") or url.rstrip("/").split("/")[-1] or "Papers with Code repository")
+        summary = str(repo.get("description") or "Repository linked from Papers with Code.")
+        return ContentItem(
+            item_id=stable_id("pwc_repo", url or name),
+            content_type=ContentType.REPO,
+            title=name,
+            url=url,
+            source="papers_with_code",
+            summary=summary,
+            tags=_infer_tags(name, summary, []),
+            authors=[],
+            published_at=str(repo.get("created_at") or ""),
+            metrics={"stars": float(repo.get("stars") or 0)},
+            technical_signals={
+                "has_readme": True,
+                "has_examples": "demo" in summary.lower() or "example" in summary.lower(),
+                "has_tests": "test" in summary.lower() or "benchmark" in summary.lower(),
+                "has_license": False,
+                "has_paper_link": True,
+                "has_code": True,
+                "technical_depth": "medium",
+                "last_commit_days": 999,
+                "readme_quality": "metadata_only",
+                "baseline_ready": True,
+                "trend_signal": 6.5,
+                "technical_core": summary[:500],
+            },
+            links={"pwc": str(repo.get("paper_url") or "")},
+            raw=repo,
+        )
+
+
+def _infer_tags(title: str, summary: str, extra: list[str]) -> list[str]:
+    text = f"{title} {summary}".lower()
+    tags = []
+    mapping = {
+        "video generation": ["video", "text-to-video"],
+        "controllable video editing": ["editing", "controllable"],
+        "diffusion models": ["diffusion"],
+        "evaluation benchmark": ["benchmark", "evaluation"],
+        "multimodal agents": ["agent", "multimodal"],
+        "academic writing": ["writing", "citation"],
+    }
+    for tag, needles in mapping.items():
+        if any(needle in text for needle in needles):
+            tags.append(tag)
+    tags.extend(extra)
+    return _unique(tags)
+
+
+def _unique(values: list[str]) -> list[str]:
+    seen: set[str] = set()
+    output: list[str] = []
+    for value in values:
+        key = value.strip().lower()
+        if key and key not in seen:
+            seen.add(key)
+            output.append(value.strip())
+    return output
+
+
+def _dedupe(items: list[ContentItem]) -> list[ContentItem]:
+    seen: set[str] = set()
+    output: list[ContentItem] = []
+    for item in items:
+        key = item.url.lower() or item.title.lower()
+        if key not in seen:
+            seen.add(key)
+            output.append(item)
+    return output

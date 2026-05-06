@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Research Intelligence</title>
+    <link rel="stylesheet" href="/assets/app.css">
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">RI</div>
+        <div>
+          <h1>Research Intelligence</h1>
+          <p id="profileName">default_user</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="nav-item active" data-tab="brief">Brief</button>
+        <button class="nav-item" data-tab="papers">Papers</button>
+        <button class="nav-item" data-tab="repos">Repos</button>
+        <button class="nav-item" data-tab="trends">Trends</button>
+        <button class="nav-item" data-tab="filtered">Filtered</button>
+        <button class="nav-item" data-tab="saved">Saved</button>
+        <button class="nav-item" data-tab="profile">Profile</button>
+      </nav>
+      <div class="profile-block">
+        <span class="section-label">Domains</span>
+        <div id="domainChips" class="chip-list"></div>
+      </div>
+    </aside>
+
+    <main class="app">
+      <header class="toolbar">
+        <div>
+          <h2>Daily Research Brief</h2>
+          <p id="generatedAt">No report loaded</p>
+          <p id="runStatus" class="run-status"></p>
+        </div>
+        <div class="toolbar-actions">
+          <label class="select-label">
+            Source
+            <select id="sourceMode">
+              <option value="hybrid">Hybrid</option>
+              <option value="live">Live</option>
+              <option value="sample">Sample</option>
+            </select>
+          </label>
+          <button id="runBtn" class="primary-btn">Run</button>
+        </div>
+      </header>
+
+      <section class="status-row">
+        <article class="stat">
+          <span>Accepted</span>
+          <strong id="acceptedCount">0</strong>
+        </article>
+        <article class="stat">
+          <span>Rejected</span>
+          <strong id="rejectedCount">0</strong>
+        </article>
+        <article class="stat">
+          <span>Candidates</span>
+          <strong id="candidateCount">0</strong>
+        </article>
+        <article class="stat">
+          <span>Top Score</span>
+          <strong id="topScore">0.0</strong>
+        </article>
+      </section>
+
+      <section id="sourceErrorsPanel" class="panel notice-panel hidden">
+        <div class="panel-head">
+          <h3>Live Source Status</h3>
+        </div>
+        <div id="sourceErrors" class="source-errors"></div>
+      </section>
+
+      <section id="brief" class="tab-panel active">
+        <div class="split">
+          <section class="panel">
+            <div class="panel-head">
+              <h3>Recommended Actions</h3>
+            </div>
+            <ol id="actionsList" class="action-list"></ol>
+          </section>
+          <section class="panel visual-panel">
+            <div class="panel-head">
+              <h3>Signal Mix</h3>
+            </div>
+            <canvas id="signalCanvas" width="520" height="260"></canvas>
+          </section>
+        </div>
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Highest Value Items</h3>
+          </div>
+          <div id="topItems" class="item-grid"></div>
+        </section>
+      </section>
+
+      <section id="papers" class="tab-panel">
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Paper Intelligence</h3>
+          </div>
+          <div id="paperItems" class="item-list"></div>
+        </section>
+      </section>
+
+      <section id="repos" class="tab-panel">
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Repo Intelligence</h3>
+          </div>
+          <div id="repoItems" class="item-list"></div>
+        </section>
+      </section>
+
+      <section id="trends" class="tab-panel">
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Trend Radar</h3>
+          </div>
+          <div id="trendItems" class="trend-list"></div>
+        </section>
+      </section>
+
+      <section id="filtered" class="tab-panel">
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Filtered Items</h3>
+            <select id="filterStatusSelect">
+              <option value="all">All</option>
+              <option value="reject">Reject</option>
+              <option value="low_priority">Low priority</option>
+              <option value="candidate">Candidate</option>
+              <option value="high_priority">High priority</option>
+            </select>
+          </div>
+          <div id="filteredItems" class="item-list"></div>
+        </section>
+      </section>
+
+      <section id="saved" class="tab-panel">
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Saved / Feedback Queue</h3>
+          </div>
+          <div id="savedItems" class="item-list"></div>
+        </section>
+      </section>
+
+      <section id="profile" class="tab-panel">
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Research Profile</h3>
+          </div>
+          <form id="profileForm" class="profile-form">
+            <label>Display name<input id="displayName" type="text"></label>
+            <label>Research domains<textarea id="researchDomains"></textarea></label>
+            <label>Methods<textarea id="methods"></textarea></label>
+            <label>Applications<textarea id="applications"></textarea></label>
+            <label>Preferred content<textarea id="preferredContent"></textarea></label>
+            <label>Excluded topics<textarea id="excludedTopics"></textarea></label>
+            <label>Current goals<textarea id="currentGoals"></textarea></label>
+            <label>Technical level
+              <select id="technicalLevel">
+                <option value="researcher">Researcher</option>
+                <option value="graduate_student">Graduate student</option>
+                <option value="engineer">Engineer</option>
+                <option value="product_researcher">Product researcher</option>
+              </select>
+            </label>
+            <button class="primary-btn" type="submit">Save Profile</button>
+          </form>
+        </section>
+      </section>
+    </main>
+    <button id="assistantFab" class="assistant-fab" title="Open research assistant">Ask</button>
+    <aside id="assistantDrawer" class="assistant-drawer" aria-hidden="true">
+      <div class="assistant-head">
+        <div>
+          <h3>Research Assistant</h3>
+          <p id="assistantContext">Context: current report</p>
+        </div>
+        <button id="closeAssistantBtn" class="icon-btn" title="Close">×</button>
+      </div>
+      <div id="assistantMessages" class="assistant-messages"></div>
+      <div class="quick-prompts">
+        <button class="quick-prompt" data-prompt="今天我应该优先看什么？">今日优先级</button>
+        <button class="quick-prompt" data-prompt="哪个项目适合作为 baseline？">Baseline</button>
+        <button class="quick-prompt" data-prompt="最近有什么趋势机会？">趋势机会</button>
+      </div>
+      <form id="assistantForm" class="assistant-composer">
+        <textarea id="assistantQuestion" rows="2" placeholder="Ask about the current report or selected item"></textarea>
+        <button id="askAssistantBtn" class="primary-btn" type="submit">Send</button>
+      </form>
+    </aside>
+    <aside id="detailDrawer" class="drawer" aria-hidden="true">
+      <div class="drawer-head">
+        <h3 id="drawerTitle">Item detail</h3>
+        <button id="closeDrawerBtn" class="icon-btn" title="Close">×</button>
+      </div>
+      <div id="drawerBody" class="drawer-body"></div>
+    </aside>
+    <div id="drawerBackdrop" class="drawer-backdrop"></div>
+    <script src="/assets/app.js"></script>
+  </body>
+</html>

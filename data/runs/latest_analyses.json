@@ -1,0 +1,1980 @@
+[
+  {
+    "item_id": "arxiv_2605_03475v1",
+    "title": "WorldJen: An End-to-End Multi-Dimensional Benchmark for Generative Video Models",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.03475v1",
+    "score": 7.0,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 7.6,
+    "evidence_strength": 7.4,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 9.3,
+    "why_it_matters": "It proposes a paradigm shift in video evaluation from pixel-based metrics to semantic Likert-scale judgments aligned with human preference, addressing known biases in binary VQA benchmarks.",
+    "relation_to_user": "Directly matches your research domains of video generation and evaluation benchmark, supporting your goal to find publishable research gaps and baseline projects.",
+    "technical_core": "End-to-end multi-dimensional benchmark using native-resolution VLM judges on Likert-scale questionnaires, validated against a human Bradley-Terry ground truth derived from 2,696 pairwise annotations.",
+    "strengths": [
+      "Includes large-scale human preference study (2,696 annotations)",
+      "Demonstrates perfect tier agreement between VLM and human ratings",
+      "Addresses specific limitations of SSIM, PSNR, FVD, and binary VQA"
+    ],
+    "limitations": [
+      "Code is not clearly available yet (has_code: false)",
+      "Evaluation relies heavily on the capabilities of the specific VLM used as judge",
+      "Benchmark limited to 6 state-of-the-art models in initial validation"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper",
+      "Monitor for code release to enable immediate reproduction",
+      "Identify gaps within the 16 quality dimensions for potential extension"
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=7.56",
+      "has_experiments=True",
+      "has_code=False",
+      "has_code: false",
+      "2,696 pairwise annotations from 7 annotators",
+      "Spearman rho=1.000 with human BT rating",
+      "tags include 'evaluation benchmark' and 'video generation'",
+      "analysis_source=llm:qwen3.5-122b-a10b"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_03849v1",
+    "title": "Stream-R1: Reliability-Perplexity Aware Reward Distillation for Streaming Video Generation",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.03849v1",
+    "score": 6.8,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 7.5,
+    "evidence_strength": 6.4,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 7.8,
+    "why_it_matters": "Addresses a critical bottleneck in autoregressive streaming video diffusion models by improving distillation quality without architectural changes, directly impacting the efficiency and output quality of systems within your core research domain.",
+    "relation_to_user": "Direct alignment with user domains (video generation, diffusion models) and methods (evaluation benchmark). The focus on reliability and perplexity offers potential angles for evaluation benchmark improvements which matches current goals.",
+    "technical_core": "Reliability-Perplexity Aware Reward Distillation framework that adaptively reweights distillation objectives at rollout (Inter-Reliability) and spatiotemporal-element (Intra-Perplexity) levels using a shared reward-guided mechanism to optimize visual quality, motion quality, and text alignment.",
+    "strengths": [
+      "Experimental validation included",
+      "Compares against strong baselines",
+      "No additional inference cost or architectural modification required",
+      "Improvements claimed across visual quality, motion quality, and text alignment"
+    ],
+    "limitations": [
+      "Code is not available (has_code=False)",
+      "Ablation studies are missing (has_ablation=False)",
+      "Reproducibility is low due to lack of implementation details",
+      "Baseline count is limited (2)"
+    ],
+    "possible_actions": [
+      "Review evaluation sections to identify gaps suitable for short-term publication projects",
+      "Monitor repository for code release to enable baseline usage",
+      "Investigate the 'Inter-Reliability' and 'Intra-Perplexity' concepts for adaptation to controllable video editing tasks",
+      "Verify benchmark claims against standard temporal consistency evaluations"
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=6.26",
+      "has_experiments=True",
+      "has_code=False",
+      "tags include 'video generation', 'diffusion models', 'evaluation benchmark'",
+      "metadata signal: has_experiments=True",
+      "metadata signal: has_code=False",
+      "metadata signal: has_ablation=False",
+      "rule_analysis score: 6.68",
+      "summary states 'without architectural modification or additional inference cost'",
+      "analysis_source=llm:qwen3.5-122b-a10b"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_03877v1",
+    "title": "DMGD: Train-Free Dataset Distillation with Semantic-Distribution Matching in Diffusion Models",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.03877v1",
+    "score": 6.8,
+    "relevance": 9.0,
+    "novelty": 7.5,
+    "technical_depth": 7.5,
+    "evidence_strength": 5.5,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 8.5,
+    "why_it_matters": "Dataset distillation reduces computational costs for training diffusion models, a critical bottleneck for video generation pipelines the user targets. The train-free aspect offers efficiency gains relevant to scalable AI systems.",
+    "relation_to_user": "Aligns with core method interest in diffusion models and retrieval augmented generation tags, though application is currently image-centric (ImageNet) rather than video. High potential for adapting distillation techniques to video latent spaces.",
+    "technical_core": "Dual Matching Guided Diffusion (DMGD) framework utilizing Semantic Matching via conditional likelihood optimization and Optimal Transport based Distribution Matching without auxiliary classifiers or fine-tuning.",
+    "strengths": [
+      "Train-free guidance eliminates additional fine-tuning stages",
+      "Outperforms SOTA methods on ImageNet-1K, ImageNet-Woof, and ImageNet-Nette",
+      "Includes experimental validation against strong baselines",
+      "Proposes efficiency strategies like Greedy Progressive Matching"
+    ],
+    "limitations": [
+      "Code is not available (has_code: False)",
+      "No ablation studies reported (has_ablation: False)",
+      "Evaluated only on image datasets (ImageNet variants), not video",
+      "Reproducibility hindered by lack of implementation details"
+    ],
+    "possible_actions": [
+      "Read method and evaluation sections to assess transferability to video domains",
+      "Monitor arXiv page for code release or repository links",
+      "Investigate if semantic matching can apply to temporal consistency in video editing",
+      "Use as theoretical baseline for efficient diffusion training research gaps"
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=5.56",
+      "has_experiments=True",
+      "has_code=False",
+      "item_id: arxiv_2605_03877v1",
+      "tags: diffusion models, retrieval augmented generation, cs.CV, cs.AI",
+      "technical_signals: has_experiments=True, has_code=False, has_ablation=False",
+      "summary: claims average accuracy gains of 2.1%, 5.4%, and 2.4% over SOTA",
+      "published_at: 2026-05-05T15:37:50Z",
+      "analysis_source=llm:qwen3.5-122b-a10b"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2603_24793v1",
+    "title": "AVControl: Efficient Framework for Training Audio-Visual Controls",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2603.24793v1",
+    "score": 6.68,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 7.5,
+    "evidence_strength": 6.4,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 7.8,
+    "why_it_matters": "Proposes a modular alternative to monolithic control models for video and audio generation, potentially shifting evaluation standards on the VACE Benchmark.",
+    "relation_to_user": "Direct alignment with research domains in controllable video editing and evaluation benchmarks; supports goal of finding baseline projects despite code availability risks.",
+    "technical_core": "Lightweight framework on LTX-2 using separate LoRA adapters on a parallel canvas for diverse modalities (depth, pose, camera, audio) without architectural changes.",
+    "strengths": [
+      "Includes experimental validation on VACE Benchmark",
+      "Compares against meaningful baselines including depth and pose guidance",
+      "Compute- and data-efficient training requiring few thousand steps per modality",
+      "Supports modular extension of independently trained controls"
+    ],
+    "limitations": [
+      "System detection flags has_code=False despite summary claims of public release",
+      "No ablation studies indicated in technical signals",
+      "Baseline count limited to 2 according to metadata",
+      "Parallel canvas approach may require specific attention layer modifications not fully detailed in summary"
+    ],
+    "possible_actions": [
+      "Verify code repository status via arXiv links before relying as a baseline",
+      "Analyze VACE Benchmark results for underperforming categories to identify research gaps",
+      "Investigate the parallel canvas token mechanism for potential adaptation to other foundation models",
+      "Monitor for updated releases that resolve the code availability discrepancy"
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=5.61",
+      "has_experiments=True",
+      "has_code=False",
+      "tags: controllable video editing, evaluation benchmark",
+      "technical_signals: has_experiments=True, has_ablation=False, has_strong_baselines=True",
+      "rule_analysis evidence: has_code=False, relevance=10.0",
+      "summary claims outperformance on depth- and pose-guided generation",
+      "analysis_source=llm:qwen3.5-122b-a10b"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2604_28078v1",
+    "title": "AesRM: Improving Video Aesthetics with Expert-Level Feedback",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2604.28078v1",
+    "score": 6.68,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 7.5,
+    "evidence_strength": 6.4,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 7.8,
+    "why_it_matters": "Addresses the gap between photorealistic fidelity and cinematic aesthetics in video generation, offering a structured benchmark (AesVideo-Bench) relevant to your goal of finding evaluation benchmarks and publishable gaps.",
+    "relation_to_user": "Strong match to your current interests through video generation, evaluation benchmark, cs.CV.",
+    "technical_core": "Proposes a hierarchical rubric decomposing video aesthetics into Visual Aesthetics, Visual Fidelity, and Visual Plausibility with 15 fine-grained criteria, enabling expert-annotated preference dataset and AesVideo-Bench.",
+    "strengths": [
+      "includes experimental validation",
+      "compares against meaningful baselines",
+      "provides large-scale expert-annotated dataset",
+      "aligns with Wan2.2 showing aesthetic gains"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "focuses on aesthetics rather than controllability directly"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project.",
+      "Monitor for code release to assess reproducibility",
+      "Investigate extending the rubric to controllable editing scenarios"
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=6.26",
+      "has_experiments=True",
+      "has_code=False",
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=6.26",
+      "has_experiments=True",
+      "has_code=False",
+      "tags: video generation, evaluation benchmark",
+      "analysis_source=llm:qwen3.5-122b-a10b"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_01662v1",
+    "title": "Video Active Perception: Effective Inference-Time Long-Form Video Understanding with Vision-Language Models",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.01662v1",
+    "score": 6.59,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 7.5,
+    "evidence_strength": 5.6,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 8.1,
+    "why_it_matters": "Addresses frame efficiency in long-form video QA using active perception, offering a new paradigm for multimodal agents aligned with your interest in video generation and evaluation benchmarks.",
+    "relation_to_user": "Direct alignment with research domains (video generation, multimodal agents, RAG); supports current goals to find baseline projects and identify publishable research gaps.",
+    "technical_core": "Video Active Perception (VAP) is a training-free method that enhances long-form video QA by treating keyframe selection as data acquisition in active perception, leveraging a lightweight text-conditioned video generation model to represent prior world knowledge.",
+    "strengths": [
+      "Includes experimental validation on multiple datasets (EgoSchema, NExT-QA, etc.)",
+      "Compares against strong baselines including GPT-4o and Gemini 1.5 Pro",
+      "Achieves state-of-the-art zero-shot results with improved frame efficiency"
+    ],
+    "limitations": [
+      "Code is not publicly available (has_code=False)",
+      "Lack of ablation studies limits understanding of component contributions (has_ablation=False)",
+      "Reproducibility is low due to missing implementation details"
+    ],
+    "possible_actions": [
+      "Review the method section to understand the active perception mechanism before full reading",
+      "Monitor arXiv or author repositories for potential code release",
+      "Investigate the lack of ablation studies as a potential gap for future publication"
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=5.56",
+      "has_experiments=True",
+      "has_code=False",
+      "rule_analysis.score=6.59",
+      "technical_signals.has_code=False",
+      "technical_signals.has_ablation=False",
+      "user_profile.research_domains includes 'video generation' and 'multimodal agents'",
+      "content_item.tags include 'cs.CV' and 'video generation'",
+      "analysis_source=llm:qwen3.5-122b-a10b"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2603_02175v3",
+    "title": "Kiwi-Edit: Versatile Video Editing via Instruction and Reference Guidance",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2603.02175v3",
+    "score": 6.59,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 7.5,
+    "evidence_strength": 5.6,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 8.1,
+    "why_it_matters": "Addresses the critical bottleneck of high-quality paired training data in reference-guided video editing through a scalable generation pipeline and introduces RefVIE-Bench for standardized evaluation.",
+    "relation_to_user": "Directly aligns with user research domains in controllable video editing and evaluation benchmarks; supports goals to find baseline projects and track open-source tools despite code availability concerns.",
+    "technical_core": "Proposes Kiwi-Edit architecture synergizing learnable queries and latent visual features, supported by a scalable data generation pipeline creating RefVIE dataset for instruction-reference-following tasks.",
+    "strengths": [
+      "Includes experimental validation against strong baselines",
+      "Introduces large-scale dataset RefVIE tailored for instruction-reference tasks",
+      "Establishes RefVIE-Bench for comprehensive evaluation",
+      "Claims state-of-the-art performance in controllable video editing"
+    ],
+    "limitations": [
+      "Code availability flagged as False in analysis despite summary claims",
+      "Ablation evidence may be limited based on technical signals",
+      "Reproducibility score is low due to potential access barriers",
+      "Benchmark gap status is false indicating standard metrics may not fully capture novelty"
+    ],
+    "possible_actions": [
+      "Verify GitHub repository status at https://github.com/showlab/Kiwi-Edit for actual code release",
+      "Read method and evaluation sections before reading the full paper",
+      "Evaluate RefVIE-Bench utility for personal benchmarking needs",
+      "Investigate data generation pipeline for potential adaptation to other modalities"
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.91",
+      "has_experiments=True",
+      "has_code=False",
+      "content_item.summary: 'All datasets, models, and code is released'",
+      "rule_analysis.evidence: has_code=False",
+      "rule_analysis.evidence: has_experiments=True",
+      "rule_analysis.relevance=10.0",
+      "user_profile.research_domains: controllable video editing, evaluation benchmark",
+      "rule_analysis.novelty: 7.5",
+      "analysis_source=llm:qwen3.5-122b-a10b"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2604_20486v1",
+    "title": "ProMMSearchAgent: A Generalizable Multimodal Search Agent Trained with Process-Oriented Rewards",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2604.20486v1",
+    "score": 6.51,
+    "relevance": 10.0,
+    "novelty": 7.0,
+    "technical_depth": 7.5,
+    "evidence_strength": 5.6,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 7.8,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through evaluation benchmark, multimodal agents, cs.CV.",
+    "technical_core": "Training multimodal agents via reinforcement learning for knowledge-intensive visual reasoning is fundamentally hindered by the extreme sparsity of outcome-based supervision and the unpredictability of live web environments. To resolve these algorithmic and environmental bottlenecks, we introduce ProMMSearchAgent, establishing a novel Sim-to-Real training paradigm for multimodal search. We decouple policy learning into a deterministic, local static sandbox. Crucially, to learn effectively within",
+    "strengths": [
+      "includes experimental validation",
+      "compares against meaningful baselines"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=5.26",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_03802v1",
+    "title": "Towards accurate extreme event likelihoods from diffusion model climate emulators",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.03802v1",
+    "score": 6.5,
+    "relevance": 10.0,
+    "novelty": 7.0,
+    "technical_depth": 7.5,
+    "evidence_strength": 5.6,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 8.1,
+    "why_it_matters": "Demonstrates how diffusion model probability densities can quantify extreme event likelihoods via guidance, offering methodological insights for uncertainty quantification in spatiotemporal generation tasks relevant to video editing.",
+    "relation_to_user": "Strong alignment on diffusion models and controllable generation methods; domain shift from climate to video limits direct application but offers transferable techniques for likelihood estimation.",
+    "technical_core": "Utilizes the Climate in a Bottle (cBottle) diffusion model to approximate probability density of atmospheric states, enabling calculation of extreme event likelihoods through guided vs. unguided probability comparisons and importance sampling.",
+    "strengths": [
+      "includes experimental validation",
+      "compares against meaningful baselines",
+      "addresses probabilistic interpretation of diffusion outputs"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "domain specific to climate rather than general video generation"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper",
+      "Investigate likelihood estimation techniques for spatiotemporal video data",
+      "Monitor for code release to verify reproducibility"
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=5.56",
+      "has_experiments=True",
+      "has_code=False",
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=5.56",
+      "has_experiments=True",
+      "has_code=False",
+      "has_ablation=False",
+      "tags include diffusion models",
+      "analysis_source=llm:qwen3.5-122b-a10b"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_01720v1",
+    "title": "SignVerse-2M: A Two-Million-Clip Pose-Native Universe of 25+ Sign Languages",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.01720v1",
+    "score": 6.5,
+    "relevance": 10.0,
+    "novelty": 6.7,
+    "technical_depth": 7.5,
+    "evidence_strength": 5.6,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 8.1,
+    "why_it_matters": "Addresses the lack of unified interfaces for open-world recognition and modern pose-driven video generation frameworks, shifting focus from RGB-based to style-agnostic pose-processing.",
+    "relation_to_user": "High alignment with video generation and benchmark interests; however, missing code reduces utility for tracking open-source tools.",
+    "technical_core": "Large-scale multilingual pose-native dataset using DWPose preprocessing for 2M clips across 25+ languages, enabling direct interfacing with pose-driven pipelines.",
+    "strengths": [
+      "includes experimental validation",
+      "compares against meaningful baselines",
+      "covers 25+ sign languages"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "benchmark_gap=false"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Monitor for code repository release",
+      "Investigate pose-native adaptation for general video generation"
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=5.56",
+      "has_experiments=True",
+      "has_code=False",
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=5.56",
+      "has_experiments=True",
+      "has_code=False",
+      "analysis_source=llm:qwen3.5-122b-a10b"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_01896v1",
+    "title": "Divide and Conquer: Decoupled Representation Alignment for Multimodal World Models",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.01896v1",
+    "score": 6.41,
+    "relevance": 10.0,
+    "novelty": 7.0,
+    "technical_depth": 7.5,
+    "evidence_strength": 5.6,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 6.6,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through video generation, diffusion models, multimodal agents, retrieval augmented generation.",
+    "technical_core": "Emerging multi-modal world models attempt to jointly generate videos across diverse modalities (e.g., RGB, depth, and mask), yet they fail to fully exploit the rich priors of existing foundation models. We propose $M^2$-REPA, the first representation alignment method tailored for multi-modal video generation. Our key insight is that foundation models trained on different modality spaces naturally capture distinct domain-specific priors, acting as complementary \"experts.\" Specifically, we first d",
+    "strengths": [
+      "includes experimental validation",
+      "compares against meaningful baselines"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=5.56",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "github_evolvinglmms_lab_lmms_eval",
+    "title": "EvolvingLMMs-Lab/lmms-eval",
+    "content_type": "repo",
+    "url": "https://github.com/EvolvingLMMs-Lab/lmms-eval",
+    "score": 6.35,
+    "relevance": 10.0,
+    "novelty": 5.0,
+    "technical_depth": 7.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.9,
+    "practical_utility": 5.0,
+    "trend_signal": 7.2,
+    "research_opportunity": 7.02,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Strong match to your current interests through evaluation benchmark, multimodal agents, agi, audio-evaluation.",
+    "technical_core": "One-for-All Multimodal Evaluation Toolkit Across Text, Image, Video, and Audio Tasks",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=6.8",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=True",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2601_01720v3",
+    "title": "FFP-300K: Scaling First-Frame Propagation for Generalizable Video Editing",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2601.01720v3",
+    "score": 6.33,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 5.3,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 9.3,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through controllable video editing, evaluation benchmark, temporal consistency evaluation, cs.CV.",
+    "technical_core": "First-Frame Propagation (FFP) offers a promising paradigm for controllable video editing, but existing methods are hampered by a reliance on cumbersome run-time guidance. We identify the root cause of this limitation as the inadequacy of current training datasets, which are often too short, low-resolution, and lack the task diversity required to teach robust temporal priors. To address this foundational data gap, we first introduce FFP-300K, a new large-scale dataset comprising 300K high-fidelit",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=3.0",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_02130v1",
+    "title": "From Where Things Are to What They Are For: Benchmarking Spatial-Functional Intelligence in Multimodal LLMs",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.02130v1",
+    "score": 6.33,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 5.3,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 9.3,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through evaluation benchmark, multimodal agents, AI drawing, cs.CV.",
+    "technical_core": "Human-level agentic intelligence extends beyond low-level geometric perception, evolving from recognizing where things are to understanding what they are for. While existing benchmarks effectively evaluate the geometric perception capabilities of multimodal large language models (MLLMs), they fall short of probing the higher-order cognitive abilities required for grounded intelligence. To address this gap, we introduce the Spatial-Functional Intelligence Benchmark (SFI-Bench), a video-based benc",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.4",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2604_27419v1",
+    "title": "InteractWeb-Bench: Can Multimodal Agent Escape Blind Execution in Interactive Website Generation?",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2604.27419v1",
+    "score": 6.33,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 5.3,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 9.3,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through evaluation benchmark, multimodal agents, cs.AI, cs.CL.",
+    "technical_core": "With the advancement of multimodal large language models (MLLMs) and coding agents, the website development has shifted from manual programming to agent-based project-level code synthesis. Existing benchmarks rely on idealized assumptions, especially for well-structured, information-rich inputs and static execution settings. In contrast, real-world development is constrained by a critical bottleneck: the semantic misalignment between ambiguous, low-quality instructions from non-expert users and ",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.4",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_03984v1",
+    "title": "Flow Sampling: Learning to Sample from Unnormalized Densities via Denoising Conditional Processes",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.03984v1",
+    "score": 6.33,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 5.3,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 9.3,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through diffusion models, evaluation benchmark, cs.LG, cs.AI.",
+    "technical_core": "Sampling from unnormalized densities is analogous to the generative modeling problem, but the target distribution is defined by a known energy function instead of data samples. Because evaluating the energy function is often costly, a primary challenge is to learn an efficient sampler. We introduce Flow Sampling, a framework built on diffusion models and flow matching for the data-free setting. Our training objective is conditioned on a noise sample and regresses onto a denoising diffusion drift",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.4",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_04039v1",
+    "title": "Safety and accuracy follow different scaling laws in clinical large language models",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.04039v1",
+    "score": 6.33,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 5.3,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 9.3,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through evaluation benchmark, multimodal agents, retrieval augmented generation, cs.CL.",
+    "technical_core": "Clinical LLMs are often scaled by increasing model size, context length, retrieval complexity, or inference-time compute, with the implicit expectation that higher accuracy implies safer behavior. This assumption is incomplete in medicine, where a few confident, high-risk, or evidence-contradicting errors can matter more than average benchmark performance. We introduce SaFE-Scale, a framework for measuring how clinical LLM safety changes across model scale, evidence quality, retrieval strategy, ",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.4",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_01945v1",
+    "title": "PepSpecBench: A Unified Evaluation Benchmark for Peptide Tandem Mass Spectrometry Prediction",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.01945v1",
+    "score": 6.33,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 5.3,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 9.3,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through evaluation benchmark, retrieval augmented generation, cs.LG, cs.AI.",
+    "technical_core": "Tandem mass spectrometry provides a high-throughput framework for identifying and quantifying proteins in complex biological samples. In computational proteomics, predicting peptide MS/MS spectra is a critical task, enabling downstream applications such as large-scale peptide identification and quantification. While deep learning architectures have substantially improved prediction accuracy, three evaluation challenges obscure the true progress of the field. First, inconsistent data preprocessin",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.4",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "github_langgenius_dify",
+    "title": "langgenius/dify",
+    "content_type": "repo",
+    "url": "https://github.com/langgenius/dify",
+    "score": 6.26,
+    "relevance": 10.0,
+    "novelty": 5.0,
+    "technical_depth": 7.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.2,
+    "practical_utility": 5.0,
+    "trend_signal": 7.2,
+    "research_opportunity": 7.02,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Strong match to your current interests through multimodal agents, retrieval augmented generation, agent, agentic-ai.",
+    "technical_core": "Production-ready platform for agentic workflow development.",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=5.9",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2604_17475v1",
+    "title": "Waking Up Blind: Cold-Start Optimization of Supervision-Free Agentic Trajectories for Grounded Visual Perception",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2604.17475v1",
+    "score": 6.21,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 5.3,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 7.8,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through evaluation benchmark, multimodal agents, cs.AI, cs.CL.",
+    "technical_core": "Small Vision-Language Models (SVLMs) are efficient task controllers but often suffer from visual brittleness and poor tool orchestration. They typically require expensive supervised trajectory tuning to mitigate these deficits. In this work, we propose Self-supervised Perception Enabled by Cascaded Tool Rollout Alignment (SPECTRA), a supervision-free framework that bootstraps agentic capabilities via Coldstart Reinforcement Learning for SVLMs. SPECTRA enforces Soft Structured Multi-turn Rollouts",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.1",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2604_25313v2",
+    "title": "Faithfulness-QA: A Counterfactual Entity Substitution Dataset for Training Context-Faithful RAG Models",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2604.25313v2",
+    "score": 6.21,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 5.3,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 7.8,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through evaluation benchmark, retrieval augmented generation, cs.CL, cs.AI.",
+    "technical_core": "Retrieval-Augmented Generation (RAG) models frequently produce answers grounded in parametric memory rather than the retrieved context, undermining the core promise of retrieval augmentation. A fundamental obstacle to fixing this unfaithfulness is the lack of training data that explicitly requires models to prefer context over internal knowledge. We introduce Faithfulness-QA, a large-scale dataset of 99,094 samples constructed through counterfactual entity substitution. Starting from two establi",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.4",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_04040v1",
+    "title": "Large Language Models are Universal Reasoners for Visual Generation",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.04040v1",
+    "score": 6.12,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 4.5,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 8.1,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through diffusion models, evaluation benchmark, retrieval augmented generation, AI drawing.",
+    "technical_core": "Text-to-image generation has advanced rapidly with diffusion models, progressing from CLIP and T5 conditioning to unified systems where a single LLM backbone handles both visual understanding and generation. Despite the architectural unification, these systems frequently fail to faithfully align complex prompts during synthesis, even though they remain highly accurate at verifying whether an image satisfies those same prompts. We formalize this as the \\emph{understanding-generation gap} and prop",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=3.7",
+      "has_experiments=True",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2604_25318v1",
+    "title": "Cutscene Agent: An LLM Agent Framework for Automated 3D Cutscene Generation",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2604.25318v1",
+    "score": 6.11,
+    "relevance": 10.0,
+    "novelty": 6.7,
+    "technical_depth": 5.5,
+    "evidence_strength": 5.3,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 7.8,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through evaluation benchmark, multimodal agents, cs.GR, cs.AI.",
+    "technical_core": "Cutscenes are carefully choreographed cinematic sequences embedded in video games and interactive media, serving as the primary vehicle for narrative delivery, character development, and emotional engagement. Producing cutscenes is inherently complex: it demands seamless coordination across screenwriting, cinematography, character animation, voice acting, and technical direction, often requiring days to weeks of collaborative effort from multidisciplinary teams to produce minutes of polished con",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.4",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2512_17504v1",
+    "title": "InsertAnywhere: Bridging 4D Scene Geometry and Diffusion Models for Realistic Video Object Insertion",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2512.17504v1",
+    "score": 6.09,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 4.5,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 7.8,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through video generation, controllable video editing, diffusion models, evaluation benchmark.",
+    "technical_core": "Recent advances in diffusion-based video generation have opened new possibilities for controllable video editing, yet realistic video object insertion (VOI) remains challenging due to limited 4D scene understanding and inadequate handling of occlusion and lighting effects. We present InsertAnywhere, a new VOI framework that achieves geometrically consistent object placement and appearance-faithful video synthesis. Our method begins with a 4D aware mask generation module that reconstructs the sce",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=2.3",
+      "has_experiments=True",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2511_18277v1",
+    "title": "Point-to-Point: Sparse Motion Guidance for Controllable Video Editing",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2511.18277v1",
+    "score": 6.06,
+    "relevance": 10.0,
+    "novelty": 7.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 4.5,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 8.1,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through video generation, controllable video editing, diffusion models, retrieval augmented generation.",
+    "technical_core": "Accurately preserving motion while editing a subject remains a core challenge in video editing tasks. Existing methods often face a trade-off between edit and motion fidelity, as they rely on motion representations that are either overfitted to the layout or only implicitly defined. To overcome this limitation, we revisit point-based motion representation. However, identifying meaningful points remains challenging without human input, especially across diverse video scenarios. To address this, w",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=2.3",
+      "has_experiments=True",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_03639v1",
+    "title": "Diffusion Masked Pretraining for Dynamic Point Cloud",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.03639v1",
+    "score": 6.06,
+    "relevance": 10.0,
+    "novelty": 7.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 4.5,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 8.1,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through diffusion models, temporal consistency evaluation, multimodal agents, cs.CV.",
+    "technical_core": "Dynamic point cloud pretraining is still dominated by masked reconstruction objectives. However, these objectives inherit two key limitations. Existing methods inject ground-truth tube centers as decoder positional embeddings, causing spatio-temporal positional leakage. Moreover, they supervise inter-frame motion with deterministic proxy targets that systematically discard distributional structure by collapsing multimodal trajectory uncertainty into conditional means. To address these limitation",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=3.7",
+      "has_experiments=True",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_03652v1",
+    "title": "AniMatrix: An Anime Video Generation Model that Thinks in Art, Not Physics",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.03652v1",
+    "score": 6.0,
+    "relevance": 10.0,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 4.5,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 6.6,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through video generation, controllable video editing, evaluation benchmark, cs.CV.",
+    "technical_core": "Video generation models internalize physical realism as their prior. Anime deliberately violates physics: smears, impact frames, chibi shifts; and its thousands of coexisting artistic conventions yield no single \"physics of anime\" a model can absorb. Physics-biased models therefore flatten the artistry that defines the medium or collapse under its stylistic variance. We present AniMatrix, a video generation model that targets artistic rather than physical correctness through a dual-channel condi",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=3.7",
+      "has_experiments=True",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2506_22432v2",
+    "title": "Shape-for-Motion: Precise and Consistent Video Editing with 3D Proxy",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2506.22432v2",
+    "score": 5.94,
+    "relevance": 10.0,
+    "novelty": 7.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 4.5,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 6.6,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through video generation, controllable video editing, diffusion models, cs.CV.",
+    "technical_core": "Recent advances in deep generative modeling have unlocked unprecedented opportunities for video synthesis. In real-world applications, however, users often seek tools to faithfully realize their creative editing intentions with precise and consistent control. Despite the progress achieved by existing methods, ensuring fine-grained alignment with user intentions remains an open and challenging problem. In this work, we present Shape-for-Motion, a novel framework that incorporates a 3D proxy for p",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=2.3",
+      "has_experiments=True",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2504_14335v1",
+    "title": "Visual Prompting for One-shot Controllable Video Editing without Inversion",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2504.14335v1",
+    "score": 5.94,
+    "relevance": 10.0,
+    "novelty": 7.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 4.5,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 6.6,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through controllable video editing, diffusion models, temporal consistency evaluation, cs.CV.",
+    "technical_core": "One-shot controllable video editing (OCVE) is an important yet challenging task, aiming to propagate user edits that are made -- using any image editing tool -- on the first frame of a video to all subsequent frames, while ensuring content consistency between edited frames and source frames. To achieve this, prior methods employ DDIM inversion to transform source frames into latent noise, which is then fed into a pre-trained diffusion model, conditioned on the user-edited first frame, to generat",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=2.3",
+      "has_experiments=True",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_03764v1",
+    "title": "GeoTopoDiff: Learning Geometry--Topology Graph Priors through Boundary-Constrained Mixed Diffusion for Sparse-Slice 3D Porous Reconstruction",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.03764v1",
+    "score": 5.94,
+    "relevance": 10.0,
+    "novelty": 7.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 4.5,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 6.6,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through diffusion models, retrieval augmented generation, cs.CV.",
+    "technical_core": "Diffusion-based voxel prior modelling is challenging for the reconstruction of large-scale 3D porous microstructures. Due to the demanding requirements for simultaneously modelling both the continuous pore morphology and the discrete pore-throat topology, the diffusion models require fully observed CT scans to provide topology-faithful priors, which results in an inherent trade-off among throughput, topological fidelity, and field of view in practical industrial applications. We propose GeoTopoD",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=3.7",
+      "has_experiments=True",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "github_volcengine_minecontext",
+    "title": "volcengine/MineContext",
+    "content_type": "repo",
+    "url": "https://github.com/volcengine/MineContext",
+    "score": 5.94,
+    "relevance": 10.0,
+    "novelty": 5.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.2,
+    "practical_utility": 5.0,
+    "trend_signal": 7.2,
+    "research_opportunity": 7.02,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Strong match to your current interests through multimodal agents, retrieval augmented generation, agent, context-engineering.",
+    "technical_core": "MineContext is your proactive context-aware AI partner（Context-Engineering+ChatGPT Pulse）",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: high_priority",
+      "relevance=10.0",
+      "quality=5.2",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2604_27269v1",
+    "title": "OptimusKG: Unifying biomedical knowledge in a modern multimodal graph",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2604.27269v1",
+    "score": 5.84,
+    "relevance": 10.0,
+    "novelty": 6.2,
+    "technical_depth": 5.5,
+    "evidence_strength": 4.5,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 6.6,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through multimodal agents, retrieval augmented generation, cs.AI.",
+    "technical_core": "Biomedical knowledge graphs (KGs) are widely used in the life sciences, yet many are derived from unstructured documents and therefore lack schema-level constrains, whereas graphs assembled from structured resources are difficult to harmonize into a unified representation. We present OptimusKG, a multimodal biomedical labeled property graph (LPG) built from structured and semi-structured resources to preserve factual, type-specific metadata across molecular, anatomical, clinical, and environment",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=3.7",
+      "has_experiments=True",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2604_22038v1",
+    "title": "Source-Modality Monitoring in Vision-Language Models",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2604.22038v1",
+    "score": 5.84,
+    "relevance": 10.0,
+    "novelty": 6.2,
+    "technical_depth": 5.5,
+    "evidence_strength": 4.5,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 6.6,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through multimodal agents, retrieval augmented generation, cs.CL.",
+    "technical_core": "We define and investigate source-modality monitoring -- the ability of multimodal models to track and communicate the input source from which pieces of information originate. We consider source-modality monitoring as an instance of the more general binding problem, and evaluate the extent to which models exploit syntactic vs. semantic signals in order to bind words like image in a user-provided prompt to specific components of their input and context (i.e., actual images). Across experiments spa",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=3.4",
+      "has_experiments=True",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2604_28075v2",
+    "title": "Repetition over Diversity: High-Signal Data Filtering for Sample-Efficient German Language Modeling",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2604.28075v2",
+    "score": 5.84,
+    "relevance": 5.98,
+    "novelty": 6.7,
+    "technical_depth": 7.5,
+    "evidence_strength": 6.4,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 7.49,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Moderate match; the useful parts are likely around evaluation benchmark, cs.CL, cs.AI.",
+    "technical_core": "Recent research has shown that filtering massive English web corpora into high-quality subsets significantly improves training efficiency. However, for high-resource non-English languages like German, French, or Japanese, aggressive filtering creates a strategic dilemma: should practitioners prioritize diversity by training once on large amounts of lightly filtered web data, or prioritize quality by strictly filtering for a high-quality core and repeating it over multiple epochs? We investigate ",
+    "strengths": [
+      "includes experimental validation",
+      "compares against meaningful baselines"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=5.98",
+      "quality=6.26",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "github_bredrumb_tomoribot",
+    "title": "Bredrumb/TomoriBot",
+    "content_type": "repo",
+    "url": "https://github.com/Bredrumb/TomoriBot",
+    "score": 5.7,
+    "relevance": 10.0,
+    "novelty": 5.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.2,
+    "practical_utility": 5.0,
+    "trend_signal": 5.0,
+    "research_opportunity": 6.25,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Strong match to your current interests through multimodal agents, retrieval augmented generation, agentic-ai, ai-agent.",
+    "technical_core": "A highly customizable personal AI assistant for Discord featuring smart agentic AI features such as memory, personas, tool usage, and more! ｜ 長期記憶やペルソナ、ツール連携を完備。 次世代の「自律型AIエージェント」Discordボット！",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.16",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "github_joshuaswarren_remnic",
+    "title": "joshuaswarren/remnic",
+    "content_type": "repo",
+    "url": "https://github.com/joshuaswarren/remnic",
+    "score": 5.7,
+    "relevance": 10.0,
+    "novelty": 5.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.2,
+    "practical_utility": 5.0,
+    "trend_signal": 5.0,
+    "research_opportunity": 6.25,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Strong match to your current interests through multimodal agents, retrieval augmented generation, agent-memory, ai-agent.",
+    "technical_core": "Local-first memory plugin for AI agents including OpenClaw, Hermes, Codex, Claude Code and more. LLM-powered extraction, plain markdown storage, hybrid search via QMD. Gives agents persistent long-term memory across conversations.",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.18",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "github_alejandroll10_zeropaper",
+    "title": "alejandroll10/zeropaper",
+    "content_type": "repo",
+    "url": "https://github.com/alejandroll10/zeropaper",
+    "score": 5.7,
+    "relevance": 10.0,
+    "novelty": 5.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.2,
+    "practical_utility": 5.0,
+    "trend_signal": 5.0,
+    "research_opportunity": 6.25,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Strong match to your current interests through multimodal agents, academic writing, Python.",
+    "technical_core": "Enhanced AI-assisted research template with agentic capabilities",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=4.96",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_01725v1",
+    "title": "Motion-Aware Caching for Efficient Autoregressive Video Generation",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.01725v1",
+    "score": 5.54,
+    "relevance": 5.97,
+    "novelty": 7.0,
+    "technical_depth": 7.5,
+    "evidence_strength": 5.6,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 4.79,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Moderate match; the useful parts are likely around video generation, cs.CV, cs.AI.",
+    "technical_core": "Autoregressive video generation paradigms offer theoretical promise for long video synthesis, yet their practical deployment is hindered by the computational burden of sequential iterative denoising. While cache reuse strategies can accelerate generation by skipping redundant denoising steps, existing methods rely on coarse-grained chunk-level skipping that fails to capture fine-grained pixel dynamics. This oversight is critical: pixels with high motion require more denoising steps to prevent er",
+    "strengths": [
+      "includes experimental validation",
+      "compares against meaningful baselines"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=5.97",
+      "quality=5.56",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "github_ksenxx_kiss_ai",
+    "title": "ksenxx/kiss_ai",
+    "content_type": "repo",
+    "url": "https://github.com/ksenxx/kiss_ai",
+    "score": 5.26,
+    "relevance": 5.97,
+    "novelty": 5.0,
+    "technical_depth": 7.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.2,
+    "practical_utility": 5.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 4.79,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Moderate match; the useful parts are likely around multimodal agents, Python.",
+    "technical_core": "Keep it Simple, Stupid AI Agent Framework with a General-Purpose and Software Engineering Assistant, called KISS Sorcar.",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=5.97",
+      "quality=5.34",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2604_27914v1",
+    "title": "Geometry-Calibrated Conformal Abstention for Language Models",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2604.27914v1",
+    "score": 5.22,
+    "relevance": 5.43,
+    "novelty": 7.5,
+    "technical_depth": 5.5,
+    "evidence_strength": 5.3,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 5.74,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Moderate match; the useful parts are likely around evaluation benchmark, cs.CL, cs.LG.",
+    "technical_core": "When language models lack relevant knowledge for a given query, they frequently generate plausible responses that can be hallucinations, rather than admitting being agnostic about the answer. Retraining models to reward admitting ignorance can lead to overly conservative behaviors and poor generalization due to scarce evaluation benchmarks. We propose a post hoc framework, Conformal Abstention (CA), adapted from conformal prediction (CP) to determine whether to abstain from answering a query. CA",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=5.43",
+      "quality=4.4",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "github_qwenlm_qwen_code",
+    "title": "QwenLM/qwen-code",
+    "content_type": "repo",
+    "url": "https://github.com/QwenLM/qwen-code",
+    "score": 5.19,
+    "relevance": 6.52,
+    "novelty": 5.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.2,
+    "practical_utility": 5.0,
+    "trend_signal": 7.2,
+    "research_opportunity": 5.45,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Moderate match; the useful parts are likely around multimodal agents, TypeScript.",
+    "technical_core": "An open-source AI agent that lives in your terminal.",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=6.52",
+      "quality=5.2",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2604_26269v1",
+    "title": "Calibrated Surprise: An Information-Theoretic Account of Creative Quality",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2604.26269v1",
+    "score": 5.12,
+    "relevance": 5.43,
+    "novelty": 6.7,
+    "technical_depth": 5.5,
+    "evidence_strength": 5.3,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 6.0,
+    "research_opportunity": 5.74,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Moderate match; the useful parts are likely around evaluation benchmark, cs.CL, cs.AI, cs.LG.",
+    "technical_core": "The essence of good creative writing is calibrated surprise: when constraints from all relevant dimensions act together, the feasible solution space collapses into a narrow region, and the surviving choices look least predictable from an unconstrained view. \"Calibrated\" has a precise meaning: the author's intent, the reader's reasonable expectation, and the logic of reality converge. When these three independent judgements agree on every dimension, the set of admissible writing choices is forced",
+    "strengths": [
+      "includes experimental validation"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper.",
+      "Look for an evaluation gap that can become a short-term project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=5.43",
+      "quality=4.4",
+      "has_experiments=True",
+      "has_code=False"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "github_bradgroux_veritas_kanban",
+    "title": "BradGroux/veritas-kanban",
+    "content_type": "repo",
+    "url": "https://github.com/BradGroux/veritas-kanban",
+    "score": 5.07,
+    "relevance": 5.97,
+    "novelty": 5.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.2,
+    "practical_utility": 5.0,
+    "trend_signal": 7.2,
+    "research_opportunity": 5.21,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Moderate match; the useful parts are likely around multimodal agents, ai-agents, developer-tools, kanban.",
+    "technical_core": "The unfiltered truth about where your project stands. Lightweight orchestration platform built for the agentic AI era.",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=5.97",
+      "quality=4.94",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "github_carguo_gsyvideoplayer",
+    "title": "CarGuo/GSYVideoPlayer",
+    "content_type": "repo",
+    "url": "https://github.com/CarGuo/GSYVideoPlayer",
+    "score": 5.07,
+    "relevance": 5.98,
+    "novelty": 5.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.2,
+    "practical_utility": 5.0,
+    "trend_signal": 7.2,
+    "research_opportunity": 5.21,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Moderate match; the useful parts are likely around retrieval augmented generation, 16k, android, exoplayer.",
+    "technical_core": "Video players (IJKplayer, ExoPlayer, MediaPlayer), HTTPS, 16k page size, danmaku (bullet chat) support, external subtitles, support for filters, watermarks, and GIF screenshots, pre-roll and mid-roll ads, multiple simultaneous playback, basic seeking/dragging, volume and brightness adjustment, play-while-cache support",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=5.98",
+      "quality=5.2",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_02134v1",
+    "title": "Video Generation with Predictive Latents",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.02134v1",
+    "score": 5.01,
+    "relevance": 10.0,
+    "novelty": 7.0,
+    "technical_depth": 1.1,
+    "evidence_strength": 3.0,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 4.8,
+    "research_opportunity": 7.68,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through video generation, temporal consistency evaluation, retrieval augmented generation, cs.CV.",
+    "technical_core": "Video Variational Autoencoder (VAE) enables latent video generative modeling by mapping the visual world into compact spatiotemporal latent spaces, improving training efficiency and stability. While existing video VAEs achieve commendable reconstruction quality, continued optimization of reconstruction does not necessarily translate into improved generative performance. How to enhance the diffusability of video latents remains a critical and unresolved challenge. In this work, inspired by princi",
+    "strengths": [
+      "contains at least some relevant technical signal"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak",
+      "evidence check: technical depth is likely shallow"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=1.1",
+      "has_experiments=False",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak",
+      "evidence check: technical depth is likely shallow"
+    ],
+    "confidence": "low"
+  },
+  {
+    "item_id": "github_dozavisuals_doza_assist",
+    "title": "DozaVisuals/doza-assist",
+    "content_type": "repo",
+    "url": "https://github.com/DozaVisuals/doza-assist",
+    "score": 4.95,
+    "relevance": 6.52,
+    "novelty": 5.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.2,
+    "practical_utility": 5.0,
+    "trend_signal": 5.0,
+    "research_opportunity": 4.68,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Moderate match; the useful parts are likely around controllable video editing, ai, documentary, fcpxml.",
+    "technical_core": "AI editor's assistant that learns your style from your own cuts. Turn interview footage into rough cuts for Final Cut, Premiere, and Resolve. Mac-native. Local-first.",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=6.52",
+      "quality=4.17",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "arxiv_2605_03648v1",
+    "title": "Agent-Based Modeling of Low-Emission Fertilizer Adoption for Dairy Farm Decarbonisation using Empirical Farm Data",
+    "content_type": "paper",
+    "url": "http://arxiv.org/abs/2605.03648v1",
+    "score": 4.89,
+    "relevance": 10.0,
+    "novelty": 7.0,
+    "technical_depth": 1.1,
+    "evidence_strength": 3.0,
+    "reproducibility": 2.5,
+    "practical_utility": 4.0,
+    "trend_signal": 4.8,
+    "research_opportunity": 6.18,
+    "why_it_matters": "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+    "relation_to_user": "Strong match to your current interests through diffusion models, multimodal agents, cs.AI.",
+    "technical_core": "To understand complex system dynamics in dairy farming, it is essential to use modeling tools that capture farm heterogeneity, social interactions, and cumulative environmental impacts. This study proposes an agent-based modeling (ABM) framework to simulate nitrogen management and the adoption of low-emission fertilizer across 295 Irish dairy farms over a 15-year period. Using empirical data, the model represents farm communication through a social network, capturing peer influence and discussio",
+    "strengths": [
+      "contains at least some relevant technical signal"
+    ],
+    "limitations": [
+      "code is not clearly available yet",
+      "ablation evidence may be limited",
+      "evidence check: paper-level evidence is weak",
+      "evidence check: technical depth is likely shallow"
+    ],
+    "possible_actions": [
+      "Read the method and evaluation sections before reading the full paper."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=10.0",
+      "quality=1.1",
+      "has_experiments=False",
+      "has_code=False",
+      "evidence check: paper-level evidence is weak",
+      "evidence check: technical depth is likely shallow"
+    ],
+    "confidence": "low"
+  },
+  {
+    "item_id": "github_chenliu_1996_figures4papers",
+    "title": "ChenLiu-1996/figures4papers",
+    "content_type": "repo",
+    "url": "https://github.com/ChenLiu-1996/figures4papers",
+    "score": 4.86,
+    "relevance": 5.25,
+    "novelty": 5.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 3.7,
+    "practical_utility": 5.0,
+    "trend_signal": 7.2,
+    "research_opportunity": 4.88,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Moderate match; the useful parts are likely around academic writing, acl, cvpr, eccv.",
+    "technical_core": "My Python scripts to make high-quality figures for publications in top AI conferences and journals.",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=5.25",
+      "quality=5.08",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  },
+  {
+    "item_id": "github_dicklesworthstone_flywheel_connectors",
+    "title": "Dicklesworthstone/flywheel_connectors",
+    "content_type": "repo",
+    "url": "https://github.com/Dicklesworthstone/flywheel_connectors",
+    "score": 4.83,
+    "relevance": 5.97,
+    "novelty": 5.0,
+    "technical_depth": 5.5,
+    "evidence_strength": 3.0,
+    "reproducibility": 4.2,
+    "practical_utility": 5.0,
+    "trend_signal": 5.0,
+    "research_opportunity": 4.44,
+    "why_it_matters": "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+    "relation_to_user": "Moderate match; the useful parts are likely around multimodal agents, ai-agents, connectors, mesh-networking.",
+    "technical_core": "Mesh-native protocol and Rust connector library for secure AI agent integration with external services: Twitter, Linear, Stripe, Discord, Gmail, GitHub, and more",
+    "strengths": [
+      "has code or implementation artifacts"
+    ],
+    "limitations": [
+      "main risk is whether the results generalize beyond the reported setting",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "possible_actions": [
+      "Run the demo or minimal inference path first.",
+      "Inspect core modules before integrating it into a project."
+    ],
+    "evidence": [
+      "filter status: candidate",
+      "relevance=5.97",
+      "quality=4.18",
+      "has_code=True",
+      "has_examples=False",
+      "has_tests=False",
+      "last_commit_days=0",
+      "evidence check: reproducibility signals are not strong enough"
+    ],
+    "confidence": "medium"
+  }
+]

@@ -1,0 +1,2020 @@
+[
+  {
+    "item_id": "arxiv_2605_03849v1",
+    "content_type": "paper",
+    "title": "Stream-R1: Reliability-Perplexity Aware Reward Distillation for Streaming Video Generation",
+    "url": "http://arxiv.org/abs/2605.03849v1",
+    "source": "arxiv",
+    "summary": "Distillation-based acceleration has become foundational for making autoregressive streaming video diffusion models practical, with distribution matching distillation (DMD) as the de facto choice. Existing methods, however, train the student to match the teacher's output indiscriminately, treating every rollout, frame, and pixel as equally reliable supervision. We argue that this caps distilled quality, since it overlooks two complementary axes of variance in DMD supervision: Inter-Reliability across student rollouts whose supervision varies in reliability, and Intra-Perplexity across spatial regions and temporal frames that contribute unequally to where quality can still be improved. The objective thus conflates two questions under a uniform weight: whether to learn from each rollout, and where to concentrate optimization within it. To address this, we propose Stream-R1, a Reliability-Perplexity Aware Reward Distillation framework that adaptively reweights the distillation objective at both rollout and spatiotemporal-element levels through a single shared reward-guided mechanism. At the Inter-Reliability level, Stream-R1 rescales each rollout's loss by an exponential of a pretrained video reward score, so that rollouts with reliable supervision dominate optimization. At the Intra-Perplexity level, it back-propagates the same reward model to extract per-pixel gradient saliency, which is factored into spatial and temporal weights that concentrate optimization pressure on regions and frames where refinement yields the largest expected gain. An adaptive balancing mechanism prevents any single quality axis from dominating across visual quality, motion quality, and text alignment. Stream-R1 attains consistent improvements on all three dimensions over distillation baselines on standard streaming video generation benchmarks, without architectural modification or additional inference cost.",
+    "tags": [
+      "video generation",
+      "diffusion models",
+      "evaluation benchmark",
+      "temporal consistency evaluation",
+      "cs.CV"
+    ],
+    "authors": [
+      "Bin Wu",
+      "Mengqi Huang",
+      "Shaojin Wu",
+      "Weinan Jia",
+      "Yuxin Wang",
+      "Zhendong Mao",
+      "Yongdong Zhang"
+    ],
+    "published_at": "2026-05-05T15:15:30Z",
+    "discovered_at": "2026-05-06T03:22:24+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": true,
+      "has_code": false,
+      "has_benchmark": true,
+      "baseline_count": 2,
+      "novelty": 7.5,
+      "technical_depth": "high",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": true,
+      "technical_core": "Distillation-based acceleration has become foundational for making autoregressive streaming video diffusion models practical, with distribution matching distillation (DMD) as the de facto choice. Existing methods, however, train the student to match the teacher's output indiscriminately, treating every rollout, frame, and pixel as equally reliable supervision. We argue that this caps distilled quality, since it overlooks two complementary axes of variance in DMD supervision: Inter-Reliability ac"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2605.03849v1",
+      "pdf": "https://arxiv.org/pdf/2605.03849v1"
+    },
+    "raw": {
+      "arxiv_id": "2605.03849v1",
+      "updated": "2026-05-05T15:15:30Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2605_03652v1",
+    "content_type": "paper",
+    "title": "AniMatrix: An Anime Video Generation Model that Thinks in Art, Not Physics",
+    "url": "http://arxiv.org/abs/2605.03652v1",
+    "source": "arxiv",
+    "summary": "Video generation models internalize physical realism as their prior. Anime deliberately violates physics: smears, impact frames, chibi shifts; and its thousands of coexisting artistic conventions yield no single \"physics of anime\" a model can absorb. Physics-biased models therefore flatten the artistry that defines the medium or collapse under its stylistic variance. We present AniMatrix, a video generation model that targets artistic rather than physical correctness through a dual-channel conditioning mechanism and a three-step transition: redefine correctness, override the physics prior, and distinguish art from failure. First, a Production Knowledge System encodes anime as a structured taxonomy of controllable production variables (Style, Motion, Camera, VFX), and AniCaption infers these variables from pixels as directorial directives. A trainable tag encoder preserves the field-value structure of this taxonomy while a frozen T5 encoder handles free-form narrative; dual-path injection (cross-attention for fine-grained control, AdaLN modulation for global enforcement) ensures categorical directives are never diluted by open-ended text. Second, a style-motion-deformation curriculum transitions the model from near-physical motion to full anime expressiveness. Third, deformation-aware preference optimization with a domain-specific reward model separates intentional artistry from pathological collapse. On an anime-specific human evaluation with five production dimensions scored by professional animators, AniMatrix ranks first on four of five, with the largest gains over Seedance-Pro 1.0 on Prompt Understanding (+0.70, +22.4 percent) and Artistic Motion (+0.55, +16.9 percent). We will publicly release the AniMatrix model weights and inference code.",
+    "tags": [
+      "video generation",
+      "controllable video editing",
+      "evaluation benchmark",
+      "cs.CV",
+      "cs.AI"
+    ],
+    "authors": [
+      "Tencent HY Team"
+    ],
+    "published_at": "2026-05-05T11:36:52Z",
+    "discovered_at": "2026-05-06T03:22:24+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 7.5,
+      "technical_depth": "medium",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": false,
+      "technical_core": "Video generation models internalize physical realism as their prior. Anime deliberately violates physics: smears, impact frames, chibi shifts; and its thousands of coexisting artistic conventions yield no single \"physics of anime\" a model can absorb. Physics-biased models therefore flatten the artistry that defines the medium or collapse under its stylistic variance. We present AniMatrix, a video generation model that targets artistic rather than physical correctness through a dual-channel condi"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2605.03652v1",
+      "pdf": "https://arxiv.org/pdf/2605.03652v1"
+    },
+    "raw": {
+      "arxiv_id": "2605.03652v1",
+      "updated": "2026-05-05T11:36:52Z",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2605_03475v1",
+    "content_type": "paper",
+    "title": "WorldJen: An End-to-End Multi-Dimensional Benchmark for Generative Video Models",
+    "url": "http://arxiv.org/abs/2605.03475v1",
+    "source": "arxiv",
+    "summary": "Evaluating generative video models remains an open problem. Reference-based metrics such as Structural Similarity Index Measure (SSIM) and Peak Signal to Noise Ratio (PSNR) reward pixel fidelity over semantic correctness, while Frechet Video Distance (FVD) favors distributional textures over physical plausibility. Binary Visual Question Answering (VQA) based benchmarks like VBench~2.0 are prone to yes-bias and rely on low-resolution auditors that miss temporal failures. Moreover, their prompts target a single dimension at a time, multiplying the number of videos required while still not guaranteeing reliable results. WorldJen addresses these limitations directly. Binary VQA is replaced with Likert-scale questionnaires graded by a VLM that receives frames at native video resolution. Video generation costs are addressed by using adversarially curated prompts that are designed to exercise up to 16 quality dimensions simultaneously. The framework is built around two interlocking contributions. First, A blind human preference study is conducted, accumulating (2,696 pairwise annotations from 7 annotators with 100% pair coverage over 50 of the curated prompts $\\times$ 6 state-of-the-art video models. A mean inter-annotator agreement of 66.9% is achieved and the study establishes a human ground-truth Bradley-Terry (BT) rating with a three-tier structure. Second, A VLM-as-a-judge evaluation engine using prompt-specific, dimension-specific Likert questionnaires (10 questions per dimension, 47,160 scored responses) judges the videos and reproduces the human-established three-tier BT rating structure independently. The VLM achieves a Spearman $\\hatρ=1.000,~p=0.0014$ that is interpreted as tier agreement with the human results. Six focused ablation studies validate the robustness of the VLM evaluation framework.",
+    "tags": [
+      "video generation",
+      "evaluation benchmark",
+      "temporal consistency evaluation",
+      "retrieval augmented generation",
+      "cs.CV"
+    ],
+    "authors": [
+      "Karthik Inbasekar",
+      "Guy Rom",
+      "Omer Shlomovits"
+    ],
+    "published_at": "2026-05-05T08:03:34Z",
+    "discovered_at": "2026-05-06T03:22:24+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": true,
+      "has_strong_baselines": true,
+      "has_code": false,
+      "has_benchmark": true,
+      "baseline_count": 2,
+      "novelty": 7.5,
+      "technical_depth": "high",
+      "trend_signal": 6.0,
+      "has_known_gap": true,
+      "benchmark_gap": true,
+      "technical_core": "Evaluating generative video models remains an open problem. Reference-based metrics such as Structural Similarity Index Measure (SSIM) and Peak Signal to Noise Ratio (PSNR) reward pixel fidelity over semantic correctness, while Frechet Video Distance (FVD) favors distributional textures over physical plausibility. Binary Visual Question Answering (VQA) based benchmarks like VBench~2.0 are prone to yes-bias and rely on low-resolution auditors that miss temporal failures. Moreover, their prompts t"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2605.03475v1",
+      "pdf": "https://arxiv.org/pdf/2605.03475v1"
+    },
+    "raw": {
+      "arxiv_id": "2605.03475v1",
+      "updated": "2026-05-05T08:03:34Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2605_02134v1",
+    "content_type": "paper",
+    "title": "Video Generation with Predictive Latents",
+    "url": "http://arxiv.org/abs/2605.02134v1",
+    "source": "arxiv",
+    "summary": "Video Variational Autoencoder (VAE) enables latent video generative modeling by mapping the visual world into compact spatiotemporal latent spaces, improving training efficiency and stability. While existing video VAEs achieve commendable reconstruction quality, continued optimization of reconstruction does not necessarily translate into improved generative performance. How to enhance the diffusability of video latents remains a critical and unresolved challenge. In this work, inspired by principles of predictive world modeling, we investigate the potential of predictive learning to improve the video generative modeling. To this end, we introduce a simple and effective predictive reconstruction objective that unifies predictive learning with video reconstruction. Specifically, we randomly discard future frames and encode only partial past observations, while training the decoder to reconstruct the observed frames and predict future ones simultaneously. This design encourages the latent space to encode temporally predictive structures and build a more coherent understanding of video dynamics, thereby improving generation quality. Our model, termed Predictive Video VAE (PV-VAE), achieves superior performance on video generation, with 52% faster convergence and a 34.42 FVD improvement over the Wan2.2 VAE on UCF101. Furthermore, comprehensive analyses demonstrate that PV-VAE not only exhibits favorable scalability, with generative performance improving alongside VAE training, but also yields consistent gains in downstream video understanding, underscoring a latent space that effectively captures temporal coherence and motion priors.",
+    "tags": [
+      "video generation",
+      "temporal consistency evaluation",
+      "retrieval augmented generation",
+      "cs.CV"
+    ],
+    "authors": [
+      "Yian Zhao",
+      "Feng Wang",
+      "Qiushan Guo",
+      "Chang Liu",
+      "Xiangyang Ji",
+      "Jian Zhang",
+      "Jie Chen"
+    ],
+    "published_at": "2026-05-04T01:30:04Z",
+    "discovered_at": "2026-05-06T03:22:24+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": false,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 7.0,
+      "technical_depth": "low",
+      "trend_signal": 4.8,
+      "has_known_gap": true,
+      "benchmark_gap": false,
+      "technical_core": "Video Variational Autoencoder (VAE) enables latent video generative modeling by mapping the visual world into compact spatiotemporal latent spaces, improving training efficiency and stability. While existing video VAEs achieve commendable reconstruction quality, continued optimization of reconstruction does not necessarily translate into improved generative performance. How to enhance the diffusability of video latents remains a critical and unresolved challenge. In this work, inspired by princi"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2605.02134v1",
+      "pdf": "https://arxiv.org/pdf/2605.02134v1"
+    },
+    "raw": {
+      "arxiv_id": "2605.02134v1",
+      "updated": "2026-05-04T01:30:04Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2605_01896v1",
+    "content_type": "paper",
+    "title": "Divide and Conquer: Decoupled Representation Alignment for Multimodal World Models",
+    "url": "http://arxiv.org/abs/2605.01896v1",
+    "source": "arxiv",
+    "summary": "Emerging multi-modal world models attempt to jointly generate videos across diverse modalities (e.g., RGB, depth, and mask), yet they fail to fully exploit the rich priors of existing foundation models. We propose $M^2$-REPA, the first representation alignment method tailored for multi-modal video generation. Our key insight is that foundation models trained on different modality spaces naturally capture distinct domain-specific priors, acting as complementary \"experts.\" Specifically, we first decouple modality-specific features from the diffusion model's intermediate representations, then align each with its corresponding expert foundation model. To this end, we design two synergistic objectives: a multi-modal representation alignment loss that enforces feature-to-expert matching, and a modality-specific decoupling regularization that encourages complementarity across different modalities. This design enables joint optimization, fully exploiting priors from multiple foundation models. Extensive experiments demonstrate that our method significantly outperforms baselines in visual quality and long-term consistency.",
+    "tags": [
+      "video generation",
+      "diffusion models",
+      "multimodal agents",
+      "retrieval augmented generation",
+      "cs.CV"
+    ],
+    "authors": [
+      "Junyuan Xiao",
+      "Dingkang Liang",
+      "Xin Zhou",
+      "Yixuan Ye",
+      "Tongtong Su",
+      "Guangmo Yi",
+      "Bin Xia",
+      "Qiang Lyu",
+      "Shurui Shi",
+      "Jun Huang",
+      "Jianlou Si",
+      "Wenming Yang"
+    ],
+    "published_at": "2026-05-03T14:22:22Z",
+    "discovered_at": "2026-05-06T03:22:24+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": true,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 2,
+      "novelty": 7.0,
+      "technical_depth": "high",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": false,
+      "technical_core": "Emerging multi-modal world models attempt to jointly generate videos across diverse modalities (e.g., RGB, depth, and mask), yet they fail to fully exploit the rich priors of existing foundation models. We propose $M^2$-REPA, the first representation alignment method tailored for multi-modal video generation. Our key insight is that foundation models trained on different modality spaces naturally capture distinct domain-specific priors, acting as complementary \"experts.\" Specifically, we first d"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2605.01896v1",
+      "pdf": "https://arxiv.org/pdf/2605.01896v1"
+    },
+    "raw": {
+      "arxiv_id": "2605.01896v1",
+      "updated": "2026-05-03T14:22:22Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2605_01725v1",
+    "content_type": "paper",
+    "title": "Motion-Aware Caching for Efficient Autoregressive Video Generation",
+    "url": "http://arxiv.org/abs/2605.01725v1",
+    "source": "arxiv",
+    "summary": "Autoregressive video generation paradigms offer theoretical promise for long video synthesis, yet their practical deployment is hindered by the computational burden of sequential iterative denoising. While cache reuse strategies can accelerate generation by skipping redundant denoising steps, existing methods rely on coarse-grained chunk-level skipping that fails to capture fine-grained pixel dynamics. This oversight is critical: pixels with high motion require more denoising steps to prevent error accumulation, while static pixels tolerate aggressive skipping. We formalize this insight theoretically by linking cache errors to residual instability, and propose MotionCache, a motion-aware cache framework that exploits inter-frame differences as a lightweight proxy for pixel-level motion characteristics. MotionCache employs a coarse-to-fine strategy: an initial warm-up phase establishes semantic coherence, followed by motion-weighted cache reuse that dynamically adjusts update frequencies per token. Extensive experiments on state-of-the-art models like SkyReels-V2 and MAGI-1 demonstrate that MotionCache achieves significant speedups of $\\textbf{6.28}\\times$ and $\\textbf{1.64}\\times$ respectively, while effectively preserving generation quality (VBench: $1\\%\\downarrow$ and $0.01\\%\\downarrow$ respectively). The code is available at https://github.com/ywlq/MotionCache.",
+    "tags": [
+      "video generation",
+      "cs.CV",
+      "cs.AI"
+    ],
+    "authors": [
+      "Jing Xu",
+      "Yuexiao Ma",
+      "Songwei Liu",
+      "Xuzhe Zheng",
+      "Shiwei Liu",
+      "Chenqian Yan",
+      "Xiawu Zheng",
+      "Rongrong Ji",
+      "Fei Chao",
+      "Xing Wang"
+    ],
+    "published_at": "2026-05-03T05:49:27Z",
+    "discovered_at": "2026-05-06T03:22:24+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": true,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 2,
+      "novelty": 7.0,
+      "technical_depth": "high",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": false,
+      "technical_core": "Autoregressive video generation paradigms offer theoretical promise for long video synthesis, yet their practical deployment is hindered by the computational burden of sequential iterative denoising. While cache reuse strategies can accelerate generation by skipping redundant denoising steps, existing methods rely on coarse-grained chunk-level skipping that fails to capture fine-grained pixel dynamics. This oversight is critical: pixels with high motion require more denoising steps to prevent er"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2605.01725v1",
+      "pdf": "https://arxiv.org/pdf/2605.01725v1"
+    },
+    "raw": {
+      "arxiv_id": "2605.01725v1",
+      "updated": "2026-05-03T05:49:27Z",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2605_01720v1",
+    "content_type": "paper",
+    "title": "SignVerse-2M: A Two-Million-Clip Pose-Native Universe of 25+ Sign Languages",
+    "url": "http://arxiv.org/abs/2605.01720v1",
+    "source": "arxiv",
+    "summary": "Existing large-scale sign language resources typically provide supervision only at the level of raw video-text alignment and are often produced in laboratory settings. While such resources are important for semantic understanding, they do not directly provide a unified interface for open-world recognition and translation, or for modern pose-driven sign language video generation frameworks: 1. RGB-based pretrained recognition models depend heavily on fixed backgrounds or clothing conditions during recording, and are less robust in open-world settings than style-agnostic pose-processing models. 2. Recent pose-guided image/video generation models mostly use a unified keypoint representation such as DWPose as their control interface. At present, the sign language field still lacks a data resource that can directly interface with this modern pose-native paradigm while also targeting real-world open scenarios. We present SignVerse-2M, a large-scale multilingual pose-native dataset for sign language pose modeling and evaluation. Built from publicly available multilingual sign language video resources, it applies DWPose in a unified preprocessing pipeline to convert raw videos into 2D pose sequences that can be used directly for modeling, resulting in a consolidated corpus of about two million clips covering more than 25 sign languages. Unlike many laboratory datasets, this resource preserves the recording conditions and speaker diversity of real-world videos while reducing appearance variation through a unified pose representation. Toward this goal, we further provide the data construction pipeline, task definitions, and a simple SignDW Transformer baseline, demonstrating the feasibility of this resource for multilingual pose-space modeling and its compatibility with modern pose-driven pipelines, while discussing the evaluation claims it can support as well as its current limitations.",
+    "tags": [
+      "video generation",
+      "evaluation benchmark",
+      "cs.CV",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "authors": [
+      "Sen Fang",
+      "Hongbin Zhong",
+      "Yanxin Zhang",
+      "Dimitris N. Metaxas"
+    ],
+    "published_at": "2026-05-03T05:26:26Z",
+    "discovered_at": "2026-05-06T03:22:24+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": true,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 2,
+      "novelty": 6.7,
+      "technical_depth": "high",
+      "trend_signal": 6.0,
+      "has_known_gap": true,
+      "benchmark_gap": false,
+      "technical_core": "Existing large-scale sign language resources typically provide supervision only at the level of raw video-text alignment and are often produced in laboratory settings. While such resources are important for semantic understanding, they do not directly provide a unified interface for open-world recognition and translation, or for modern pose-driven sign language video generation frameworks: 1. RGB-based pretrained recognition models depend heavily on fixed backgrounds or clothing conditions durin"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2605.01720v1",
+      "pdf": "https://arxiv.org/pdf/2605.01720v1"
+    },
+    "raw": {
+      "arxiv_id": "2605.01720v1",
+      "updated": "2026-05-03T05:26:26Z",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.CL"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2605_01662v1",
+    "content_type": "paper",
+    "title": "Video Active Perception: Effective Inference-Time Long-Form Video Understanding with Vision-Language Models",
+    "url": "http://arxiv.org/abs/2605.01662v1",
+    "source": "arxiv",
+    "summary": "Large vision-language models (VLMs) have advanced multimodal tasks such as video question answering (QA). However, VLMs face the challenge of selecting frames effectively and efficiently, as standard uniform sampling is expensive and performance may plateau. Inspired by active perception theory, which posits that models gain information by acquiring data that differs from their expectations, we introduce Video Active Perception (VAP), a training-free method to enhance long-form video QA using VLMs. Our approach treats keyframe selection as data acquisition in active perception and leverages a lightweight text-conditioned video generation model to represent prior world knowledge. Empirically, VAP achieves state-of-the-art zero-shot results on long-form or reasoning video QA datasets such as EgoSchema, NExT-QA, ActivityNet-QA, IntentQA, and CLEVRER, achieving an increase of up to 5.6 x frame efficiency by frames per question over standard GPT-4o, Gemini 1.5 Pro, and LLaVA-OV. Moreover, VAP shows stronger reasoning abilities than previous methods and effectively selects keyframes relevant to questions. These findings highlight the potential of leveraging active perception to improve the frame effectiveness and efficiency of long-form video QA.",
+    "tags": [
+      "video generation",
+      "multimodal agents",
+      "retrieval augmented generation",
+      "cs.CV"
+    ],
+    "authors": [
+      "Martin Q. Ma",
+      "Willis Guo",
+      "Aditya Agrawal",
+      "Ankit Gupta",
+      "Paul Pu Liang",
+      "Ruslan Salakhutdinov",
+      "Louis-Philippe Morency"
+    ],
+    "published_at": "2026-05-03T01:30:29Z",
+    "discovered_at": "2026-05-06T03:22:24+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": true,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 2,
+      "novelty": 7.5,
+      "technical_depth": "high",
+      "trend_signal": 6.0,
+      "has_known_gap": true,
+      "benchmark_gap": false,
+      "technical_core": "Large vision-language models (VLMs) have advanced multimodal tasks such as video question answering (QA). However, VLMs face the challenge of selecting frames effectively and efficiently, as standard uniform sampling is expensive and performance may plateau. Inspired by active perception theory, which posits that models gain information by acquiring data that differs from their expectations, we introduce Video Active Perception (VAP), a training-free method to enhance long-form video QA using VL"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2605.01662v1",
+      "pdf": "https://arxiv.org/pdf/2605.01662v1"
+    },
+    "raw": {
+      "arxiv_id": "2605.01662v1",
+      "updated": "2026-05-03T01:30:29Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2603_24793v1",
+    "content_type": "paper",
+    "title": "AVControl: Efficient Framework for Training Audio-Visual Controls",
+    "url": "http://arxiv.org/abs/2603.24793v1",
+    "source": "arxiv",
+    "summary": "Controlling video and audio generation requires diverse modalities, from depth and pose to camera trajectories and audio transformations, yet existing approaches either train a single monolithic model for a fixed set of controls or introduce costly architectural changes for each new modality. We introduce AVControl, a lightweight, extendable framework built on LTX-2, a joint audio-visual foundation model, where each control modality is trained as a separate LoRA on a parallel canvas that provides the reference signal as additional tokens in the attention layers, requiring no architectural changes beyond the LoRA adapters themselves. We show that simply extending image-based in-context methods to video fails for structural control, and that our parallel canvas approach resolves this. On the VACE Benchmark, we outperform all evaluated baselines on depth- and pose-guided generation, inpainting, and outpainting, and show competitive results on camera control and audio-visual benchmarks. Our framework supports a diverse set of independently trained modalities: spatially-aligned controls such as depth, pose, and edges, camera trajectory with intrinsics, sparse motion control, video editing, and, to our knowledge, the first modular audio-visual controls for a joint generation model. Our method is both compute- and data-efficient: each modality requires only a small dataset and converges within a few hundred to a few thousand training steps, a fraction of the budget of monolithic alternatives. We publicly release our code and trained LoRA checkpoints.",
+    "tags": [
+      "controllable video editing",
+      "evaluation benchmark",
+      "cs.CV",
+      "cs.MM",
+      "cs.SD"
+    ],
+    "authors": [
+      "Matan Ben-Yosef",
+      "Tavi Halperin",
+      "Naomi Ken Korem",
+      "Mohammad Salama",
+      "Harel Cain",
+      "Asaf Joseph",
+      "Anthony Chen",
+      "Urska Jelercic",
+      "Ofir Bibi"
+    ],
+    "published_at": "2026-03-25T20:06:43Z",
+    "discovered_at": "2026-05-06T03:22:25+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": true,
+      "has_code": false,
+      "has_benchmark": true,
+      "baseline_count": 2,
+      "novelty": 7.5,
+      "technical_depth": "high",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": true,
+      "technical_core": "Controlling video and audio generation requires diverse modalities, from depth and pose to camera trajectories and audio transformations, yet existing approaches either train a single monolithic model for a fixed set of controls or introduce costly architectural changes for each new modality. We introduce AVControl, a lightweight, extendable framework built on LTX-2, a joint audio-visual foundation model, where each control modality is trained as a separate LoRA on a parallel canvas that provide"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2603.24793v1",
+      "pdf": "https://arxiv.org/pdf/2603.24793v1"
+    },
+    "raw": {
+      "arxiv_id": "2603.24793v1",
+      "updated": "2026-03-25T20:06:43Z",
+      "categories": [
+        "cs.CV",
+        "cs.MM",
+        "cs.SD"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2603_02175v3",
+    "content_type": "paper",
+    "title": "Kiwi-Edit: Versatile Video Editing via Instruction and Reference Guidance",
+    "url": "http://arxiv.org/abs/2603.02175v3",
+    "source": "arxiv",
+    "summary": "Instruction-based video editing has witnessed rapid progress, yet current methods often struggle with precise visual control, as natural language is inherently limited in describing complex visual nuances. Although reference-guided editing offers a robust solution, its potential is currently bottlenecked by the scarcity of high-quality paired training data. To bridge this gap, we introduce a scalable data generation pipeline that transforms existing video editing pairs into high-fidelity training quadruplets, leveraging image generative models to create synthesized reference scaffolds. Using this pipeline, we construct RefVIE, a large-scale dataset tailored for instruction-reference-following tasks, and establish RefVIE-Bench for comprehensive evaluation. Furthermore, we propose a unified editing architecture, Kiwi-Edit, that synergizes learnable queries and latent visual features for reference semantic guidance. Our model achieves significant gains in instruction following and reference fidelity via a progressive multi-stage training curriculum. Extensive experiments demonstrate that our data and architecture establish a new state-of-the-art in controllable video editing. All datasets, models, and code is released at https://github.com/showlab/Kiwi-Edit.",
+    "tags": [
+      "controllable video editing",
+      "evaluation benchmark",
+      "retrieval augmented generation",
+      "cs.CV",
+      "cs.AI"
+    ],
+    "authors": [
+      "Yiqi Lin",
+      "Guoqiang Liang",
+      "Ziyun Zeng",
+      "Zechen Bai",
+      "Yanzhe Chen",
+      "Mike Zheng Shou"
+    ],
+    "published_at": "2026-03-02T18:46:28Z",
+    "discovered_at": "2026-05-06T03:22:25+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": true,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 2,
+      "novelty": 7.5,
+      "technical_depth": "high",
+      "trend_signal": 6.0,
+      "has_known_gap": true,
+      "benchmark_gap": false,
+      "technical_core": "Instruction-based video editing has witnessed rapid progress, yet current methods often struggle with precise visual control, as natural language is inherently limited in describing complex visual nuances. Although reference-guided editing offers a robust solution, its potential is currently bottlenecked by the scarcity of high-quality paired training data. To bridge this gap, we introduce a scalable data generation pipeline that transforms existing video editing pairs into high-fidelity trainin"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2603.02175v3",
+      "pdf": "https://arxiv.org/pdf/2603.02175v3"
+    },
+    "raw": {
+      "arxiv_id": "2603.02175v3",
+      "updated": "2026-03-06T15:12:09Z",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2601_01720v3",
+    "content_type": "paper",
+    "title": "FFP-300K: Scaling First-Frame Propagation for Generalizable Video Editing",
+    "url": "http://arxiv.org/abs/2601.01720v3",
+    "source": "arxiv",
+    "summary": "First-Frame Propagation (FFP) offers a promising paradigm for controllable video editing, but existing methods are hampered by a reliance on cumbersome run-time guidance. We identify the root cause of this limitation as the inadequacy of current training datasets, which are often too short, low-resolution, and lack the task diversity required to teach robust temporal priors. To address this foundational data gap, we first introduce FFP-300K, a new large-scale dataset comprising 300K high-fidelity video pairs at 720p resolution and 81 frames in length, constructed via a principled two-track pipeline for diverse local and global edits. Building on this dataset, we propose a novel framework designed for true guidance-free FFP that resolves the critical tension between maintaining first-frame appearance and preserving source video motion. Architecturally, we introduce Adaptive Spatio-Temporal RoPE (AST-RoPE), which dynamically remaps positional encodings to disentangle appearance and motion references. At the objective level, we employ a self-distillation strategy where an identity propagation task acts as a powerful regularizer, ensuring long-term temporal stability and preventing semantic drift. Comprehensive experiments on the EditVerseBench benchmark demonstrate that our method significantly outperforming existing academic and commercial models by receiving about 0.2 PickScore and 0.3 VLM score improvement against these competitors.",
+    "tags": [
+      "controllable video editing",
+      "evaluation benchmark",
+      "temporal consistency evaluation",
+      "cs.CV"
+    ],
+    "authors": [
+      "Xijie Huang",
+      "Chengming Xu",
+      "Donghao Luo",
+      "Xiaobin Hu",
+      "Peng Tang",
+      "Xu Peng",
+      "Jiangning Zhang",
+      "Chengjie Wang",
+      "Yanwei Fu"
+    ],
+    "published_at": "2026-01-05T01:46:22Z",
+    "discovered_at": "2026-05-06T03:22:25+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": true,
+      "baseline_count": 0,
+      "novelty": 7.5,
+      "technical_depth": "medium",
+      "trend_signal": 6.0,
+      "has_known_gap": true,
+      "benchmark_gap": true,
+      "technical_core": "First-Frame Propagation (FFP) offers a promising paradigm for controllable video editing, but existing methods are hampered by a reliance on cumbersome run-time guidance. We identify the root cause of this limitation as the inadequacy of current training datasets, which are often too short, low-resolution, and lack the task diversity required to teach robust temporal priors. To address this foundational data gap, we first introduce FFP-300K, a new large-scale dataset comprising 300K high-fidelit"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2601.01720v3",
+      "pdf": "https://arxiv.org/pdf/2601.01720v3"
+    },
+    "raw": {
+      "arxiv_id": "2601.01720v3",
+      "updated": "2026-01-16T07:15:11Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2512_17504v1",
+    "content_type": "paper",
+    "title": "InsertAnywhere: Bridging 4D Scene Geometry and Diffusion Models for Realistic Video Object Insertion",
+    "url": "http://arxiv.org/abs/2512.17504v1",
+    "source": "arxiv",
+    "summary": "Recent advances in diffusion-based video generation have opened new possibilities for controllable video editing, yet realistic video object insertion (VOI) remains challenging due to limited 4D scene understanding and inadequate handling of occlusion and lighting effects. We present InsertAnywhere, a new VOI framework that achieves geometrically consistent object placement and appearance-faithful video synthesis. Our method begins with a 4D aware mask generation module that reconstructs the scene geometry and propagates user specified object placement across frames while maintaining temporal coherence and occlusion consistency. Building upon this spatial foundation, we extend a diffusion based video generation model to jointly synthesize the inserted object and its surrounding local variations such as illumination and shading. To enable supervised training, we introduce ROSE++, an illumination aware synthetic dataset constructed by transforming the ROSE object removal dataset into triplets of object removed video, object present video, and a VLM generated reference image. Through extensive experiments, we demonstrate that our framework produces geometrically plausible and visually coherent object insertions across diverse real world scenarios, significantly outperforming existing research and commercial models.",
+    "tags": [
+      "video generation",
+      "controllable video editing",
+      "diffusion models",
+      "evaluation benchmark",
+      "temporal consistency evaluation",
+      "cs.CV",
+      "cs.AI"
+    ],
+    "authors": [
+      "Hoiyeong Jin",
+      "Hyojin Jang",
+      "Jeongho Kim",
+      "Junha Hyung",
+      "Kinam Kim",
+      "Dongjin Kim",
+      "Huijin Choi",
+      "Hyeonji Kim",
+      "Jaegul Choo"
+    ],
+    "published_at": "2025-12-19T12:14:36Z",
+    "discovered_at": "2026-05-06T03:22:25+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 7.5,
+      "technical_depth": "medium",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": true,
+      "technical_core": "Recent advances in diffusion-based video generation have opened new possibilities for controllable video editing, yet realistic video object insertion (VOI) remains challenging due to limited 4D scene understanding and inadequate handling of occlusion and lighting effects. We present InsertAnywhere, a new VOI framework that achieves geometrically consistent object placement and appearance-faithful video synthesis. Our method begins with a 4D aware mask generation module that reconstructs the sce"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2512.17504v1",
+      "pdf": "https://arxiv.org/pdf/2512.17504v1"
+    },
+    "raw": {
+      "arxiv_id": "2512.17504v1",
+      "updated": "2025-12-19T12:14:36Z",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2511_18277v1",
+    "content_type": "paper",
+    "title": "Point-to-Point: Sparse Motion Guidance for Controllable Video Editing",
+    "url": "http://arxiv.org/abs/2511.18277v1",
+    "source": "arxiv",
+    "summary": "Accurately preserving motion while editing a subject remains a core challenge in video editing tasks. Existing methods often face a trade-off between edit and motion fidelity, as they rely on motion representations that are either overfitted to the layout or only implicitly defined. To overcome this limitation, we revisit point-based motion representation. However, identifying meaningful points remains challenging without human input, especially across diverse video scenarios. To address this, we propose a novel motion representation, anchor tokens, that capture the most essential motion patterns by leveraging the rich prior of a video diffusion model. Anchor tokens encode video dynamics compactly through a small number of informative point trajectories and can be flexibly relocated to align with new subjects. This allows our method, Point-to-Point, to generalize across diverse scenarios. Extensive experiments demonstrate that anchor tokens lead to more controllable and semantically aligned video edits, achieving superior performance in terms of edit and motion fidelity.",
+    "tags": [
+      "video generation",
+      "controllable video editing",
+      "diffusion models",
+      "retrieval augmented generation",
+      "AI drawing",
+      "cs.CV"
+    ],
+    "authors": [
+      "Yeji Song",
+      "Jaehyun Lee",
+      "Mijin Koo",
+      "JunHoo Lee",
+      "Nojun Kwak"
+    ],
+    "published_at": "2025-11-23T03:59:59Z",
+    "discovered_at": "2026-05-06T03:22:25+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 7.0,
+      "technical_depth": "medium",
+      "trend_signal": 6.0,
+      "has_known_gap": true,
+      "benchmark_gap": false,
+      "technical_core": "Accurately preserving motion while editing a subject remains a core challenge in video editing tasks. Existing methods often face a trade-off between edit and motion fidelity, as they rely on motion representations that are either overfitted to the layout or only implicitly defined. To overcome this limitation, we revisit point-based motion representation. However, identifying meaningful points remains challenging without human input, especially across diverse video scenarios. To address this, w"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2511.18277v1",
+      "pdf": "https://arxiv.org/pdf/2511.18277v1"
+    },
+    "raw": {
+      "arxiv_id": "2511.18277v1",
+      "updated": "2025-11-23T03:59:59Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2506_22432v2",
+    "content_type": "paper",
+    "title": "Shape-for-Motion: Precise and Consistent Video Editing with 3D Proxy",
+    "url": "http://arxiv.org/abs/2506.22432v2",
+    "source": "arxiv",
+    "summary": "Recent advances in deep generative modeling have unlocked unprecedented opportunities for video synthesis. In real-world applications, however, users often seek tools to faithfully realize their creative editing intentions with precise and consistent control. Despite the progress achieved by existing methods, ensuring fine-grained alignment with user intentions remains an open and challenging problem. In this work, we present Shape-for-Motion, a novel framework that incorporates a 3D proxy for precise and consistent video editing. Shape-for-Motion achieves this by converting the target object in the input video to a time-consistent mesh, i.e., a 3D proxy, allowing edits to be performed directly on the proxy and then inferred back to the video frames. To simplify the editing process, we design a novel Dual-Propagation Strategy that allows users to perform edits on the 3D mesh of a single frame, and the edits are then automatically propagated to the 3D meshes of the other frames. The 3D meshes for different frames are further projected onto the 2D space to produce the edited geometry and texture renderings, which serve as inputs to a decoupled video diffusion model for generating edited results. Our framework supports various precise and physically-consistent manipulations across the video frames, including pose editing, rotation, scaling, translation, texture modification, and object composition. Our approach marks a key step toward high-quality, controllable video editing workflows. Extensive experiments demonstrate the superiority and effectiveness of our approach. Project page: https://shapeformotion.github.io/",
+    "tags": [
+      "video generation",
+      "controllable video editing",
+      "diffusion models",
+      "cs.CV"
+    ],
+    "authors": [
+      "Yuhao Liu",
+      "Tengfei Wang",
+      "Fang Liu",
+      "Zhenwei Wang",
+      "Rynson W. H. Lau"
+    ],
+    "published_at": "2025-06-27T17:59:01Z",
+    "discovered_at": "2026-05-06T03:22:25+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 7.0,
+      "technical_depth": "medium",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": false,
+      "technical_core": "Recent advances in deep generative modeling have unlocked unprecedented opportunities for video synthesis. In real-world applications, however, users often seek tools to faithfully realize their creative editing intentions with precise and consistent control. Despite the progress achieved by existing methods, ensuring fine-grained alignment with user intentions remains an open and challenging problem. In this work, we present Shape-for-Motion, a novel framework that incorporates a 3D proxy for p"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2506.22432v2",
+      "pdf": "https://arxiv.org/pdf/2506.22432v2"
+    },
+    "raw": {
+      "arxiv_id": "2506.22432v2",
+      "updated": "2025-09-26T06:29:19Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2504_14335v1",
+    "content_type": "paper",
+    "title": "Visual Prompting for One-shot Controllable Video Editing without Inversion",
+    "url": "http://arxiv.org/abs/2504.14335v1",
+    "source": "arxiv",
+    "summary": "One-shot controllable video editing (OCVE) is an important yet challenging task, aiming to propagate user edits that are made -- using any image editing tool -- on the first frame of a video to all subsequent frames, while ensuring content consistency between edited frames and source frames. To achieve this, prior methods employ DDIM inversion to transform source frames into latent noise, which is then fed into a pre-trained diffusion model, conditioned on the user-edited first frame, to generate the edited video. However, the DDIM inversion process accumulates errors, which hinder the latent noise from accurately reconstructing the source frames, ultimately compromising content consistency in the generated edited frames. To overcome it, our method eliminates the need for DDIM inversion by performing OCVE through a novel perspective based on visual prompting. Furthermore, inspired by consistency models that can perform multi-step consistency sampling to generate a sequence of content-consistent images, we propose a content consistency sampling (CCS) to ensure content consistency between the generated edited frames and the source frames. Moreover, we introduce a temporal-content consistency sampling (TCS) based on Stein Variational Gradient Descent to ensure temporal consistency across the edited frames. Extensive experiments validate the effectiveness of our approach.",
+    "tags": [
+      "controllable video editing",
+      "diffusion models",
+      "temporal consistency evaluation",
+      "cs.CV",
+      "cs.AI"
+    ],
+    "authors": [
+      "Zhengbo Zhang",
+      "Yuxi Zhou",
+      "Duo Peng",
+      "Joo-Hwee Lim",
+      "Zhigang Tu",
+      "De Wen Soh",
+      "Lin Geng Foo"
+    ],
+    "published_at": "2025-04-19T16:00:47Z",
+    "discovered_at": "2026-05-06T03:22:25+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 7.0,
+      "technical_depth": "medium",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": false,
+      "technical_core": "One-shot controllable video editing (OCVE) is an important yet challenging task, aiming to propagate user edits that are made -- using any image editing tool -- on the first frame of a video to all subsequent frames, while ensuring content consistency between edited frames and source frames. To achieve this, prior methods employ DDIM inversion to transform source frames into latent noise, which is then fed into a pre-trained diffusion model, conditioned on the user-edited first frame, to generat"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2504.14335v1",
+      "pdf": "https://arxiv.org/pdf/2504.14335v1"
+    },
+    "raw": {
+      "arxiv_id": "2504.14335v1",
+      "updated": "2025-04-19T16:00:47Z",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2402_14316v1",
+    "content_type": "paper",
+    "title": "Place Anything into Any Video",
+    "url": "http://arxiv.org/abs/2402.14316v1",
+    "source": "arxiv",
+    "summary": "Controllable video editing has demonstrated remarkable potential across diverse applications, particularly in scenarios where capturing or re-capturing real-world videos is either impractical or costly. This paper introduces a novel and efficient system named Place-Anything, which facilitates the insertion of any object into any video solely based on a picture or text description of the target object or element. The system comprises three modules: 3D generation, video reconstruction, and 3D target insertion. This integrated approach offers an efficient and effective solution for producing and editing high-quality videos by seamlessly inserting realistic objects. Through a user study, we demonstrate that our system can effortlessly place any object into any video using just a photograph of the object. Our demo video can be found at https://youtu.be/afXqgLLRnTE. Please also visit our project page https://place-anything.github.io to get access.",
+    "tags": [
+      "controllable video editing",
+      "cs.CV"
+    ],
+    "authors": [
+      "Ziling Liu",
+      "Jinyu Yang",
+      "Mingqi Gao",
+      "Feng Zheng"
+    ],
+    "published_at": "2024-02-22T06:19:22Z",
+    "discovered_at": "2026-05-06T03:22:25+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": false,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 7.0,
+      "technical_depth": "low",
+      "trend_signal": 4.8,
+      "has_known_gap": false,
+      "benchmark_gap": false,
+      "technical_core": "Controllable video editing has demonstrated remarkable potential across diverse applications, particularly in scenarios where capturing or re-capturing real-world videos is either impractical or costly. This paper introduces a novel and efficient system named Place-Anything, which facilitates the insertion of any object into any video solely based on a picture or text description of the target object or element. The system comprises three modules: 3D generation, video reconstruction, and 3D targ"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2402.14316v1",
+      "pdf": "https://arxiv.org/pdf/2402.14316v1"
+    },
+    "raw": {
+      "arxiv_id": "2402.14316v1",
+      "updated": "2024-02-22T06:19:22Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2605_02130v1",
+    "content_type": "paper",
+    "title": "From Where Things Are to What They Are For: Benchmarking Spatial-Functional Intelligence in Multimodal LLMs",
+    "url": "http://arxiv.org/abs/2605.02130v1",
+    "source": "arxiv",
+    "summary": "Human-level agentic intelligence extends beyond low-level geometric perception, evolving from recognizing where things are to understanding what they are for. While existing benchmarks effectively evaluate the geometric perception capabilities of multimodal large language models (MLLMs), they fall short of probing the higher-order cognitive abilities required for grounded intelligence. To address this gap, we introduce the Spatial-Functional Intelligence Benchmark (SFI-Bench), a video-based benchmark with over 1,500 expert-annotated questions derived from diverse egocentric indoor video scans. SFI-Bench systematically evaluates two complementary dimensions of advanced reasoning: (1) Structured Spatial Reasoning, which requires understanding complex layouts and forming coherent spatial representations, and (2) Functional Reasoning, which involves inferring object affordances and their context-dependent utility. The benchmark includes tasks such as conditional counting, multi-hop relational reasoning, functional pairing, and knowledge-grounded troubleshooting, directly challenging models to integrate perception, memory, and inference. Our experiments reveal that current MLLMs consistently struggle to combine spatial memory with functional reasoning and external knowledge, highlighting a critical bottleneck in achieving grounded intelligence. SFI-Bench therefore provides a diagnostic tool for measuring progress toward more cognitively capable and truly grounded multimodal agents.",
+    "tags": [
+      "evaluation benchmark",
+      "multimodal agents",
+      "AI drawing",
+      "cs.CV"
+    ],
+    "authors": [
+      "Le Zhang",
+      "Jihan Yang",
+      "Soundarya Krishnan",
+      "Jimit Majmudar",
+      "Xiou Ge",
+      "Prasoon Puri",
+      "Prathamesh Nandkishor Saraf",
+      "Shruti Bhargava",
+      "Dhivya Piraviperumal",
+      "Yinan Ling",
+      "Cindy Pan",
+      "Hong Yu",
+      "Aishwarya Agrawal",
+      "Bo-Hsiang Tseng"
+    ],
+    "published_at": "2026-05-04T01:19:36Z",
+    "discovered_at": "2026-05-06T03:22:26+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": true,
+      "baseline_count": 0,
+      "novelty": 7.5,
+      "technical_depth": "medium",
+      "trend_signal": 6.0,
+      "has_known_gap": true,
+      "benchmark_gap": true,
+      "technical_core": "Human-level agentic intelligence extends beyond low-level geometric perception, evolving from recognizing where things are to understanding what they are for. While existing benchmarks effectively evaluate the geometric perception capabilities of multimodal large language models (MLLMs), they fall short of probing the higher-order cognitive abilities required for grounded intelligence. To address this gap, we introduce the Spatial-Functional Intelligence Benchmark (SFI-Bench), a video-based benc"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2605.02130v1",
+      "pdf": "https://arxiv.org/pdf/2605.02130v1"
+    },
+    "raw": {
+      "arxiv_id": "2605.02130v1",
+      "updated": "2026-05-04T01:19:36Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2604_27419v1",
+    "content_type": "paper",
+    "title": "InteractWeb-Bench: Can Multimodal Agent Escape Blind Execution in Interactive Website Generation?",
+    "url": "http://arxiv.org/abs/2604.27419v1",
+    "source": "arxiv",
+    "summary": "With the advancement of multimodal large language models (MLLMs) and coding agents, the website development has shifted from manual programming to agent-based project-level code synthesis. Existing benchmarks rely on idealized assumptions, especially for well-structured, information-rich inputs and static execution settings. In contrast, real-world development is constrained by a critical bottleneck: the semantic misalignment between ambiguous, low-quality instructions from non-expert users and model understanding, which results in a failure mode that we term blind execution. To address this gap, we introduce InteractWeb-Bench, the first multimodal interactive benchmark for website generation under non-expert low-code user conditions. InteractWeb-Bench introduces four types of user agents and persona-driven instruction perturbations to systematically simulate diverse user behaviors, including ambiguity, redundancy, and contradiction, grounded in requirement engineering defect taxonomies. We develop an interactive execution environment for agents, featuring a unified action space comprising Clarify, Implement, Verify, and Submit, enabling iterative intent refinement, code synthesis, and visual feedback-based validation. Extensive experiments and analysis reveal that frontier MLLM-based agents remain trapped in blind execution, exposing limitations in intent recognition and adaptive interaction.",
+    "tags": [
+      "evaluation benchmark",
+      "multimodal agents",
+      "cs.AI",
+      "cs.CL"
+    ],
+    "authors": [
+      "Qiyao Wang",
+      "Haoran Hu",
+      "Longze Chen",
+      "Hongbo Wang",
+      "Hamid Alinejad-Rokny",
+      "Yuan Lin",
+      "Min Yang"
+    ],
+    "published_at": "2026-04-30T04:49:34Z",
+    "discovered_at": "2026-05-06T03:22:26+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": true,
+      "baseline_count": 0,
+      "novelty": 7.5,
+      "technical_depth": "medium",
+      "trend_signal": 6.0,
+      "has_known_gap": true,
+      "benchmark_gap": true,
+      "technical_core": "With the advancement of multimodal large language models (MLLMs) and coding agents, the website development has shifted from manual programming to agent-based project-level code synthesis. Existing benchmarks rely on idealized assumptions, especially for well-structured, information-rich inputs and static execution settings. In contrast, real-world development is constrained by a critical bottleneck: the semantic misalignment between ambiguous, low-quality instructions from non-expert users and "
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2604.27419v1",
+      "pdf": "https://arxiv.org/pdf/2604.27419v1"
+    },
+    "raw": {
+      "arxiv_id": "2604.27419v1",
+      "updated": "2026-04-30T04:49:34Z",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2604_27269v1",
+    "content_type": "paper",
+    "title": "OptimusKG: Unifying biomedical knowledge in a modern multimodal graph",
+    "url": "http://arxiv.org/abs/2604.27269v1",
+    "source": "arxiv",
+    "summary": "Biomedical knowledge graphs (KGs) are widely used in the life sciences, yet many are derived from unstructured documents and therefore lack schema-level constrains, whereas graphs assembled from structured resources are difficult to harmonize into a unified representation. We present OptimusKG, a multimodal biomedical labeled property graph (LPG) built from structured and semi-structured resources to preserve factual, type-specific metadata across molecular, anatomical, clinical, and environmental domains. OptimusKG contains 190,531 nodes across 10 entity types, 21,813,816 edges across 26 relation types, and 67,249,863 property instances encoding 110,276,843 values across 150 distinct property keys, derived from 18 ontologies and controlled vocabularies. The graph enforces a top-level schema for nodes and edges and retains granular, type-specific properties, cross-references, and provenance across molecular, anatomical, clinical, and environmental domains. We assessed the validity of OptimusKG by evaluating whether graph relationships are supported by evidence from the scientific literature using a multimodal agent, PaperQA3. PaperQA3 identified supporting evidence for 70.0% of sampled edges, whereas 83.4% of sampled false edges received no supporting evidence. Edges without literature support were concentrated in associations derived from experimental and functional genomics resources, suggesting that OptimusKG captures biomedical knowledge that may precede synthesis in the scientific literature. OptimusKG is distributed as Apache Parquet files, providing a standardized resource for graph-based machine learning, knowledge-grounded retrieval with large language models, and biomedical discovery use cases such as hypothesis generation.",
+    "tags": [
+      "multimodal agents",
+      "retrieval augmented generation",
+      "cs.AI"
+    ],
+    "authors": [
+      "Lucas Vittor",
+      "Ayush Noori",
+      "Iñaki Arango",
+      "Joaquín Polonuer",
+      "Sam Rodriques",
+      "Andrew White",
+      "David A. Clifton",
+      "Marinka Zitnik"
+    ],
+    "published_at": "2026-04-29T23:49:34Z",
+    "discovered_at": "2026-05-06T03:22:26+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 6.2,
+      "technical_depth": "medium",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": false,
+      "technical_core": "Biomedical knowledge graphs (KGs) are widely used in the life sciences, yet many are derived from unstructured documents and therefore lack schema-level constrains, whereas graphs assembled from structured resources are difficult to harmonize into a unified representation. We present OptimusKG, a multimodal biomedical labeled property graph (LPG) built from structured and semi-structured resources to preserve factual, type-specific metadata across molecular, anatomical, clinical, and environment"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2604.27269v1",
+      "pdf": "https://arxiv.org/pdf/2604.27269v1"
+    },
+    "raw": {
+      "arxiv_id": "2604.27269v1",
+      "updated": "2026-04-29T23:49:34Z",
+      "categories": [
+        "cs.AI"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2604_26752v1",
+    "content_type": "paper",
+    "title": "GLM-5V-Turbo: Toward a Native Foundation Model for Multimodal Agents",
+    "url": "http://arxiv.org/abs/2604.26752v1",
+    "source": "arxiv",
+    "summary": "We present GLM-5V-Turbo, a step toward native foundation models for multimodal agents. As foundation models are increasingly deployed in real environments, agentic capability depends not only on language reasoning, but also on the ability to perceive, interpret, and act over heterogeneous contexts such as images, videos, webpages, documents, GUIs. GLM-5V-Turbo is built around this objective: multimodal perception is integrated as a core component of reasoning, planning, tool use, and execution, rather than as an auxiliary interface to a language model. This report summarizes the main improvements behind GLM-5V-Turbo across model design, multimodal training, reinforcement learning, toolchain expansion, and integration with agent frameworks. These developments lead to strong performance in multimodal coding, visual tool use, and framework-based agentic tasks, while preserving competitive text-only coding capability. More importantly, our development process offers practical insights for building multimodal agents, highlighting the central role of multimodal perception, hierarchical optimization, and reliable end-to-end verification.",
+    "tags": [
+      "multimodal agents",
+      "cs.CV"
+    ],
+    "authors": [
+      "GLM-V Team",
+      ":",
+      "Wenyi Hong",
+      "Xiaotao Gu",
+      "Ziyang Pan",
+      "Zhen Yang",
+      "Yuting Wang",
+      "Yue Wang",
+      "Yuanchang Yue",
+      "Yu Wang",
+      "Yanling Wang",
+      "Yan Wang",
+      "Xijun Liu",
+      "Wenmeng Yu",
+      "Weihan Wang",
+      "Wei Li",
+      "Shuaiqi Duan",
+      "Sheng Yang",
+      "Ruiliang Lv",
+      "Mingdao Liu",
+      "Lihang Pan",
+      "Ke Ning",
+      "Junhui Ji",
+      "Jinjiang Wang",
+      "Jing Chen",
+      "Jiazheng Xu",
+      "Jiale Zhu",
+      "Jiale Cheng",
+      "Ji Qi",
+      "Guobing Gan",
+      "Guo Wang",
+      "Cong Yao",
+      "Zijun Dou",
+      "Zihao Zhou",
+      "Zihan Wang",
+      "Zhiqi Ge",
+      "Zhijie Li",
+      "Zhenyu Hou",
+      "Zhao Xue",
+      "Zehui Wang",
+      "Zehai He",
+      "Yusen Liu",
+      "Yukuo Cen",
+      "Yuchen Li",
+      "Yuan Wang",
+      "Yijian Lu",
+      "Yanzi Wang",
+      "Yadong Xue",
+      "Xinyu Zhang",
+      "Xinyu Liu",
+      "Wenkai Li",
+      "Tianyu Tong",
+      "Tianshu Zhang",
+      "Shengdong Yan",
+      "Qinkai Zheng",
+      "Mingde Xu",
+      "Licheng Bao",
+      "Jiaxing Xu",
+      "Jiaxin Fan",
+      "Jiawen Qian",
+      "Jiali Chen",
+      "Jiahui Lin",
+      "Haozhi Zheng",
+      "Haoran Wang",
+      "Haochen Li",
+      "Fan Yang",
+      "Dan Zhang",
+      "Chuangxin Zhao",
+      "Chengcheng Wu",
+      "Boyan Shi",
+      "Bowei Jia",
+      "Baoxu Wang",
+      "Peng Zhang",
+      "Debing Liu",
+      "Bin Xu",
+      "Juanzi Li",
+      "Minlie Huang",
+      "Yuxiao Dong",
+      "Jie Tang"
+    ],
+    "published_at": "2026-04-29T14:49:37Z",
+    "discovered_at": "2026-05-06T03:22:26+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": false,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 6.2,
+      "technical_depth": "low",
+      "trend_signal": 4.8,
+      "has_known_gap": false,
+      "benchmark_gap": false,
+      "technical_core": "We present GLM-5V-Turbo, a step toward native foundation models for multimodal agents. As foundation models are increasingly deployed in real environments, agentic capability depends not only on language reasoning, but also on the ability to perceive, interpret, and act over heterogeneous contexts such as images, videos, webpages, documents, GUIs. GLM-5V-Turbo is built around this objective: multimodal perception is integrated as a core component of reasoning, planning, tool use, and execution, "
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2604.26752v1",
+      "pdf": "https://arxiv.org/pdf/2604.26752v1"
+    },
+    "raw": {
+      "arxiv_id": "2604.26752v1",
+      "updated": "2026-04-29T14:49:37Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2604_22038v1",
+    "content_type": "paper",
+    "title": "Source-Modality Monitoring in Vision-Language Models",
+    "url": "http://arxiv.org/abs/2604.22038v1",
+    "source": "arxiv",
+    "summary": "We define and investigate source-modality monitoring -- the ability of multimodal models to track and communicate the input source from which pieces of information originate. We consider source-modality monitoring as an instance of the more general binding problem, and evaluate the extent to which models exploit syntactic vs. semantic signals in order to bind words like image in a user-provided prompt to specific components of their input and context (i.e., actual images). Across experiments spanning 11 vision-language models (VLMs) performing target-modality information retrieval tasks, we find that both syntactic and semantic signals play an important role, but that the latter tend to outweigh the former in cases when modalities are highly distinct distributionally. We discuss the implications of these findings for model robustness, and in the context of increasingly multimodal agentic systems.",
+    "tags": [
+      "multimodal agents",
+      "retrieval augmented generation",
+      "cs.CL"
+    ],
+    "authors": [
+      "Etha Tianze Hua",
+      "Tian Yun",
+      "Ellie Pavlick"
+    ],
+    "published_at": "2026-04-23T19:49:36Z",
+    "discovered_at": "2026-05-06T03:22:26+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 6.2,
+      "technical_depth": "medium",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": false,
+      "technical_core": "We define and investigate source-modality monitoring -- the ability of multimodal models to track and communicate the input source from which pieces of information originate. We consider source-modality monitoring as an instance of the more general binding problem, and evaluate the extent to which models exploit syntactic vs. semantic signals in order to bind words like image in a user-provided prompt to specific components of their input and context (i.e., actual images). Across experiments spa"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2604.22038v1",
+      "pdf": "https://arxiv.org/pdf/2604.22038v1"
+    },
+    "raw": {
+      "arxiv_id": "2604.22038v1",
+      "updated": "2026-04-23T19:49:36Z",
+      "categories": [
+        "cs.CL"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2604_20486v1",
+    "content_type": "paper",
+    "title": "ProMMSearchAgent: A Generalizable Multimodal Search Agent Trained with Process-Oriented Rewards",
+    "url": "http://arxiv.org/abs/2604.20486v1",
+    "source": "arxiv",
+    "summary": "Training multimodal agents via reinforcement learning for knowledge-intensive visual reasoning is fundamentally hindered by the extreme sparsity of outcome-based supervision and the unpredictability of live web environments. To resolve these algorithmic and environmental bottlenecks, we introduce ProMMSearchAgent, establishing a novel Sim-to-Real training paradigm for multimodal search. We decouple policy learning into a deterministic, local static sandbox. Crucially, to learn effectively within this constrained environment, we propose an introspective process-oriented reward. By probing the agent's own parametric knowledge boundaries, we generate dense behavioral metadata that explicitly rewards the correct cognitive decision, initiating a multimodal or text search only when visually or factually uncertain. Extensive experiments demonstrate that our locally-trained policy transfers zero-shot to the live Google Search API. ProMMSearchAgent achieves new SOTA performance, outperforming MMSearch-R1 by +5.1% on FVQA-test, +6.3% on InfoSeek, and +11.3% on MMSearch.",
+    "tags": [
+      "evaluation benchmark",
+      "multimodal agents",
+      "cs.CV"
+    ],
+    "authors": [
+      "Wentao Yan",
+      "Shengqin Wang",
+      "Huichi Zhou",
+      "Yihang Chen",
+      "Kun Shao",
+      "Yuan Xie",
+      "Zhizhong Zhang"
+    ],
+    "published_at": "2026-04-22T12:20:46Z",
+    "discovered_at": "2026-05-06T03:22:26+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": true,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 2,
+      "novelty": 7.0,
+      "technical_depth": "high",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": true,
+      "technical_core": "Training multimodal agents via reinforcement learning for knowledge-intensive visual reasoning is fundamentally hindered by the extreme sparsity of outcome-based supervision and the unpredictability of live web environments. To resolve these algorithmic and environmental bottlenecks, we introduce ProMMSearchAgent, establishing a novel Sim-to-Real training paradigm for multimodal search. We decouple policy learning into a deterministic, local static sandbox. Crucially, to learn effectively within"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2604.20486v1",
+      "pdf": "https://arxiv.org/pdf/2604.20486v1"
+    },
+    "raw": {
+      "arxiv_id": "2604.20486v1",
+      "updated": "2026-04-22T12:20:46Z",
+      "categories": [
+        "cs.CV"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2604_19857v1",
+    "content_type": "paper",
+    "title": "Rethinking Reinforcement Fine-Tuning in LVLM: Convergence, Reward Decomposition, and Generalization",
+    "url": "http://arxiv.org/abs/2604.19857v1",
+    "source": "arxiv",
+    "summary": "Reinforcement fine-tuning with verifiable rewards (RLVR) has emerged as a powerful paradigm for equipping large vision-language models (LVLMs) with agentic capabilities such as tool use and multi-step reasoning. Despite striking empirical successes, most notably Visual Agentic Reinforcement Fine-Tuning (Visual-ARFT), the theoretical underpinnings of this paradigm remain poorly understood. In particular, two critical questions lack rigorous answers: (i)~how does the composite structure of verifiable rewards (format compliance, answer accuracy, tool executability) affect the convergence of Group Relative Policy Optimization (GRPO), and (ii)~why does training on a small set of tool-augmented tasks transfer to out-of-distribution domains? We address these gaps by introducing the \\emph{Tool-Augmented Markov Decision Process} (TA-MDP), a formal framework that models multimodal agentic decision-making with bounded-depth tool calls. Within this framework, we establish three main results. First, we prove that GRPO under composite verifiable rewards converges to a first-order stationary point at rate $O(1/\\sqrt{T})$ with explicit dependence on the number of reward components and group size (\\textbf{Theorem~1}). Second, we derive a \\emph{Reward Decomposition Theorem} that bounds the sub-optimality gap between decomposed per-component optimization and joint optimization, providing a precise characterization of when reward decomposition is beneficial (\\textbf{Theorem~2}). Third, we establish a PAC-Bayes generalization bound for tool-augmented policies that explains the strong out-of-distribution transfer observed in Visual-ARFT (\\textbf{Theorem~3}).",
+    "tags": [
+      "multimodal agents",
+      "cs.LG",
+      "cs.CL"
+    ],
+    "authors": [
+      "Carter Adams",
+      "Rafael Oliveira",
+      "Gabriel Almeida",
+      "Sofia Torres"
+    ],
+    "published_at": "2026-04-21T17:21:08Z",
+    "discovered_at": "2026-05-06T03:22:26+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": false,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 7.0,
+      "technical_depth": "low",
+      "trend_signal": 4.8,
+      "has_known_gap": true,
+      "benchmark_gap": false,
+      "technical_core": "Reinforcement fine-tuning with verifiable rewards (RLVR) has emerged as a powerful paradigm for equipping large vision-language models (LVLMs) with agentic capabilities such as tool use and multi-step reasoning. Despite striking empirical successes, most notably Visual Agentic Reinforcement Fine-Tuning (Visual-ARFT), the theoretical underpinnings of this paradigm remain poorly understood. In particular, two critical questions lack rigorous answers: (i)~how does the composite structure of verifia"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2604.19857v1",
+      "pdf": "https://arxiv.org/pdf/2604.19857v1"
+    },
+    "raw": {
+      "arxiv_id": "2604.19857v1",
+      "updated": "2026-04-21T17:21:08Z",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ]
+    }
+  },
+  {
+    "item_id": "arxiv_2604_17475v1",
+    "content_type": "paper",
+    "title": "Waking Up Blind: Cold-Start Optimization of Supervision-Free Agentic Trajectories for Grounded Visual Perception",
+    "url": "http://arxiv.org/abs/2604.17475v1",
+    "source": "arxiv",
+    "summary": "Small Vision-Language Models (SVLMs) are efficient task controllers but often suffer from visual brittleness and poor tool orchestration. They typically require expensive supervised trajectory tuning to mitigate these deficits. In this work, we propose Self-supervised Perception Enabled by Cascaded Tool Rollout Alignment (SPECTRA), a supervision-free framework that bootstraps agentic capabilities via Coldstart Reinforcement Learning for SVLMs. SPECTRA enforces Soft Structured Multi-turn Rollouts, a topological constraint that directs agents to explicitly sequence tool derived evidence before synthesis, effectively grounding reasoning in visual observations. We employ a multi-objective reward signal that simultaneously maximizes task correctness, rollout structure, and tool utility, enabling agent to self-discover robust behaviors without human preference labels. We further introduce Tool Instrumental Utility (TIU), a novel metric to quantify tool efficacy in the absence of ground truth. Extensive evaluations across composite and out-of-distribution (MMMU-Pro) benchmarks demonstrate that SPECTRA boosts agentic trajectories, improving task accuracy by up to 5% and tool efficiency by 9%, enabling more efficient multimodal agents that learn effectively from environmental interaction alone.",
+    "tags": [
+      "evaluation benchmark",
+      "multimodal agents",
+      "cs.AI",
+      "cs.CL",
+      "cs.LG"
+    ],
+    "authors": [
+      "Ashutosh Bajpai",
+      "Tamal Majumder",
+      "Akshay Nambi",
+      "Tanmoy Chakraborty"
+    ],
+    "published_at": "2026-04-19T15:06:30Z",
+    "discovered_at": "2026-05-06T03:22:26+00:00",
+    "metrics": {},
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": true,
+      "baseline_count": 0,
+      "novelty": 7.5,
+      "technical_depth": "medium",
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "benchmark_gap": true,
+      "technical_core": "Small Vision-Language Models (SVLMs) are efficient task controllers but often suffer from visual brittleness and poor tool orchestration. They typically require expensive supervised trajectory tuning to mitigate these deficits. In this work, we propose Self-supervised Perception Enabled by Cascaded Tool Rollout Alignment (SPECTRA), a supervision-free framework that bootstraps agentic capabilities via Coldstart Reinforcement Learning for SVLMs. SPECTRA enforces Soft Structured Multi-turn Rollouts"
+    },
+    "links": {
+      "text/html": "https://arxiv.org/abs/2604.17475v1",
+      "pdf": "https://arxiv.org/pdf/2604.17475v1"
+    },
+    "raw": {
+      "arxiv_id": "2604.17475v1",
+      "updated": "2026-04-19T15:06:30Z",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.LG"
+      ]
+    }
+  },
+  {
+    "item_id": "github_laminlabs_lamindb",
+    "content_type": "repo",
+    "title": "laminlabs/lamindb",
+    "url": "https://github.com/laminlabs/lamindb",
+    "source": "github",
+    "summary": "Open-source data framework for biology. Context and memory for datasets and models at scale. Query, trace & validate with a lineage-native lakehouse that supports bio-formats, registries & ontologies. 🍊YC S22",
+    "tags": [
+      "comp-bio-ops",
+      "context-engineering",
+      "data-lakehouse",
+      "data-lineage",
+      "data-versioning",
+      "Python"
+    ],
+    "authors": [
+      "laminlabs"
+    ],
+    "published_at": "2022-04-15T12:43:24Z",
+    "discovered_at": "2026-05-06T03:22:32+00:00",
+    "metrics": {
+      "stars": 260.0,
+      "forks": 24.0,
+      "open_issues": 43.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "high",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "technical_core": "Open-source data framework for biology. Context and memory for datasets and models at scale. Query, trace & validate with a lineage-native lakehouse that supports bio-formats, registries & ontologies. 🍊YC S22"
+    },
+    "links": {
+      "api": "https://api.github.com/repos/laminlabs/lamindb",
+      "clone": "https://github.com/laminlabs/lamindb.git",
+      "homepage": "https://docs.lamin.ai"
+    },
+    "raw": {
+      "full_name": "laminlabs/lamindb",
+      "language": "Python",
+      "pushed_at": "2026-05-06T03:22:15Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_sgl_project_sglang",
+    "content_type": "repo",
+    "title": "sgl-project/sglang",
+    "url": "https://github.com/sgl-project/sglang",
+    "source": "github",
+    "summary": "SGLang is a high-performance serving framework for large language models and multimodal models.",
+    "tags": [
+      "diffusion models",
+      "multimodal agents",
+      "attention",
+      "blackwell",
+      "cuda",
+      "deepseek",
+      "diffusion",
+      "Python"
+    ],
+    "authors": [
+      "sgl-project"
+    ],
+    "published_at": "2024-01-08T04:15:52Z",
+    "discovered_at": "2026-05-06T03:22:32+00:00",
+    "metrics": {
+      "stars": 27082.0,
+      "forks": 5709.0,
+      "open_issues": 3167.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": true,
+      "has_tests": false,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "high",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": true,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 7.2,
+      "has_known_gap": false,
+      "technical_core": "SGLang is a high-performance serving framework for large language models and multimodal models."
+    },
+    "links": {
+      "api": "https://api.github.com/repos/sgl-project/sglang",
+      "clone": "https://github.com/sgl-project/sglang.git",
+      "homepage": "https://sglang.io"
+    },
+    "raw": {
+      "full_name": "sgl-project/sglang",
+      "language": "Python",
+      "pushed_at": "2026-05-06T03:21:36Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_zerolu_awesome_seedance",
+    "content_type": "repo",
+    "title": "ZeroLu/awesome-seedance",
+    "url": "https://github.com/ZeroLu/awesome-seedance",
+    "source": "github",
+    "summary": "The ultimate collection of high-fidelity Seedance 2.0 prompts and Seedance AI resources. Discover Seedance 2.0 how to use for cinematic film, anime, UGC, social media, meme and advertising. Includes Seedance API guides and advanced video generation workflows.",
+    "tags": [
+      "video generation",
+      "ai",
+      "how-to-use",
+      "prompt-engineering",
+      "prompts",
+      "seedance",
+      "Shell"
+    ],
+    "authors": [
+      "ZeroLu"
+    ],
+    "published_at": "2026-02-10T03:17:40Z",
+    "discovered_at": "2026-05-06T03:22:32+00:00",
+    "metrics": {
+      "stars": 1659.0,
+      "forks": 202.0,
+      "open_issues": 0.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": false,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "low",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": true,
+      "marketing_only": false,
+      "trend_signal": 7.2,
+      "has_known_gap": false,
+      "technical_core": "The ultimate collection of high-fidelity Seedance 2.0 prompts and Seedance AI resources. Discover Seedance 2.0 how to use for cinematic film, anime, UGC, social media, meme and advertising. Includes Seedance API guides and advanced video generation workflows."
+    },
+    "links": {
+      "api": "https://api.github.com/repos/ZeroLu/awesome-seedance",
+      "clone": "https://github.com/ZeroLu/awesome-seedance.git",
+      "homepage": "https://cyberbara.com/seedance2.0?utm_source=awesome-seedance"
+    },
+    "raw": {
+      "full_name": "ZeroLu/awesome-seedance",
+      "language": "Shell",
+      "pushed_at": "2026-05-06T03:21:08Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_dozavisuals_doza_assist",
+    "content_type": "repo",
+    "title": "DozaVisuals/doza-assist",
+    "url": "https://github.com/DozaVisuals/doza-assist",
+    "source": "github",
+    "summary": "AI editor's assistant that learns your style from your own cuts. Turn interview footage into rough cuts for Final Cut, Premiere, and Resolve. Mac-native. Local-first.",
+    "tags": [
+      "controllable video editing",
+      "ai",
+      "documentary",
+      "fcpxml",
+      "filmmaker",
+      "final-cut-pro",
+      "Python"
+    ],
+    "authors": [
+      "DozaVisuals"
+    ],
+    "published_at": "2026-04-07T19:27:09Z",
+    "discovered_at": "2026-05-06T03:22:32+00:00",
+    "metrics": {
+      "stars": 40.0,
+      "forks": 10.0,
+      "open_issues": 0.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "medium",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 5.0,
+      "has_known_gap": false,
+      "technical_core": "AI editor's assistant that learns your style from your own cuts. Turn interview footage into rough cuts for Final Cut, Premiere, and Resolve. Mac-native. Local-first."
+    },
+    "links": {
+      "api": "https://api.github.com/repos/DozaVisuals/doza-assist",
+      "clone": "https://github.com/DozaVisuals/doza-assist.git",
+      "homepage": "https://www.dozavisuals.com/doza-assist"
+    },
+    "raw": {
+      "full_name": "DozaVisuals/doza-assist",
+      "language": "Python",
+      "pushed_at": "2026-05-06T03:20:46Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_nerds_odd_e_doughnut",
+    "content_type": "repo",
+    "title": "nerds-odd-e/doughnut",
+    "url": "https://github.com/nerds-odd-e/doughnut",
+    "source": "github",
+    "summary": "Learning aide, note taking, team learning, etc.",
+    "tags": [
+      "TypeScript"
+    ],
+    "authors": [
+      "nerds-odd-e"
+    ],
+    "published_at": "2020-12-14T06:52:48Z",
+    "discovered_at": "2026-05-06T03:22:32+00:00",
+    "metrics": {
+      "stars": 48.0,
+      "forks": 67.0,
+      "open_issues": 5.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "medium",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 5.0,
+      "has_known_gap": false,
+      "technical_core": "Learning aide, note taking, team learning, etc."
+    },
+    "links": {
+      "api": "https://api.github.com/repos/nerds-odd-e/doughnut",
+      "clone": "https://github.com/nerds-odd-e/doughnut.git",
+      "homepage": ""
+    },
+    "raw": {
+      "full_name": "nerds-odd-e/doughnut",
+      "language": "TypeScript",
+      "pushed_at": "2026-05-06T03:20:19Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_ther1d_shell_gpt",
+    "content_type": "repo",
+    "title": "TheR1D/shell_gpt",
+    "url": "https://github.com/TheR1D/shell_gpt",
+    "source": "github",
+    "summary": "A command-line productivity tool powered by AI large language models like GPT-5, will help you accomplish your tasks faster and more efficiently.",
+    "tags": [
+      "chatgpt",
+      "cheat-sheet",
+      "cli",
+      "commands",
+      "gpt-3",
+      "Python"
+    ],
+    "authors": [
+      "TheR1D"
+    ],
+    "published_at": "2023-01-18T19:40:11Z",
+    "discovered_at": "2026-05-06T03:22:32+00:00",
+    "metrics": {
+      "stars": 12046.0,
+      "forks": 959.0,
+      "open_issues": 117.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "medium",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 7.2,
+      "has_known_gap": false,
+      "technical_core": "A command-line productivity tool powered by AI large language models like GPT-5, will help you accomplish your tasks faster and more efficiently."
+    },
+    "links": {
+      "api": "https://api.github.com/repos/TheR1D/shell_gpt",
+      "clone": "https://github.com/TheR1D/shell_gpt.git",
+      "homepage": ""
+    },
+    "raw": {
+      "full_name": "TheR1D/shell_gpt",
+      "language": "Python",
+      "pushed_at": "2026-05-06T03:22:23Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_lobehub_lobehub",
+    "content_type": "repo",
+    "title": "lobehub/lobehub",
+    "url": "https://github.com/lobehub/lobehub",
+    "source": "github",
+    "summary": "The ultimate space for work and life — to find, build, and collaborate with agent teammates that grow with you. We are taking agent harness to the next level — enabling multi-agent collaboration, effortless agent team design, and introducing agents as the unit of work interaction.",
+    "tags": [
+      "multimodal agents",
+      "agent",
+      "agent-collaboration",
+      "agent-harness",
+      "ai",
+      "chatgpt",
+      "TypeScript"
+    ],
+    "authors": [
+      "lobehub"
+    ],
+    "published_at": "2023-05-21T07:19:12Z",
+    "discovered_at": "2026-05-06T03:22:33+00:00",
+    "metrics": {
+      "stars": 76081.0,
+      "forks": 15074.0,
+      "open_issues": 762.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "medium",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 7.2,
+      "has_known_gap": false,
+      "technical_core": "The ultimate space for work and life — to find, build, and collaborate with agent teammates that grow with you. We are taking agent harness to the next level — enabling multi-agent collaboration, effortless agent team design, and introducing agents as the unit of work interaction."
+    },
+    "links": {
+      "api": "https://api.github.com/repos/lobehub/lobehub",
+      "clone": "https://github.com/lobehub/lobehub.git",
+      "homepage": "https://lobehub.com"
+    },
+    "raw": {
+      "full_name": "lobehub/lobehub",
+      "language": "TypeScript",
+      "pushed_at": "2026-05-06T03:20:13Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_coding_by_feng_ai_agent_session_center",
+    "content_type": "repo",
+    "title": "coding-by-feng/ai-agent-session-center",
+    "url": "https://github.com/coding-by-feng/ai-agent-session-center",
+    "source": "github",
+    "summary": "Real-time dashboard that turns AI coding agent sessions (Claude Code, Gemini CLI, Codex) into animated 3D robots — with live terminals, prompt history, tool logs, and queuing. Runs on any device.",
+    "tags": [
+      "multimodal agents",
+      "ai",
+      "ai-agents",
+      "claude",
+      "claude-code",
+      "codex",
+      "TypeScript"
+    ],
+    "authors": [
+      "coding-by-feng"
+    ],
+    "published_at": "2026-02-11T22:58:58Z",
+    "discovered_at": "2026-05-06T03:22:33+00:00",
+    "metrics": {
+      "stars": 68.0,
+      "forks": 9.0,
+      "open_issues": 0.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": false,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "medium",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 5.0,
+      "has_known_gap": false,
+      "technical_core": "Real-time dashboard that turns AI coding agent sessions (Claude Code, Gemini CLI, Codex) into animated 3D robots — with live terminals, prompt history, tool logs, and queuing. Runs on any device."
+    },
+    "links": {
+      "api": "https://api.github.com/repos/coding-by-feng/ai-agent-session-center",
+      "clone": "https://github.com/coding-by-feng/ai-agent-session-center.git",
+      "homepage": "https://aasc.work"
+    },
+    "raw": {
+      "full_name": "coding-by-feng/ai-agent-session-center",
+      "language": "TypeScript",
+      "pushed_at": "2026-05-06T03:20:07Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_jason5ng32_macify",
+    "content_type": "repo",
+    "title": "jason5ng32/Macify",
+    "url": "https://github.com/jason5ng32/Macify",
+    "source": "github",
+    "summary": "Turn your Chrome's new tab page into macOS' gorgeous screensaver aerial videos.",
+    "tags": [
+      "Svelte"
+    ],
+    "authors": [
+      "jason5ng32"
+    ],
+    "published_at": "2023-10-25T04:00:21Z",
+    "discovered_at": "2026-05-06T03:22:33+00:00",
+    "metrics": {
+      "stars": 163.0,
+      "forks": 14.0,
+      "open_issues": 1.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "medium",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 6.0,
+      "has_known_gap": false,
+      "technical_core": "Turn your Chrome's new tab page into macOS' gorgeous screensaver aerial videos."
+    },
+    "links": {
+      "api": "https://api.github.com/repos/jason5ng32/Macify",
+      "clone": "https://github.com/jason5ng32/Macify.git",
+      "homepage": "https://chromewebstore.google.com/detail/macify-macos-screensaver/lgdipcalomggcjkohjhkhkbcpgladnoe?hl=zh-CN"
+    },
+    "raw": {
+      "full_name": "jason5ng32/Macify",
+      "language": "Svelte",
+      "pushed_at": "2026-05-06T03:19:58Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_volcengine_openviking",
+    "content_type": "repo",
+    "title": "volcengine/OpenViking",
+    "url": "https://github.com/volcengine/OpenViking",
+    "source": "github",
+    "summary": "OpenViking is an open-source context database designed specifically for AI Agents(such as openclaw). OpenViking unifies the management of context (memory, resources, and skills) that Agents need through a file system paradigm, enabling hierarchical context delivery and self-evolving.",
+    "tags": [
+      "multimodal agents",
+      "retrieval augmented generation",
+      "agent",
+      "agentic-rag",
+      "ai-agents",
+      "clawbot",
+      "context-database",
+      "Python"
+    ],
+    "authors": [
+      "volcengine"
+    ],
+    "published_at": "2026-01-05T07:11:17Z",
+    "discovered_at": "2026-05-06T03:22:35+00:00",
+    "metrics": {
+      "stars": 23496.0,
+      "forks": 1733.0,
+      "open_issues": 247.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "medium",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 7.2,
+      "has_known_gap": false,
+      "technical_core": "OpenViking is an open-source context database designed specifically for AI Agents(such as openclaw). OpenViking unifies the management of context (memory, resources, and skills) that Agents need through a file system paradigm, enabling hierarchical context delivery and self-evolving."
+    },
+    "links": {
+      "api": "https://api.github.com/repos/volcengine/OpenViking",
+      "clone": "https://github.com/volcengine/OpenViking.git",
+      "homepage": "https://openviking.ai"
+    },
+    "raw": {
+      "full_name": "volcengine/OpenViking",
+      "language": "Python",
+      "pushed_at": "2026-05-06T03:21:55Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_primeintellect_ai_prime_rl",
+    "content_type": "repo",
+    "title": "PrimeIntellect-ai/prime-rl",
+    "url": "https://github.com/PrimeIntellect-ai/prime-rl",
+    "source": "github",
+    "summary": "Agentic RL Training at Scale",
+    "tags": [
+      "multimodal agents",
+      "Python"
+    ],
+    "authors": [
+      "PrimeIntellect-ai"
+    ],
+    "published_at": "2025-02-18T02:56:56Z",
+    "discovered_at": "2026-05-06T03:22:35+00:00",
+    "metrics": {
+      "stars": 1340.0,
+      "forks": 282.0,
+      "open_issues": 88.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "high",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 7.2,
+      "has_known_gap": false,
+      "technical_core": "Agentic RL Training at Scale"
+    },
+    "links": {
+      "api": "https://api.github.com/repos/PrimeIntellect-ai/prime-rl",
+      "clone": "https://github.com/PrimeIntellect-ai/prime-rl.git",
+      "homepage": ""
+    },
+    "raw": {
+      "full_name": "PrimeIntellect-ai/prime-rl",
+      "language": "Python",
+      "pushed_at": "2026-05-06T03:20:28Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_tencent_weknora",
+    "content_type": "repo",
+    "title": "Tencent/WeKnora",
+    "url": "https://github.com/Tencent/WeKnora",
+    "source": "github",
+    "summary": "Open-source LLM knowledge platform: turn raw documents into a queryable RAG, an autonomous reasoning agent, and a self-maintaining Wiki.",
+    "tags": [
+      "evaluation benchmark",
+      "multimodal agents",
+      "retrieval augmented generation",
+      "agent",
+      "agentic",
+      "ai",
+      "chatbot",
+      "embeddings",
+      "Go"
+    ],
+    "authors": [
+      "Tencent"
+    ],
+    "published_at": "2025-07-22T08:01:23Z",
+    "discovered_at": "2026-05-06T03:22:35+00:00",
+    "metrics": {
+      "stars": 14254.0,
+      "forks": 1733.0,
+      "open_issues": 162.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": true,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "medium",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 7.2,
+      "has_known_gap": false,
+      "technical_core": "Open-source LLM knowledge platform: turn raw documents into a queryable RAG, an autonomous reasoning agent, and a self-maintaining Wiki."
+    },
+    "links": {
+      "api": "https://api.github.com/repos/Tencent/WeKnora",
+      "clone": "https://github.com/Tencent/WeKnora.git",
+      "homepage": "https://weknora.weixin.qq.com"
+    },
+    "raw": {
+      "full_name": "Tencent/WeKnora",
+      "language": "Go",
+      "pushed_at": "2026-05-06T03:19:56Z",
+      "archived": false,
+      "disabled": false
+    }
+  },
+  {
+    "item_id": "github_danny_avila_librechat",
+    "content_type": "repo",
+    "title": "danny-avila/LibreChat",
+    "url": "https://github.com/danny-avila/LibreChat",
+    "source": "github",
+    "summary": "Enhanced ChatGPT Clone: Features Agents, MCP, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Vertex AI, Gemini, Artifacts, AI model switching, message search, Code Interpreter, langchain, DALL-E-3, OpenAPI Actions, Functions, Secure Multi-User Auth, Presets, open-source for self-hosting. Active.",
+    "tags": [
+      "multimodal agents",
+      "ai",
+      "anthropic",
+      "artifacts",
+      "aws",
+      "azure",
+      "TypeScript"
+    ],
+    "authors": [
+      "danny-avila"
+    ],
+    "published_at": "2023-02-12T01:06:52Z",
+    "discovered_at": "2026-05-06T03:22:35+00:00",
+    "metrics": {
+      "stars": 36604.0,
+      "forks": 7498.0,
+      "open_issues": 421.0
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "medium",
+      "last_commit_days": 0,
+      "readme_quality": "metadata_only",
+      "baseline_ready": false,
+      "is_prompt_collection": false,
+      "marketing_only": false,
+      "trend_signal": 7.2,
+      "has_known_gap": false,
+      "technical_core": "Enhanced ChatGPT Clone: Features Agents, MCP, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Vertex AI, Gemini, Artifacts, AI model switching, message search, Code Interpreter, langchain, DALL-E-3, OpenAPI Actions, Functions, Secure Multi-User Auth, Presets, open-source for self-hosting. Active."
+    },
+    "links": {
+      "api": "https://api.github.com/repos/danny-avila/LibreChat",
+      "clone": "https://github.com/danny-avila/LibreChat.git",
+      "homepage": "https://librechat.ai/"
+    },
+    "raw": {
+      "full_name": "danny-avila/LibreChat",
+      "language": "TypeScript",
+      "pushed_at": "2026-05-06T03:18:10Z",
+      "archived": false,
+      "disabled": false
+    }
+  }
+]

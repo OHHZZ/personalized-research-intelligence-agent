@@ -1,0 +1,906 @@
+[
+  {
+    "item_id": "arxiv_2605_03849v1",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 6.26,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.43,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_03652v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 3.7,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.35,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_03475v1",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 7.56,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.98,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_02134v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 1.1,
+    "reasons": [
+      "low technical or evidence quality"
+    ],
+    "signals": {
+      "combined_score": 6.26,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_01896v1",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 5.56,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.14,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_01725v1",
+    "status": "candidate",
+    "relevance_score": 5.97,
+    "quality_score": 5.56,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 5.8,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_01720v1",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 5.56,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.14,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_01662v1",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 5.56,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.14,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2603_24793v1",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 5.61,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.16,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2603_02175v3",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.91,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.86,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2601_01720v3",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 3.0,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.06,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2512_17504v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 2.3,
+    "reasons": [
+      "low technical or evidence quality"
+    ],
+    "signals": {
+      "combined_score": 6.77,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2511_18277v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 2.3,
+    "reasons": [
+      "low technical or evidence quality"
+    ],
+    "signals": {
+      "combined_score": 6.77,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2506_22432v2",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 2.3,
+    "reasons": [
+      "low technical or evidence quality"
+    ],
+    "signals": {
+      "combined_score": 6.77,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2504_14335v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 2.3,
+    "reasons": [
+      "low technical or evidence quality"
+    ],
+    "signals": {
+      "combined_score": 6.77,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2402_14316v1",
+    "status": "low_priority",
+    "relevance_score": 6.52,
+    "quality_score": 0.0,
+    "reasons": [
+      "low technical or evidence quality"
+    ],
+    "signals": {
+      "combined_score": 3.78,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_02130v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.4,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.65,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_27419v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.4,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.65,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_27269v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 3.7,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.35,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_26752v1",
+    "status": "low_priority",
+    "relevance_score": 5.97,
+    "quality_score": 1.1,
+    "reasons": [
+      "low technical or evidence quality"
+    ],
+    "signals": {
+      "combined_score": 3.92,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_22038v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 3.4,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.23,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_20486v1",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 5.26,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.01,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_19857v1",
+    "status": "low_priority",
+    "relevance_score": 6.52,
+    "quality_score": 0.8,
+    "reasons": [
+      "low technical or evidence quality"
+    ],
+    "signals": {
+      "combined_score": 4.12,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_17475v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.1,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.52,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_04040v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 3.7,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.35,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_03984v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.4,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.65,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_03877v1",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 5.56,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.14,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_03802v1",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 5.56,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.14,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_03764v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 3.7,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.35,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_03648v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 1.1,
+    "reasons": [
+      "low technical or evidence quality"
+    ],
+    "signals": {
+      "combined_score": 6.26,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_03639v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 3.7,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.35,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_04039v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.4,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.65,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2605_01945v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.4,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.65,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_28078v1",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 6.26,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.43,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_28075v2",
+    "status": "candidate",
+    "relevance_score": 5.98,
+    "quality_score": 6.26,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 6.1,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_27914v1",
+    "status": "candidate",
+    "relevance_score": 5.43,
+    "quality_score": 4.4,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 5.0,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_26269v1",
+    "status": "candidate",
+    "relevance_score": 5.43,
+    "quality_score": 4.4,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 5.0,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_25318v1",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.4,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.65,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "arxiv_2604_25313v2",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.4,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.65,
+      "content_type": "paper"
+    }
+  },
+  {
+    "item_id": "github_dicklesworthstone_flywheel_connectors",
+    "status": "candidate",
+    "relevance_score": 5.97,
+    "quality_score": 4.18,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 5.22,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_dozavisuals_doza_assist",
+    "status": "candidate",
+    "relevance_score": 6.52,
+    "quality_score": 4.17,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 5.53,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_eisenzopf_rvoip",
+    "status": "reject",
+    "relevance_score": 0.0,
+    "quality_score": 1.9,
+    "reasons": [
+      "weak relation to the user profile",
+      "low technical or evidence quality",
+      "README is too thin to evaluate implementation value"
+    ],
+    "signals": {
+      "combined_score": 0.8,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_lingtai_ai_lingtai",
+    "status": "reject",
+    "relevance_score": 0.55,
+    "quality_score": 1.87,
+    "reasons": [
+      "weak relation to the user profile",
+      "low technical or evidence quality",
+      "README is too thin to evaluate implementation value"
+    ],
+    "signals": {
+      "combined_score": 1.1,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_nerds_odd_e_doughnut",
+    "status": "reject",
+    "relevance_score": 0.0,
+    "quality_score": 4.17,
+    "reasons": [
+      "weak relation to the user profile"
+    ],
+    "signals": {
+      "combined_score": 1.75,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_youmind_openlab_awesome_seedance_2_prompts",
+    "status": "low_priority",
+    "relevance_score": 5.97,
+    "quality_score": 1.21,
+    "reasons": [
+      "low technical or evidence quality",
+      "prompt collection rather than a technical contribution"
+    ],
+    "signals": {
+      "combined_score": 3.97,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_droicheadnua_mirrorshard_2",
+    "status": "low_priority",
+    "relevance_score": 5.25,
+    "quality_score": 4.16,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 4.79,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_ksenxx_kiss_ai",
+    "status": "candidate",
+    "relevance_score": 5.97,
+    "quality_score": 5.34,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 5.71,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_qwenlm_qwen_code",
+    "status": "candidate",
+    "relevance_score": 6.52,
+    "quality_score": 5.2,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 5.97,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_bradgroux_veritas_kanban",
+    "status": "candidate",
+    "relevance_score": 5.97,
+    "quality_score": 4.94,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 5.54,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_profullstack_media_streamer",
+    "status": "reject",
+    "relevance_score": 0.0,
+    "quality_score": 3.27,
+    "reasons": [
+      "weak relation to the user profile"
+    ],
+    "signals": {
+      "combined_score": 1.37,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_carguo_gsyvideoplayer",
+    "status": "candidate",
+    "relevance_score": 5.98,
+    "quality_score": 5.2,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 5.65,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_nokodo_labs_os1",
+    "status": "reject",
+    "relevance_score": 1.1,
+    "quality_score": 4.25,
+    "reasons": [
+      "weak relation to the user profile"
+    ],
+    "signals": {
+      "combined_score": 2.42,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_unic_lab_awesome_radio_map_categorized",
+    "status": "low_priority",
+    "relevance_score": 4.7,
+    "quality_score": 4.07,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 4.44,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_evolvinglmms_lab_lmms_eval",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 6.8,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.66,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_chenliu_1996_figures4papers",
+    "status": "candidate",
+    "relevance_score": 5.25,
+    "quality_score": 5.08,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 5.18,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_shenlan_ai_ai_hr",
+    "status": "reject",
+    "relevance_score": 0.55,
+    "quality_score": 4.16,
+    "reasons": [
+      "weak relation to the user profile"
+    ],
+    "signals": {
+      "combined_score": 2.07,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_bredrumb_tomoribot",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.16,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.55,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_volcengine_minecontext",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 5.2,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.98,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_hoilc_scoop_lemon",
+    "status": "reject",
+    "relevance_score": 0.0,
+    "quality_score": 4.28,
+    "reasons": [
+      "weak relation to the user profile"
+    ],
+    "signals": {
+      "combined_score": 1.8,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_gomlx_gomlx",
+    "status": "reject",
+    "relevance_score": 0.0,
+    "quality_score": 5.9,
+    "reasons": [
+      "weak relation to the user profile"
+    ],
+    "signals": {
+      "combined_score": 2.48,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_langgenius_dify",
+    "status": "high_priority",
+    "relevance_score": 10.0,
+    "quality_score": 5.9,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 8.28,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_nvidia_tensorrt_llm",
+    "status": "low_priority",
+    "relevance_score": 0.55,
+    "quality_score": 7.3,
+    "reasons": [
+      "weak relation to the user profile"
+    ],
+    "signals": {
+      "combined_score": 3.38,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_liliu_avril_awesome_segment_anything",
+    "status": "reject",
+    "relevance_score": 0.55,
+    "quality_score": 5.18,
+    "reasons": [
+      "weak relation to the user profile"
+    ],
+    "signals": {
+      "combined_score": 2.49,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_ai_dynamo_dynamo",
+    "status": "reject",
+    "relevance_score": 0.0,
+    "quality_score": 7.3,
+    "reasons": [
+      "weak relation to the user profile"
+    ],
+    "signals": {
+      "combined_score": 3.07,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_aben1188_my_star_repos",
+    "status": "reject",
+    "relevance_score": 0.0,
+    "quality_score": 0.96,
+    "reasons": [
+      "weak relation to the user profile",
+      "low technical or evidence quality",
+      "README is too thin to evaluate implementation value"
+    ],
+    "signals": {
+      "combined_score": 0.4,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_vmoranv_jshookmcp",
+    "status": "reject",
+    "relevance_score": 0.0,
+    "quality_score": 5.9,
+    "reasons": [
+      "weak relation to the user profile"
+    ],
+    "signals": {
+      "combined_score": 2.48,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_dicklesworthstone_frankensqlite",
+    "status": "reject",
+    "relevance_score": 0.0,
+    "quality_score": 4.23,
+    "reasons": [
+      "weak relation to the user profile"
+    ],
+    "signals": {
+      "combined_score": 1.78,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_joshuaswarren_remnic",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.18,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.56,
+      "content_type": "repo"
+    }
+  },
+  {
+    "item_id": "github_alejandroll10_zeropaper",
+    "status": "candidate",
+    "relevance_score": 10.0,
+    "quality_score": 4.96,
+    "reasons": [
+      "passes relevance and quality checks"
+    ],
+    "signals": {
+      "combined_score": 7.88,
+      "content_type": "repo"
+    }
+  }
+]

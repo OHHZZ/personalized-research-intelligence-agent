@@ -1,0 +1,45 @@
+{
+  "user_id": "default_user",
+  "display_name": "Researcher",
+  "research_domains": [
+    "video generation",
+    "controllable video editing",
+    "multimodal agents"
+  ],
+  "methods": [
+    "diffusion models",
+    "evaluation benchmark",
+    "retrieval augmented generation"
+  ],
+  "applications": [
+    "AI drawing",
+    "AI video editing",
+    "academic writing"
+  ],
+  "preferred_content": [
+    "paper",
+    "repo",
+    "benchmark",
+    "tool",
+    "article"
+  ],
+  "excluded_topics": [
+    "prompt collection",
+    "marketing only",
+    "thin readme"
+  ],
+  "technical_level": "researcher",
+  "current_goals": [
+    "find publishable research gaps",
+    "find baseline projects",
+    "track open-source tools"
+  ],
+  "feedback_weights": {
+    "video generation": 1.15,
+    "evaluation benchmark": 1.15,
+    "temporal consistency evaluation": 1.15,
+    "retrieval augmented generation": 1.15,
+    "cs.cv": 1.15
+  },
+  "updated_at": "2026-05-05T00:00:00+00:00"
+}

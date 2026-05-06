@@ -1,0 +1,392 @@
+[
+  {
+    "item_id": "paper_temporal_control_diffusion",
+    "content_type": "paper",
+    "title": "Temporal Control Diffusion for Instruction-Guided Video Editing",
+    "url": "https://example.org/papers/temporal-control-diffusion",
+    "source": "arxiv",
+    "summary": "A diffusion-based video editing method that introduces explicit temporal consistency constraints for instruction-guided controllable video editing.",
+    "tags": [
+      "video generation",
+      "controllable video editing",
+      "diffusion models",
+      "temporal consistency evaluation"
+    ],
+    "authors": [
+      "Sample Author"
+    ],
+    "published_at": "2026-05-01T00:00:00+00:00",
+    "metrics": {
+      "citations": 0,
+      "downloads_7d": 240
+    },
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": true,
+      "has_strong_baselines": true,
+      "has_code": true,
+      "has_benchmark": true,
+      "baseline_count": 8,
+      "novelty": 8.3,
+      "technical_depth": "high",
+      "trend_signal": 8.6,
+      "has_known_gap": true,
+      "benchmark_gap": true,
+      "technical_core": "A temporal control module regularizes frame-level diffusion edits with cross-frame constraints and evaluates identity, motion, and temporal consistency."
+    },
+    "links": {
+      "code": "https://example.org/repos/tcd-video-edit"
+    }
+  },
+  {
+    "item_id": "repo_open_video_consistency_bench",
+    "content_type": "repo",
+    "title": "OpenVideoConsistencyBench",
+    "url": "https://github.com/example/open-video-consistency-bench",
+    "source": "github",
+    "summary": "An open-source benchmark toolkit for evaluating temporal consistency in video generation and controllable video editing models.",
+    "tags": [
+      "video generation",
+      "evaluation benchmark",
+      "temporal consistency evaluation",
+      "open-source tools"
+    ],
+    "published_at": "2026-04-28T00:00:00+00:00",
+    "metrics": {
+      "stars": 1420,
+      "stars_30d": 310,
+      "forks": 122
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": true,
+      "has_tests": true,
+      "has_license": true,
+      "has_paper_link": true,
+      "has_code": true,
+      "has_metrics": true,
+      "has_leaderboard": true,
+      "technical_depth": "high",
+      "last_commit_days": 4,
+      "readme_quality": "strong",
+      "baseline_ready": true,
+      "trend_signal": 8.2,
+      "benchmark_gap": true,
+      "technical_core": "The repo implements metric wrappers, dataset adapters, leaderboard export, and failure-case visualization for video temporal consistency."
+    },
+    "links": {
+      "paper": "https://example.org/papers/open-video-consistency-bench"
+    }
+  },
+  {
+    "item_id": "paper_rag_scientific_writing_agents",
+    "content_type": "paper",
+    "title": "Retrieval-Augmented Scientific Writing Agents with Citation-Aware Planning",
+    "url": "https://example.org/papers/rag-scientific-writing-agents",
+    "source": "semantic_scholar",
+    "summary": "A multi-agent academic writing system that plans sections, retrieves evidence, and verifies citation grounding for paper drafting workflows.",
+    "tags": [
+      "multimodal agents",
+      "retrieval augmented generation",
+      "academic writing",
+      "agent evaluation"
+    ],
+    "authors": [
+      "Sample Author"
+    ],
+    "published_at": "2026-04-20T00:00:00+00:00",
+    "metrics": {
+      "citations": 3,
+      "downloads_7d": 120
+    },
+    "technical_signals": {
+      "has_experiments": true,
+      "has_ablation": true,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 4,
+      "novelty": 6.8,
+      "technical_depth": "medium",
+      "trend_signal": 6.7,
+      "has_known_gap": true,
+      "technical_core": "The system decomposes writing into outline planning, retrieval, drafting, and citation verification agents."
+    },
+    "links": {}
+  },
+  {
+    "item_id": "tool_drawing_model_eval_report",
+    "content_type": "tool",
+    "title": "AI Drawing Model Evaluation Report: Prompt Fidelity, Layout, and Editability",
+    "url": "https://example.org/reports/ai-drawing-model-eval",
+    "source": "research_blog",
+    "summary": "A technical report comparing AI drawing systems on prompt fidelity, layout control, local editing, and repeatability across real design tasks.",
+    "tags": [
+      "AI drawing",
+      "evaluation benchmark",
+      "multimodal agents",
+      "image generation"
+    ],
+    "published_at": "2026-04-30T00:00:00+00:00",
+    "metrics": {
+      "shares_7d": 80
+    },
+    "technical_signals": {
+      "has_public_eval": true,
+      "has_api_or_sdk": false,
+      "technical_report": true,
+      "supports_research_workflow": true,
+      "technical_depth": "medium",
+      "trend_signal": 6.9,
+      "technical_core": "The report uses task-level evaluation rubrics for image generation quality, controllability, and editability."
+    },
+    "links": {}
+  },
+  {
+    "item_id": "repo_videditflow",
+    "content_type": "repo",
+    "title": "VidEditFlow",
+    "url": "https://github.com/example/videditflow",
+    "source": "github",
+    "summary": "A modular inference pipeline for controllable video editing with adapters for text instructions, masks, and reference frames.",
+    "tags": [
+      "controllable video editing",
+      "AI video editing",
+      "diffusion models",
+      "baseline projects"
+    ],
+    "published_at": "2026-04-12T00:00:00+00:00",
+    "metrics": {
+      "stars": 860,
+      "stars_30d": 190,
+      "forks": 77
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": true,
+      "has_tests": false,
+      "has_license": true,
+      "has_paper_link": false,
+      "has_code": true,
+      "technical_depth": "medium",
+      "last_commit_days": 11,
+      "readme_quality": "strong",
+      "baseline_ready": true,
+      "trend_signal": 7.7,
+      "has_known_gap": true,
+      "technical_core": "The core pipeline separates instruction parsing, frame conditioning, diffusion inference, and temporal smoothing."
+    },
+    "links": {}
+  },
+  {
+    "item_id": "benchmark_controllable_video_editing",
+    "content_type": "benchmark",
+    "title": "Controllable Video Editing Benchmark 2026",
+    "url": "https://example.org/benchmarks/controllable-video-editing-2026",
+    "source": "papers_with_code",
+    "summary": "A benchmark suite for instruction following, object preservation, local edit accuracy, and temporal consistency in video editing.",
+    "tags": [
+      "controllable video editing",
+      "evaluation benchmark",
+      "temporal consistency evaluation",
+      "video generation"
+    ],
+    "published_at": "2026-04-26T00:00:00+00:00",
+    "metrics": {
+      "leaderboard_entries": 16
+    },
+    "technical_signals": {
+      "has_dataset": true,
+      "has_metrics": true,
+      "has_leaderboard": true,
+      "has_code": true,
+      "technical_depth": "high",
+      "trend_signal": 8.4,
+      "benchmark_gap": true,
+      "technical_core": "The benchmark separates instruction compliance, spatial locality, identity preservation, and temporal consistency."
+    },
+    "links": {}
+  },
+  {
+    "item_id": "article_video_generation_trend",
+    "content_type": "article",
+    "title": "Why Video Generation Research Is Moving Toward Controllable Editing",
+    "url": "https://example.org/articles/video-generation-controllable-editing-trend",
+    "source": "technical_blog",
+    "summary": "A source-cited technical article arguing that recent video generation work is shifting from pure text-to-video to controllable video editing and evaluation.",
+    "tags": [
+      "video generation",
+      "controllable video editing",
+      "temporal consistency evaluation",
+      "industry trend"
+    ],
+    "published_at": "2026-04-29T00:00:00+00:00",
+    "metrics": {
+      "shares_7d": 62
+    },
+    "technical_signals": {
+      "has_technical_details": true,
+      "cites_sources": true,
+      "has_reproducible_steps": false,
+      "technical_depth": "medium",
+      "trend_signal": 7.4,
+      "emerging_topic": true,
+      "technical_core": "The article compares task definitions, benchmark pressure, and failure modes across recent video generation systems."
+    },
+    "links": {}
+  },
+  {
+    "item_id": "tool_academic_llm_workbench",
+    "content_type": "tool",
+    "title": "Academic LLM Workbench Capability Notes",
+    "url": "https://example.org/tools/academic-llm-workbench-notes",
+    "source": "research_blog",
+    "summary": "A practical comparison of academic writing tools on literature review, citation checking, outline planning, and revision support.",
+    "tags": [
+      "academic writing",
+      "retrieval augmented generation",
+      "agent evaluation",
+      "research workflow"
+    ],
+    "published_at": "2026-04-15T00:00:00+00:00",
+    "metrics": {
+      "shares_7d": 38
+    },
+    "technical_signals": {
+      "has_public_eval": true,
+      "has_api_or_sdk": true,
+      "technical_report": true,
+      "supports_research_workflow": true,
+      "technical_depth": "medium",
+      "trend_signal": 6.3,
+      "commercial_only": true,
+      "technical_core": "The notes compare evidence retrieval, citation grounding, draft revision, and formatting reliability."
+    },
+    "links": {}
+  },
+  {
+    "item_id": "repo_prompt_pack_video_ai",
+    "content_type": "repo",
+    "title": "Video AI Super Prompt Collection",
+    "url": "https://github.com/example/video-ai-super-prompts",
+    "source": "github",
+    "summary": "A large prompt collection for video generation tools with little implementation detail or evaluation.",
+    "tags": [
+      "video generation",
+      "prompt collection",
+      "marketing only"
+    ],
+    "published_at": "2026-05-03T00:00:00+00:00",
+    "metrics": {
+      "stars": 2200,
+      "stars_30d": 900,
+      "forks": 340
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": false,
+      "has_code": false,
+      "technical_depth": "low",
+      "last_commit_days": 2,
+      "readme_quality": "thin",
+      "is_prompt_collection": true,
+      "marketing_only": true,
+      "trend_signal": 5.0,
+      "technical_core": "Prompt examples without implementation, evaluation, or method details."
+    },
+    "links": {}
+  },
+  {
+    "item_id": "paper_weak_video_generation_note",
+    "content_type": "paper",
+    "title": "A Short Note on Better Text-to-Video Prompts",
+    "url": "https://example.org/papers/short-note-video-prompts",
+    "source": "arxiv",
+    "summary": "A short paper claiming improved video generation quality through prompt wording, without controlled experiments or strong baselines.",
+    "tags": [
+      "video generation",
+      "prompt collection"
+    ],
+    "authors": [
+      "Sample Author"
+    ],
+    "published_at": "2026-05-02T00:00:00+00:00",
+    "metrics": {
+      "downloads_7d": 520
+    },
+    "technical_signals": {
+      "has_experiments": false,
+      "has_ablation": false,
+      "has_strong_baselines": false,
+      "has_code": false,
+      "has_benchmark": false,
+      "baseline_count": 0,
+      "novelty": 2.1,
+      "technical_depth": "low",
+      "trend_signal": 4.0,
+      "technical_core": "Prompt wording examples without rigorous evaluation."
+    },
+    "links": {}
+  },
+  {
+    "item_id": "article_marketing_video_tool",
+    "content_type": "article",
+    "title": "The Only AI Video Editing Tool You Need This Year",
+    "url": "https://example.org/articles/ai-video-tool-marketing",
+    "source": "product_blog",
+    "summary": "A promotional article about an AI video editing product with limited method details, no benchmark, and no reproducible examples.",
+    "tags": [
+      "AI video editing",
+      "marketing only"
+    ],
+    "published_at": "2026-05-04T00:00:00+00:00",
+    "metrics": {
+      "views_7d": 50000
+    },
+    "technical_signals": {
+      "has_technical_details": false,
+      "cites_sources": false,
+      "has_reproducible_steps": false,
+      "marketing_only": true,
+      "technical_depth": "low",
+      "trend_signal": 5.5,
+      "technical_core": "Product claims without technical or reproducibility evidence."
+    },
+    "links": {}
+  },
+  {
+    "item_id": "repo_old_gan_video",
+    "content_type": "repo",
+    "title": "OldGANVideo",
+    "url": "https://github.com/example/old-gan-video",
+    "source": "github",
+    "summary": "An older GAN-based video generation project with limited maintenance and outdated dependencies.",
+    "tags": [
+      "video generation",
+      "baseline projects"
+    ],
+    "published_at": "2024-01-10T00:00:00+00:00",
+    "metrics": {
+      "stars": 730,
+      "stars_30d": 2,
+      "forks": 120
+    },
+    "technical_signals": {
+      "has_readme": true,
+      "has_examples": false,
+      "has_tests": false,
+      "has_license": true,
+      "has_code": true,
+      "technical_depth": "medium",
+      "last_commit_days": 620,
+      "readme_quality": "average",
+      "baseline_ready": false,
+      "trend_signal": 2.8,
+      "technical_core": "Legacy GAN inference and training scripts with outdated dependency pins."
+    },
+    "links": {}
+  }
+]
+
