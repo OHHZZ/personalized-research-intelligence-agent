@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import os
+import time
 import xml.etree.ElementTree as ET
 
 from research_intel.connectors.base import ContentConnector
@@ -24,12 +25,21 @@ class PaperSourceConnector(ContentConnector):
         behind the same ContentConnector contract.
         """
 
+        self.last_errors = []
         items: list[ContentItem] = []
-        for query in self._queries(profile):
+        delay = float(os.getenv("ARXIV_REQUEST_DELAY_SECONDS", "3"))
+        for index, query in enumerate(self._queries(profile)):
+            if index and delay > 0:
+                time.sleep(delay)
             try:
                 items.extend(self._fetch_arxiv(query))
-            except ConnectorError:
+            except ConnectorError as exc:
+                self.last_errors.append(f"query={query}: {exc}")
+                if "HTTP 429" in str(exc):
+                    break
                 continue
+        if self.last_errors and not items:
+            raise ConnectorError("; ".join(self.last_errors))
         return _dedupe(items)
 
     def _queries(self, profile: UserProfile) -> list[str]:
@@ -49,6 +59,7 @@ class PaperSourceConnector(ContentConnector):
         return queries[: int(os.getenv("LIVE_MAX_QUERIES_PER_SOURCE", "3"))]
 
     def _fetch_arxiv(self, search_query: str, max_results: int = 8) -> list[ContentItem]:
+        max_results = int(os.getenv("ARXIV_RESULTS_PER_QUERY", str(max_results)))
         url = build_url(
             "https://export.arxiv.org/api/query",
             {

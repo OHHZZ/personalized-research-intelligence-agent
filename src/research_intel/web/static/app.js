@@ -4,6 +4,11 @@ const state = {
   candidates: [],
   feedback: [],
   assistantContextItemId: "",
+  health: null,
+  runEvents: [],
+  runEventSource: null,
+  assistantEventSource: null,
+  assistantAbortController: null,
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -29,6 +34,49 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;");
 }
 
+function renderAssistantText(value) {
+  const normalized = String(value || "")
+    .replace(/\r\n/g, "\n")
+    .replace(/[✅🎯⚠️❌🔍➡️]/g, "")
+    .trim();
+  if (!normalized) return "";
+
+  const blocks = [];
+  let listItems = [];
+  const flushList = () => {
+    if (!listItems.length) return;
+    blocks.push(`<ul>${listItems.map((item) => `<li>${formatInlineMarkdown(item)}</li>`).join("")}</ul>`);
+    listItems = [];
+  };
+
+  normalized.split(/\n+/).forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed) {
+      flushList();
+      return;
+    }
+    const bullet = trimmed.match(/^[-*]\s+(.+)$/);
+    const numbered = trimmed.match(/^\d+[.)]\s+(.+)$/);
+    if (bullet || numbered) {
+      listItems.push((bullet || numbered)[1]);
+      return;
+    }
+    flushList();
+    const heading = trimmed.replace(/^#{1,6}\s+/, "");
+    blocks.push(`<p>${formatInlineMarkdown(heading)}</p>`);
+  });
+  flushList();
+  return blocks.join("");
+}
+
+function formatInlineMarkdown(value) {
+  let html = escapeHtml(value)
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+  return html;
+}
+
 function splitLines(value) {
   return String(value || "")
     .split(/\n|,/)
@@ -50,6 +98,7 @@ async function loadInitial() {
   }
   state.candidates = await api("/api/candidates");
   state.feedback = await api("/api/feedback?profile=default_user");
+  state.health = await api("/api/health");
   renderReport();
 }
 
@@ -76,7 +125,7 @@ function renderReport() {
     $("#generatedAt").textContent = "No report loaded";
     return;
   }
-  $("#generatedAt").textContent = `${report.generated_at || ""} · ${report.source_mode || "unknown"}`;
+  $("#generatedAt").textContent = `${report.generated_at || ""} - ${report.source_mode || "unknown"}`;
   const stats = report.filter_stats || {};
   $("#acceptedCount").textContent = (stats.candidate || 0) + (stats.high_priority || 0);
   $("#rejectedCount").textContent = stats.reject || 0;
@@ -94,7 +143,8 @@ function renderReport() {
   renderTrends(report.trends || []);
   renderFiltered();
   renderSaved();
-  renderSourceErrors(report.source_errors || []);
+  renderSourceErrors(report.source_error_count || 0);
+  renderSystemStatus();
   renderAssistantContext();
   drawSignalCanvas(allItems);
 }
@@ -254,18 +304,176 @@ function renderAssistantContext() {
     : "Context: selected item";
 }
 
-function renderSourceErrors(errors) {
+function renderSourceErrors() {
   const panel = $("#sourceErrorsPanel");
-  if (!errors.length) {
+  if (panel) {
     panel.classList.add("hidden");
-    $("#sourceErrors").innerHTML = "";
+  }
+  const sourceErrors = $("#sourceErrors");
+  if (sourceErrors) {
+    sourceErrors.innerHTML = "";
+  }
+}
+
+function renderSystemStatus() {
+  const health = state.health;
+  if (!health) {
+    $("#systemStatus").innerHTML = "<div>Status unavailable.</div>";
+    return;
+  }
+  const lines = [];
+  const llm = health.llm || {};
+  const network = health.network || {};
+  const embedding = health.embedding || {};
+  const pgvector = health.pgvector || {};
+  lines.push(`LLM: ${llm.enabled ? "enabled" : "disabled"} | model=${escapeHtml(llm.model || "")}`);
+  if (network.connector_timeout_seconds) {
+    lines.push(`Network timeout: ${escapeHtml(network.connector_timeout_seconds)}s`);
+  }
+  lines.push(`Embedding: ${escapeHtml(embedding.status || "unknown")} | provider=${escapeHtml(embedding.provider || "")} | model=${escapeHtml(embedding.model || "")}`);
+  lines.push(`pgvector: ${escapeHtml(pgvector.status || "unknown")}${pgvector.table ? ` | table=${escapeHtml(pgvector.table)}` : ""}`);
+  const liveErrorCount = Number(health.latest_live_error_count || 0);
+  lines.push(`Live sources: ${liveErrorCount ? "partial" : "ok"}`);
+  if (liveErrorCount) {
+    lines.push("Source diagnostics are kept in backend artifacts.");
+  }
+  $("#systemStatus").innerHTML = lines.map((line) => `<div>${line}</div>`).join("");
+}
+
+  function shortError(value, limit = 260) {
+    const text = String(value || "")
+      .replace(/https?:\/\/\S+/g, "[url]")
+      .replace(/\s+/g, " ")
+      .trim();
+    return text.length > limit ? `${text.slice(0, limit - 1).trim()}...` : text;
+  }
+
+function closeRunEventSource() {
+  if (state.runEventSource) {
+    state.runEventSource.close();
+    state.runEventSource = null;
+  }
+}
+
+function closeAssistantEventSource() {
+  if (state.assistantEventSource) {
+    state.assistantEventSource.close();
+    state.assistantEventSource = null;
+  }
+  if (state.assistantAbortController) {
+    state.assistantAbortController.abort();
+    state.assistantAbortController = null;
+  }
+}
+
+function resetRunStream() {
+  closeRunEventSource();
+  state.runEvents = [];
+  const panel = $("#runStreamPanel");
+  if (panel) panel.classList.remove("hidden");
+  const meta = $("#runStreamMeta");
+  if (meta) meta.textContent = "Connecting";
+  renderRunTimeline();
+}
+
+function parseRunEvent(event) {
+  try {
+    return JSON.parse(event.data);
+  } catch (error) {
+    return {
+      stage: "stream",
+      status: "error",
+      message: "Malformed stream event",
+      detail: event.data,
+    };
+  }
+}
+
+function appendRunEvent(payload) {
+  const event = {
+    stage: payload.stage || "run",
+    status: payload.status || "running",
+    message: payload.message || "",
+    timestamp: payload.timestamp || new Date().toISOString(),
+    detail: payload.detail || payload.error || "",
+    count: payload.count,
+    candidate_count: payload.candidate_count,
+    analysis_count: payload.analysis_count,
+    trend_count: payload.trend_count,
+  };
+  state.runEvents.push(event);
+  if (state.runEvents.length > 80) {
+    state.runEvents = state.runEvents.slice(-80);
+  }
+  $("#runStatus").textContent = event.detail ? `${event.message}: ${event.detail}` : event.message;
+  renderRunTimeline();
+}
+
+function renderRunTimeline() {
+  const panel = $("#runStreamPanel");
+  const target = $("#runTimeline");
+  if (!panel || !target) return;
+  if (!state.runEvents.length) {
+    target.innerHTML = `<p class="answer">Waiting for agent events.</p>`;
     return;
   }
   panel.classList.remove("hidden");
-  $("#sourceErrors").innerHTML = errors
-    .slice(0, 8)
-    .map((error) => `<div>${escapeHtml(error)}</div>`)
+  const latest = state.runEvents[state.runEvents.length - 1];
+  const meta = $("#runStreamMeta");
+  if (meta) {
+    meta.textContent = `${stageLabel(latest.stage)} - ${latest.status}`;
+  }
+  target.innerHTML = state.runEvents
+    .slice()
+    .reverse()
+    .map((event) => {
+      const detailParts = [];
+      if (event.candidate_count != null) detailParts.push(`${event.candidate_count} candidates`);
+      if (event.analysis_count != null) detailParts.push(`${event.analysis_count} analyses`);
+      if (event.trend_count != null) detailParts.push(`${event.trend_count} trends`);
+      if (event.count != null) detailParts.push(`${event.count} items`);
+      if (event.detail) detailParts.push(shortError(event.detail, 180));
+      const detail = detailParts.length ? `<p>${escapeHtml(detailParts.join(" | "))}</p>` : "";
+      return `
+        <div class="run-event ${escapeHtml(statusClass(event.status))}">
+          <span class="run-dot"></span>
+          <div>
+            <strong>${escapeHtml(stageLabel(event.stage))}</strong>
+            <span>${escapeHtml(event.message)}</span>
+            ${detail}
+          </div>
+          <time>${escapeHtml(formatStreamTime(event.timestamp))}</time>
+        </div>
+      `;
+    })
     .join("");
+}
+
+function statusClass(status) {
+  return String(status || "running").replace(/[^a-z0-9_-]/gi, "");
+}
+
+function stageLabel(stage) {
+  const labels = {
+    run: "Run",
+    profile: "Profile",
+    discovery: "Discovery",
+    filtering: "Filtering",
+    value_analysis: "Value Analysis",
+    evidence: "Evidence",
+    trends: "Trends",
+    recommendation: "Recommendation",
+    storage: "Storage",
+    rag: "RAG",
+    stream: "Stream",
+  };
+  return labels[stage] || String(stage || "Run");
+}
+
+function formatStreamTime(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 }
 
 function drawSignalCanvas(items) {
@@ -369,11 +577,8 @@ function closeDetail() {
   $("#drawerBackdrop").classList.remove("open");
 }
 
-async function runPipeline() {
-  const button = $("#runBtn");
-  button.disabled = true;
-  button.textContent = "Running";
-  $("#runStatus").textContent = "Live sources may take a short while. Slow sources will be skipped and reported below.";
+async function runPipelineFallback(button) {
+  appendRunEvent({ stage: "run", status: "running", message: "Running without stream support" });
   try {
     const payload = await api("/api/run", {
       method: "POST",
@@ -386,9 +591,11 @@ async function runPipeline() {
     state.report = payload.report;
     state.candidates = await api("/api/candidates");
     state.feedback = await api("/api/feedback?profile=default_user");
+    state.health = await api("/api/health");
     renderReport();
+    appendRunEvent({ stage: "run", status: "complete", message: "Pipeline complete" });
   } catch (error) {
-    $("#runStatus").textContent = `Run failed: ${error.message}`;
+    appendRunEvent({ stage: "run", status: "error", message: "Run failed", detail: error.message });
   } finally {
     button.disabled = false;
     button.textContent = "Run";
@@ -396,6 +603,103 @@ async function runPipeline() {
       $("#runStatus").textContent = "Run complete.";
     }
   }
+}
+
+function runPipeline() {
+  const button = $("#runBtn");
+  button.disabled = true;
+  button.textContent = "Running";
+  $("#runStatus").textContent = "Live sources may take a short while. Detailed source diagnostics stay in backend artifacts.";
+  resetRunStream();
+
+  if (!window.EventSource) {
+    runPipelineFallback(button);
+    return;
+  }
+
+  const params = new URLSearchParams({
+    profile: "default_user",
+    source: $("#sourceMode").value,
+    report: "latest",
+  });
+  const source = new EventSource(`/api/run/stream?${params.toString()}`);
+  state.runEventSource = source;
+  let finished = false;
+  let receivedEvent = false;
+  let fallbackStarted = false;
+  const fallbackTimer = window.setTimeout(() => {
+    if (finished || receivedEvent || fallbackStarted) return;
+    fallbackStarted = true;
+    closeRunEventSource();
+    appendRunEvent({ stage: "stream", status: "warning", message: "Stream unavailable, switching to standard run" });
+    runPipelineFallback(button);
+  }, 2500);
+
+  const handleStreamEvent = (event) => {
+    receivedEvent = true;
+    window.clearTimeout(fallbackTimer);
+    appendRunEvent(parseRunEvent(event));
+  };
+
+  source.addEventListener("run.started", handleStreamEvent);
+  source.addEventListener("run.progress", handleStreamEvent);
+  source.addEventListener("run.completed", (event) => {
+    const payload = parseRunEvent(event);
+    finished = true;
+    receivedEvent = true;
+    window.clearTimeout(fallbackTimer);
+    appendRunEvent(payload);
+    closeRunEventSource();
+    state.report = payload.report;
+    Promise.all([
+      api("/api/candidates"),
+      api("/api/feedback?profile=default_user"),
+      api("/api/health"),
+    ])
+      .then(([candidates, feedback, health]) => {
+        state.candidates = candidates;
+        state.feedback = feedback;
+        state.health = health;
+        renderReport();
+      })
+      .catch((error) => {
+        appendRunEvent({ stage: "run", status: "warning", message: "Refresh after run failed", detail: error.message });
+      })
+      .finally(() => {
+        button.disabled = false;
+        button.textContent = "Run";
+        $("#runStatus").textContent = "Run complete.";
+      });
+  });
+  source.addEventListener("run.failed", (event) => {
+    const payload = parseRunEvent(event);
+    finished = true;
+    receivedEvent = true;
+    window.clearTimeout(fallbackTimer);
+    appendRunEvent(payload);
+    closeRunEventSource();
+    button.disabled = false;
+    button.textContent = "Run";
+    $("#runStatus").textContent = `Run failed: ${payload.detail || payload.message}`;
+  });
+  source.onerror = () => {
+    if (finished || fallbackStarted) return;
+    if (source.readyState === EventSource.CONNECTING) {
+      if (!receivedEvent) {
+        $("#runStatus").textContent = "Connecting to stream...";
+      }
+      return;
+    }
+    window.clearTimeout(fallbackTimer);
+    if (!receivedEvent) {
+      fallbackStarted = true;
+      closeRunEventSource();
+      appendRunEvent({ stage: "stream", status: "warning", message: "Stream unavailable, switching to standard run" });
+      runPipelineFallback(button);
+      return;
+    }
+    appendRunEvent({ stage: "stream", status: "warning", message: "Stream interrupted" });
+  };
 }
 
 async function saveProfile(event) {
@@ -442,41 +746,232 @@ function openAssistant(itemId = null) {
 }
 
 function closeAssistant() {
+  closeAssistantEventSource();
   $("#assistantDrawer").classList.remove("open");
 }
 
-function appendAssistantMessage(role, text) {
+function appendAssistantMessage(role, text, payload = {}) {
   const container = $("#assistantMessages");
   const node = document.createElement("div");
   node.className = `message ${role}`;
-  node.textContent = text;
+  renderAssistantMessage(node, text, payload);
   container.appendChild(node);
+  container.scrollTop = container.scrollHeight;
+  return node;
+}
+
+function renderAssistantMessage(node, text, payload = {}) {
+  const sources = payload.sources || [];
+  const mode = payload.mode || "";
+  const evaluation = payload.evaluation || null;
+  const isAssistant = node.classList.contains("assistant");
+  if (!sources.length && !mode && !evaluation) {
+    if (isAssistant) {
+      node.innerHTML = `<div class="message-text">${renderAssistantText(text)}</div>`;
+    } else {
+      node.textContent = text;
+    }
+    return;
+  }
+  const sourceHtml = sources.length
+    ? `
+      <div class="assistant-sources">
+        <div class="source-title">Sources</div>
+        ${sources.slice(0, 4).map((source, index) => `
+          <a class="source-pill" href="${escapeHtml(source.url || "#")}" target="_blank" rel="noreferrer">
+            <span>${index + 1}</span>
+            <strong>${escapeHtml(source.title || source.chunk_id)}</strong>
+            <em>${Number(source.score || 0).toFixed(2)}</em>
+          </a>
+        `).join("")}
+      </div>
+    `
+    : "";
+  const warnings = evaluation && evaluation.warnings && evaluation.warnings.length
+    ? `<div class="assistant-eval">Check: ${evaluation.warnings.map(escapeHtml).join(", ")}</div>`
+    : "";
+  node.innerHTML = `
+    <div class="message-text">${renderAssistantText(text)}</div>
+    ${mode ? `<div class="assistant-mode">${escapeHtml(mode)}</div>` : ""}
+    ${sourceHtml}
+    ${warnings}
+  `;
+}
+
+function renderAssistantProgress(node, payload) {
+  if (node.dataset.streamingAnswer === "1") {
+    return;
+  }
+  const history = JSON.parse(node.dataset.progressHistory || "[]");
+  const label = assistantStageLabel(payload.stage);
+  const message = payload.detail ? `${payload.message}: ${payload.detail}` : payload.message;
+  const entry = `${label}: ${message || "Working..."}`;
+  if (!history.length || history[history.length - 1] !== entry) {
+    history.push(entry);
+  }
+  const visibleHistory = history.slice(-4);
+  node.dataset.progressHistory = JSON.stringify(visibleHistory);
+  node.innerHTML = `
+    <div class="message-text">
+      <p>${escapeHtml(message || "Working...")}</p>
+      <ul>${visibleHistory.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+    </div>
+    <div class="assistant-mode">${escapeHtml(label)} - ${escapeHtml(payload.status || "running")}</div>
+  `;
+}
+
+function appendAssistantToken(node, text) {
+  const nextText = `${node.dataset.answerText || ""}${text || ""}`;
+  node.dataset.answerText = nextText;
+  node.dataset.streamingAnswer = "1";
+  node.innerHTML = `
+    <div class="message-text">${renderAssistantText(nextText)}</div>
+    <div class="assistant-mode">Streaming answer</div>
+  `;
+  const container = $("#assistantMessages");
   container.scrollTop = container.scrollHeight;
 }
 
-async function askAssistant(event) {
-  if (event) event.preventDefault();
-  const button = $("#askAssistantBtn");
-  const question = $("#assistantQuestion").value.trim();
-  const itemId = state.assistantContextItemId;
-  if (!question) return;
-  button.disabled = true;
-  appendAssistantMessage("user", question);
-  $("#assistantQuestion").value = "";
-  appendAssistantMessage("assistant", "Thinking...");
+function assistantStageLabel(stage) {
+  const labels = {
+    assistant: "Assistant",
+    context: "Context",
+    rag: "RAG",
+    generation: "Generation",
+    evaluation: "Evaluation",
+    stream: "Stream",
+  };
+  return labels[stage] || String(stage || "Assistant");
+}
+
+async function askAssistantFallback(button, pendingMessage, question, itemId) {
   try {
     const payload = await api("/api/assistant", {
       method: "POST",
       body: JSON.stringify({ question, item_id: itemId }),
     });
-    const messages = $$("#assistantMessages .message.assistant");
-    messages[messages.length - 1].textContent = payload.answer || "";
+    renderAssistantMessage(pendingMessage, payload.answer || "", payload);
   } catch (error) {
-    const messages = $$("#assistantMessages .message.assistant");
-    messages[messages.length - 1].textContent = error.message;
+    renderAssistantMessage(pendingMessage, error.message);
   } finally {
     button.disabled = false;
   }
+}
+
+function parseSseFrame(frame) {
+  const lines = frame.split(/\r?\n/);
+  let eventName = "message";
+  const dataLines = [];
+  lines.forEach((line) => {
+    if (line.startsWith("event:")) {
+      eventName = line.slice(6).trim();
+      return;
+    }
+    if (line.startsWith("data:")) {
+      dataLines.push(line.slice(5).trimStart());
+    }
+  });
+  const data = dataLines.join("\n");
+  return { eventName, payload: data ? parseRunEvent({ data }) : {} };
+}
+
+function handleAssistantStreamFrame(frame, pendingMessage, button) {
+  const { eventName, payload } = parseSseFrame(frame);
+  if (eventName === "assistant.started" || eventName === "assistant.progress") {
+    renderAssistantProgress(pendingMessage, payload);
+    return false;
+  }
+  if (eventName === "assistant.token") {
+    appendAssistantToken(pendingMessage, payload.text || "");
+    return false;
+  }
+  if (eventName === "assistant.completed") {
+    renderAssistantMessage(pendingMessage, payload.answer || "", payload);
+    button.disabled = false;
+    return true;
+  }
+  if (eventName === "assistant.failed") {
+    renderAssistantMessage(pendingMessage, payload.detail || payload.message || "Assistant failed");
+    button.disabled = false;
+    return true;
+  }
+  return false;
+}
+
+async function askAssistantStream(button, pendingMessage, question, itemId) {
+  const params = new URLSearchParams({ question });
+  if (itemId) params.set("item_id", itemId);
+  const controller = new AbortController();
+  state.assistantAbortController = controller;
+  renderAssistantProgress(pendingMessage, { stage: "stream", status: "running", message: "Opening assistant stream" });
+
+  const connectTimer = window.setTimeout(() => {
+    if (state.assistantAbortController === controller) {
+      controller.abort();
+    }
+  }, 6000);
+
+  let receivedFrame = false;
+  try {
+    const response = await fetch(`/api/assistant/stream?${params.toString()}`, {
+      headers: { Accept: "text/event-stream" },
+      signal: controller.signal,
+    });
+    if (!response.ok || !response.body) {
+      throw new Error(`Stream request failed: ${response.status}`);
+    }
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const frames = buffer.split(/\r?\n\r?\n/);
+      buffer = frames.pop() || "";
+      for (const frame of frames) {
+        if (!frame.trim()) continue;
+        receivedFrame = true;
+        window.clearTimeout(connectTimer);
+        const finished = handleAssistantStreamFrame(frame, pendingMessage, button);
+        if (finished) {
+          state.assistantAbortController = null;
+          return;
+        }
+      }
+    }
+    if (buffer.trim()) {
+      receivedFrame = true;
+      handleAssistantStreamFrame(buffer, pendingMessage, button);
+    }
+  } catch (error) {
+    if (error.name === "AbortError" && state.assistantAbortController !== controller) {
+      return;
+    }
+    if (error.name === "AbortError" && receivedFrame) {
+      return;
+    }
+    await askAssistantFallback(button, pendingMessage, question, itemId);
+  } finally {
+    window.clearTimeout(connectTimer);
+    if (state.assistantAbortController === controller) {
+      state.assistantAbortController = null;
+    }
+  }
+}
+
+function askAssistant(event) {
+  if (event) event.preventDefault();
+  const button = $("#askAssistantBtn");
+  const question = $("#assistantQuestion").value.trim();
+  const itemId = state.assistantContextItemId;
+  if (!question) return;
+  closeAssistantEventSource();
+  button.disabled = true;
+  appendAssistantMessage("user", question);
+  $("#assistantQuestion").value = "";
+  const pendingMessage = appendAssistantMessage("assistant", "Connecting to assistant...");
+  askAssistantStream(button, pendingMessage, question, itemId);
 }
 
 function bindTabs() {

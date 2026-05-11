@@ -1,158 +1,253 @@
-# Personalized Research Intelligence Agent
+<p align="center">
+  <h1 align="center">Personalized Research Intelligence Agent</h1>
+  <p align="center">
+    Local-first multi-agent research intelligence for papers, repositories, tools, benchmarks, and grounded research Q&A.
+  </p>
+  <p align="center">
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white">
+    <img alt="Status" src="https://img.shields.io/badge/status-MVP-0f766e?style=flat-square">
+    <img alt="Storage" src="https://img.shields.io/badge/storage-JSON%20%7C%20pgvector-2563eb?style=flat-square">
+    <img alt="Frontend" src="https://img.shields.io/badge/frontend-static%20HTML%2FCSS%2FJS-b45309?style=flat-square">
+  </p>
+</p>
 
-面向科研人员的个性化 Research Intelligence Agent MVP。当前版本先跑通本地多 Agent 流水线：
+---
 
-1. 维护用户研究画像。
-2. 从候选内容池发现论文、GitHub 项目、benchmark、工具报告和技术文章。
-3. 过滤弱相关、营销内容、低质量 prompt collection、空泛 README、实验不足论文和过时项目。
-4. 从相关性、新颖性、技术深度、证据强度、可复现性、实用性、趋势信号和科研机会进行价值分析。
-5. 生成 7/30/90 天趋势信号。
-6. 输出每日科研简报和行动建议。
-7. 支持对样例 GitHub 项目做 Repo QA。
-8. 支持过滤结果审计、详情证据查看、用户反馈闭环。
+## Overview
 
-当前实现不依赖第三方 Python 包。需要本机安装 Python 3.11+。真实数据源已经接入 arXiv、Semantic Scholar、Papers with Code 和 GitHub Search API。`GITHUB_TOKEN`、`SEMANTIC_SCHOLAR_API_KEY` 和 `DASHSCOPE_API_KEY` 都是可选配置。
+Personalized Research Intelligence Agent is a local research assistant that turns scattered research signals into a daily decision brief. It collects candidate papers and repositories, filters low-value items, scores research value, detects trend signals, and answers questions with local RAG evidence.
 
-## 快速运行
+The current implementation is intentionally lightweight: a Python package, JSON file storage, a standard-library web server, and a static frontend. It can run fully offline from sample data, or connect to live sources such as arXiv, Semantic Scholar, OpenAlex, Papers with Code, and GitHub.
 
-在 PowerShell 中执行：
+> Image slot: add a dashboard screenshot at `docs/images/dashboard.png`.
+>
+> Suggested caption: "Daily brief with ranked papers, repositories, trend signals, and assistant context."
 
-```powershell
-$env:PYTHONPATH="src"
-python -m research_intel.cli run-daily --profile default_user --report latest --source hybrid
+## What It Does
+
+| Area | Capability |
+| --- | --- |
+| Discovery | Pulls candidate content from sample, live, or hybrid source modes. |
+| Filtering | Rejects weakly related content, thin repositories, stale projects, and low-evidence claims. |
+| Value analysis | Scores relevance, novelty, technical depth, evidence, reproducibility, utility, trend signal, and research opportunity. |
+| Trends | Produces short-window trend signals for emerging topics and baseline opportunities. |
+| Assistant | Answers questions from report context and RAG chunks, with sources returned to the UI. |
+| Repo QA | Gives baseline-oriented answers for selected repositories. |
+| Feedback | Records local feedback events and lightly updates profile weights. |
+
+## Product Surface
+
+The web app has seven core views:
+
+| View | Purpose |
+| --- | --- |
+| Brief | Daily recommended actions, signal mix, and highest-value items. |
+| Papers | Ranked paper intelligence with value analysis. |
+| Repos | Repository intelligence for baselines and implementation inspection. |
+| Trends | 7/30/90-day topic signals and implications. |
+| Filtered | Audit trail for accepted, rejected, and low-priority candidates. |
+| Saved | Local feedback and follow-up queue. |
+| Profile | Editable research interests, methods, applications, and goals. |
+
+> Image slot: add an assistant screenshot at `docs/images/assistant.png`.
+>
+> Suggested caption: "Assistant drawer answering from selected report or item context."
+
+## Architecture
+
+```mermaid
+flowchart LR
+  Profile[ProfileAgent] --> Discovery[DiscoveryAgent]
+  Discovery --> Filtering[FilteringAgent]
+  Filtering --> Value[ValueAnalysisAgent]
+  Value --> Evidence[EvidenceAgent]
+  Evidence --> Trends[TrendAgent]
+  Trends --> Recommend[RecommendationAgent]
+  Recommend --> Report[DailyReport]
+  Report --> RAG[RagIndex]
+  RAG --> Assistant[ResearchAssistantAgent]
+  Report --> Web[Static Web UI]
+  Assistant --> Web
 ```
 
-生成文件：
+On-demand agents:
 
-- `reports/latest.md`
-- `reports/latest.json`
+- `ResearchAssistantAgent`: report and RAG-grounded Q&A.
+- `RepoQAAgent`: repository baseline, reproducibility, and integration questions.
+- `LangGraphAssistant`: optional streaming assistant graph when LangGraph dependencies are installed.
 
-项目问答示例：
+## Quick Start
 
-```powershell
-$env:PYTHONPATH="src"
-python -m research_intel.cli ask-repo --repo-id repo_videditflow --question "这个项目适合作为我的 video editing baseline 吗？"
-```
-
-也可以运行脚本：
+Use Python 3.11 or newer. On Windows, make sure you are using a real Python interpreter rather than the Microsoft Store shim.
 
 ```powershell
-.\scripts\run_daily.ps1
+$env:PYTHONPATH = "src"
+& "C:\msys64\ucrt64\bin\python.exe" -m research_intel.cli --root . run-daily --profile default_user --report latest --source sample
 ```
 
-## 启动网页版
+Start the web app:
 
 ```powershell
 .\scripts\serve_web.ps1
 ```
 
-然后打开：
+Open:
 
 ```text
 http://127.0.0.1:8765
 ```
 
-网页当前包含：
+## Source Modes
 
-- Daily Brief：行动建议、信号分布、最高价值内容。
-- 全局 Assistant 抽屉：任意页面都可以打开，可以围绕当前日报、论文、趋势、repo 和行动建议问答。
-- Papers：论文推荐和价值分析。
-- Repos：GitHub 项目推荐；每个项目卡片可一键交给全局助手追问。
-- Trends：7/30/90 天趋势信号。
-- Filtered：查看被拒绝、低优先级、候选、高优先级内容和过滤原因。
-- Saved：查看用户反馈和后续阅读队列。
-- Profile：编辑用户研究画像、内容偏好、当前目标和技术水平。
+| Mode | Behavior |
+| --- | --- |
+| `sample` | Uses only `data/samples/content_items.json`; best for offline testing. |
+| `live` | Uses live connectors only. |
+| `hybrid` | Uses live connectors first, then mixes sample data if live results are sparse. |
 
-## 数据源模式
+## Configuration
 
-`run-daily` 和网页里的 `Source` 支持三种模式：
-
-- `sample`：只使用 `data/samples/content_items.json`，适合离线调试。
-- `live`：只抓真实 arXiv 和 GitHub 数据。
-- `hybrid`：先抓真实数据，如果结果太少则混入样例数据，适合开发阶段。
-
-真实源说明：
-
-- arXiv：使用 `https://export.arxiv.org/api/query`，返回 Atom XML。
-- Semantic Scholar：使用 `https://api.semanticscholar.org/graph/v1/paper/search`。
-- Papers with Code：使用 `https://paperswithcode.com/api/v1` 的 papers/repositories 读接口。
-- GitHub：使用 `https://api.github.com/search/repositories`。
-- `GITHUB_TOKEN` 可选；未配置时只能使用 GitHub 未认证搜索限额。
-- `CONNECTOR_TIMEOUT_SECONDS` 控制单个外部请求的超时，默认 8 秒。
-- `LIVE_MAX_QUERIES_PER_SOURCE` 控制每个数据源最多生成几条 query，默认 3。
-
-## 可选 LLM 深度分析
-
-默认仍然使用规则版分析。要开启 LLM 增强，需要配置：
+Create a local `.env`:
 
 ```powershell
 Copy-Item .env.example .env
-$env:ENABLE_LLM_ANALYSIS="true"
-$env:DASHSCOPE_API_KEY="..."
-$env:DASHSCOPE_BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1"
-$env:LLM_MODEL="qwen-plus"
-$env:LLM_ANALYSIS_LIMIT="10"
 ```
 
-也可以直接把这些值写入项目根目录的 `.env`。开启后，`ValueAnalysisAgent` 会先用规则给所有候选排序，再对 top candidates 调用千问 DashScope 兼容模式接口做 JSON 价值分析。LLM 失败不会中断日报，会自动回退到规则分析。
-
-同一个千问配置也会用于全局 Assistant。Assistant 会先从当前日报、候选内容、趋势、行动建议和用户选中的 item 中检索相关上下文，再让千问基于这些上下文回答。未开启 LLM 时，Assistant 只会返回本地检索和规则能够支持的有限回答。
-
-## 用户反馈
-
-网页上的 `Relevant`、`Not relevant`、`Save`、`Deepen`、`Baseline` 等按钮会写入：
+Common settings:
 
 ```text
-data/feedback/default_user.json
+ENABLE_LLM_ANALYSIS=false
+LLM_MODEL=qwen-plus
+LLM_ANALYSIS_LIMIT=10
+DASHSCOPE_API_KEY=
+DASHSCOPE_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+GITHUB_TOKEN=
+SEMANTIC_SCHOLAR_API_KEY=
+CONNECTOR_TIMEOUT_SECONDS=8
+LIVE_MAX_QUERIES_PER_SOURCE=3
+EMBEDDING_PROVIDER=local_hash
+RAG_TOP_K=8
+ASSISTANT_TRACE_LIMIT=100
 ```
 
-同时会轻量更新 `default_user.json` 里的 `feedback_weights`，作为后续个性化排序和过滤优化的基础。
+To enable DashScope/Qwen-compatible LLM calls:
 
-## 项目结构
+```text
+ENABLE_LLM_ANALYSIS=true
+DASHSCOPE_API_KEY=<your key>
+LLM_MODEL=<your model>
+```
+
+## RAG And Vector Storage
+
+Default retrieval uses a dependency-free local hash embedding provider, so the app can run offline.
+
+Optional sentence-transformer embeddings:
+
+```powershell
+pip install -e .[embeddings]
+```
+
+```text
+EMBEDDING_PROVIDER=sentence_transformers
+EMBEDDING_MODEL=BAAI/bge-base-en-v1.5
+```
+
+Optional PostgreSQL + pgvector:
+
+```powershell
+pip install -e .[pgvector]
+.\scripts\start_pgvector.ps1
+.\scripts\init_pgvector.ps1
+```
+
+Set `PGVECTOR_DSN` in `.env` for local use only. Do not commit real database credentials.
+
+## Web API
+
+| Endpoint | Description |
+| --- | --- |
+| `GET /api/profile` | Load a research profile. |
+| `POST /api/profile` | Save profile changes. |
+| `GET /api/report` | Load a sanitized public report payload. |
+| `POST /api/run` | Run the pipeline without streaming. |
+| `GET /api/run/stream` | Stream pipeline progress. |
+| `GET /api/candidates` | Load latest candidate items. |
+| `POST /api/assistant` | Ask the assistant without streaming. |
+| `GET /api/assistant/stream` | Stream assistant progress and answer. |
+| `GET /api/feedback` | Load local feedback events. |
+| `POST /api/feedback` | Record a feedback event. |
+
+Detailed source-search errors stay in backend artifacts and backend console output. The frontend receives only public status counts.
+
+## Sensitive Files
+
+Safe to upload:
+
+- `src/`
+- `tests/`
+- `scripts/`
+- `docs/`
+- `data/samples/`
+- `reports/.gitkeep`
+- `.env.example`
+
+Do not upload:
+
+- `.env`
+- `reports/*.md` and `reports/*.json`
+- `data/runs/*.json`
+- `data/runs/*.log`
+- `data/runs/repo_cache/`
+- `data/feedback/*.json`
+- `.vscode/`
+- `.venv/`, `.pgenv/`, caches, and generated indexes
+- Any local profile file that contains private research plans or preferences
+
+If a generated or private file has already been tracked, remove it from the Git index while keeping the local file:
+
+```powershell
+git rm --cached <path>
+```
+
+## Project Layout
 
 ```text
 data/
-  profiles/              用户画像
-  samples/               本地候选内容样例
-  feedback/              用户反馈事件
-  runs/                  最近一次候选、过滤和分析结果
+  samples/                 Public sample content
+  profiles/                Demo or local research profiles
 docs/
-  architecture.md        架构设计说明
-  roadmap.md             生产化路线图
-reports/                 每日简报输出
-scripts/
-  run_daily.ps1          本地运行脚本
-  serve_web.ps1          网页启动脚本
+  architecture.md          System architecture notes
+  roadmap.md               Production roadmap
+reports/                   Generated reports, ignored except .gitkeep
+scripts/                   Local run and service scripts
 src/research_intel/
-  agents/                多 Agent 实现
-  connectors/            真实数据源接口
-  web/static/            无构建工具的网页前端
-  cli.py                 命令行入口
-  models.py              核心数据模型
-  pipeline.py            每日流水线
-  scoring.py             评分规则
-  storage.py             JSON 本地存储
-tests/
-  test_pipeline.py       最小回归测试
+  agents/                  Pipeline and assistant agents
+  connectors/              External source connectors
+  evaluation/              Assistant answer checks
+  llm/                     DashScope/Qwen-compatible client
+  rag/                     Embeddings, retrieval, and pgvector support
+  web/static/              Static frontend
+  cli.py                   CLI entrypoint
+  pipeline.py              Daily orchestration
+  storage.py               JSON file store
+tests/                     Unit tests
 ```
 
-## 当前 Agent
+## Tests
 
-- `ProfileAgent`：加载或创建用户研究画像。
-- `DiscoveryAgent`：发现候选内容。支持 sample/live/hybrid，当前 live 接 arXiv、Semantic Scholar、Papers with Code 和 GitHub。
-- `FilteringAgent`：去噪与优先级判断。
-- `ValueAnalysisAgent`：判断论文、repo、工具和文章的真实价值；可选 LLM 深度分析。
-- `EvidenceAgent`：检查价值判断是否有证据支撑。
-- `TrendAgent`：基于 7/30/90 天窗口识别趋势信号。
-- `RecommendationAgent`：生成每日简报和行动建议。
-- `RepoQAAgent`：回答 GitHub 项目运行、baseline、代码质量、二次开发等问题。
+```powershell
+$env:PYTHONPATH = "src"
+& "C:\msys64\ucrt64\bin\python.exe" -B -m unittest discover -s tests
+```
 
-## 下一步建议
+## GitHub Publish Checklist
 
-优先扩展顺序：
-
-1. 接 OpenReview、Hugging Face Models / Datasets / Spaces、重点 research blog。
-2. 增加 embedding 检索和去重：`pgvector` 或 `Qdrant`。
-3. 将反馈权重真正纳入排序模型，而不只是记录。
-4. 让 Repo QA 读取真实 README、目录结构和核心代码。
-5. 如果要多人使用，升级为 FastAPI + PostgreSQL + React/Next.js。
+```powershell
+git status --short
+git add .env.example .gitignore README.md pyproject.toml scripts src tests data/samples data/runs/.gitkeep data/feedback/.gitkeep docs reports/.gitkeep
+git rm --cached --ignore-unmatch data/runs/latest_analyses.json data/runs/latest_candidates.json data/runs/latest_decisions.json data/feedback/default_user.json .vscode/settings.json
+git status --short
+git commit -m "Prepare research intelligence agent for public repo"
+git push origin main
+```

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import time
 
 from research_intel.connectors.base import ContentConnector
 from research_intel.connectors.http_client import ConnectorError, build_url, get_url, stable_id
@@ -11,12 +12,21 @@ class SemanticScholarConnector(ContentConnector):
     source_name = "semantic_scholar"
 
     def fetch(self, profile: UserProfile) -> list[ContentItem]:
+        self.last_errors = []
         items: list[ContentItem] = []
-        for query in self._queries(profile):
+        delay = float(os.getenv("SEMANTIC_SCHOLAR_REQUEST_DELAY_SECONDS", "1"))
+        for index, query in enumerate(self._queries(profile)):
+            if index and delay > 0:
+                time.sleep(delay)
             try:
                 items.extend(self._search(query))
-            except ConnectorError:
+            except ConnectorError as exc:
+                self.last_errors.append(f"query={query}: {exc}")
+                if "HTTP 429" in str(exc):
+                    break
                 continue
+        if self.last_errors and not items:
+            raise ConnectorError("; ".join(self.last_errors))
         return _dedupe(items)
 
     def _queries(self, profile: UserProfile) -> list[str]:

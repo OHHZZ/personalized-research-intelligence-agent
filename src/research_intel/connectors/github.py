@@ -18,12 +18,16 @@ class GitHubConnector(ContentConnector):
         higher rate limits and more reliable daily runs.
         """
 
+        self.last_errors = []
         items: list[ContentItem] = []
         for query in self._queries(profile):
             try:
                 items.extend(self._search(query))
-            except ConnectorError:
+            except ConnectorError as exc:
+                self.last_errors.append(f"query={query}: {exc}")
                 continue
+        if self.last_errors and not items:
+            raise ConnectorError("; ".join(self.last_errors))
         return _dedupe(items)
 
     def _queries(self, profile: UserProfile) -> list[str]:

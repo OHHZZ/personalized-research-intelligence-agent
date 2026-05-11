@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from research_intel.agents.base import BaseAgent
 from research_intel.connectors import (
     ContentConnector,
     GitHubConnector,
+    OpenAlexConnector,
     PapersWithCodeConnector,
     PaperSourceConnector,
     SemanticScholarConnector,
@@ -11,6 +14,8 @@ from research_intel.connectors import (
 from research_intel.connectors.http_client import ConnectorError
 from research_intel.models import ContentItem, UserProfile
 from research_intel.storage import JsonStore
+
+ProgressCallback = Callable[[dict[str, object]], None]
 
 
 class DiscoveryAgent(BaseAgent):
@@ -29,12 +34,18 @@ class DiscoveryAgent(BaseAgent):
         self.connectors = connectors or [
             PaperSourceConnector(),
             SemanticScholarConnector(),
+            OpenAlexConnector(),
             PapersWithCodeConnector(),
             GitHubConnector(),
         ]
         self.last_errors: list[str] = []
 
-    def discover(self, profile: UserProfile, source_mode: str = "hybrid") -> list[ContentItem]:
+    def discover(
+        self,
+        profile: UserProfile,
+        source_mode: str = "hybrid",
+        progress: ProgressCallback | None = None,
+    ) -> list[ContentItem]:
         source_mode = source_mode.lower().strip()
         if source_mode not in {"sample", "live", "hybrid"}:
             raise ValueError("source_mode must be one of: sample, live, hybrid")
@@ -43,10 +54,30 @@ class DiscoveryAgent(BaseAgent):
         self.last_errors = []
 
         if source_mode in {"live", "hybrid"}:
-            items.extend(self._live_items(profile))
+            items.extend(self._live_items(profile, progress=progress))
 
         if source_mode == "sample" or (source_mode == "hybrid" and len(items) < 5):
-            items.extend(self._sample_items())
+            if progress:
+                progress(
+                    {
+                        "stage": "discovery",
+                        "status": "running",
+                        "message": "Loading sample content",
+                        "source": self.sample_name,
+                    }
+                )
+            sample_items = self._sample_items()
+            items.extend(sample_items)
+            if progress:
+                progress(
+                    {
+                        "stage": "discovery",
+                        "status": "complete",
+                        "message": f"Loaded {len(sample_items)} sample items",
+                        "source": self.sample_name,
+                        "count": len(sample_items),
+                    }
+                )
 
         items = self._dedupe(items)
         self.store.save_content_items(items, "latest_candidates")
@@ -61,15 +92,68 @@ class DiscoveryAgent(BaseAgent):
         except FileNotFoundError:
             return []
 
-    def _live_items(self, profile: UserProfile) -> list[ContentItem]:
+    def _live_items(self, profile: UserProfile, progress: ProgressCallback | None = None) -> list[ContentItem]:
         items: list[ContentItem] = []
         for connector in self.connectors:
+            if progress:
+                progress(
+                    {
+                        "stage": "discovery",
+                        "status": "running",
+                        "message": f"Fetching {connector.source_name}",
+                        "connector": connector.source_name,
+                    }
+                )
             try:
-                items.extend(connector.fetch(profile))
+                fetched = connector.fetch(profile)
+                items.extend(fetched)
+                if progress:
+                    progress(
+                        {
+                            "stage": "discovery",
+                            "status": "complete",
+                            "message": f"{connector.source_name} returned {len(fetched)} items",
+                            "connector": connector.source_name,
+                            "count": len(fetched),
+                        }
+                    )
+                if getattr(connector, "last_errors", None):
+                    error_count = len(connector.last_errors)
+                    self.last_errors.extend(f"{connector.source_name}: {message}" for message in connector.last_errors)
+                    if progress:
+                        progress(
+                            {
+                                "stage": "discovery",
+                                "status": "warning",
+                                "message": f"{connector.source_name} reported {error_count} fetch issue(s); details kept in backend artifacts",
+                                "connector": connector.source_name,
+                                "source_error_count": error_count,
+                            }
+                        )
             except ConnectorError as exc:
                 self.last_errors.append(f"{connector.source_name}: {exc}")
+                if progress:
+                    progress(
+                        {
+                            "stage": "discovery",
+                            "status": "warning",
+                            "message": f"{connector.source_name} fetch was skipped; details kept in backend artifacts",
+                            "connector": connector.source_name,
+                            "source_error_count": 1,
+                        }
+                    )
             except Exception as exc:
                 self.last_errors.append(f"{connector.source_name}: {type(exc).__name__}: {exc}")
+                if progress:
+                    progress(
+                        {
+                            "stage": "discovery",
+                            "status": "warning",
+                            "message": f"{connector.source_name} fetch failed; details kept in backend artifacts",
+                            "connector": connector.source_name,
+                            "source_error_count": 1,
+                        }
+                    )
         return items
 
     def _dedupe(self, items: list[ContentItem]) -> list[ContentItem]:

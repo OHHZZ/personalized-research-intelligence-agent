@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from json import JSONDecodeError
 import os
 import socket
 import urllib.error
@@ -25,7 +26,11 @@ class HttpResponse:
         return self.body.decode("utf-8", errors="replace")
 
     def json(self) -> Any:
-        return json.loads(self.text())
+        try:
+            return json.loads(self.text())
+        except JSONDecodeError as exc:
+            preview = self.text()[:220].replace("\n", " ")
+            raise ConnectorError(f"Invalid JSON response from {self.url}: {preview}") from exc
 
 
 def build_url(base: str, params: dict[str, Any]) -> str:

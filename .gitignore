@@ -4,9 +4,23 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 .venv/
+.pgenv/
 venv/
 .env
-reports/*.md
-reports/*.json
+.env.local
+.env.*.local
+.vscode/
+*.egg-info/
+
+reports/*
 !reports/.gitkeep
 
+data/runs/*.json
+data/runs/*.log
+data/runs/web_server.*.log
+data/runs/repo_cache/
+!data/runs/.gitkeep
+
+data/feedback/*.json
+!data/feedback/.gitkeep
+data/profiles/*.local.json

@@ -50,6 +50,14 @@
         </div>
       </header>
 
+      <section id="runStreamPanel" class="panel stream-panel hidden">
+        <div class="panel-head">
+          <h3>Agent Progress</h3>
+          <span id="runStreamMeta" class="stream-meta">Idle</span>
+        </div>
+        <div id="runTimeline" class="run-timeline"></div>
+      </section>
+
       <section class="status-row">
         <article class="stat">
           <span>Accepted</span>
@@ -74,6 +82,13 @@
           <h3>Live Source Status</h3>
         </div>
         <div id="sourceErrors" class="source-errors"></div>
+      </section>
+
+      <section id="systemStatusPanel" class="panel notice-panel">
+        <div class="panel-head">
+          <h3>System Status</h3>
+        </div>
+        <div id="systemStatus" class="source-errors"></div>
       </section>
 
       <section id="brief" class="tab-panel active">
@@ -177,6 +192,7 @@
         </section>
       </section>
     </main>
+
     <button id="assistantFab" class="assistant-fab" title="Open research assistant">Ask</button>
     <aside id="assistantDrawer" class="assistant-drawer" aria-hidden="true">
       <div class="assistant-head">
@@ -184,23 +200,24 @@
           <h3>Research Assistant</h3>
           <p id="assistantContext">Context: current report</p>
         </div>
-        <button id="closeAssistantBtn" class="icon-btn" title="Close">×</button>
+        <button id="closeAssistantBtn" class="icon-btn" title="Close">&times;</button>
       </div>
       <div id="assistantMessages" class="assistant-messages"></div>
       <div class="quick-prompts">
-        <button class="quick-prompt" data-prompt="今天我应该优先看什么？">今日优先级</button>
-        <button class="quick-prompt" data-prompt="哪个项目适合作为 baseline？">Baseline</button>
-        <button class="quick-prompt" data-prompt="最近有什么趋势机会？">趋势机会</button>
+        <button class="quick-prompt" data-prompt="What should I read first today?">Today</button>
+        <button class="quick-prompt" data-prompt="Which repo is suitable as a baseline?">Baseline</button>
+        <button class="quick-prompt" data-prompt="What trend opportunities are emerging?">Trends</button>
       </div>
       <form id="assistantForm" class="assistant-composer">
-        <textarea id="assistantQuestion" rows="2" placeholder="Ask about the current report or selected item"></textarea>
+        <textarea id="assistantQuestion" rows="2" placeholder="Ask about the current brief, a selected paper, or a repo"></textarea>
         <button id="askAssistantBtn" class="primary-btn" type="submit">Send</button>
       </form>
     </aside>
+
     <aside id="detailDrawer" class="drawer" aria-hidden="true">
       <div class="drawer-head">
         <h3 id="drawerTitle">Item detail</h3>
-        <button id="closeDrawerBtn" class="icon-btn" title="Close">×</button>
+        <button id="closeDrawerBtn" class="icon-btn" title="Close">&times;</button>
       </div>
       <div id="drawerBody" class="drawer-body"></div>
     </aside>

@@ -90,7 +90,9 @@ class QwenChatClient:
                         "You are a research assistant for a personalized research intelligence system. "
                         "Answer in the user's language. Use only the provided context. "
                         "If the context is insufficient, say what is missing and suggest the next useful action. "
-                        "Do not invent papers, repos, experiments, metrics, or repo details."
+                        "Do not invent papers, repos, experiments, metrics, or repo details. "
+                        "Write in natural prose. Avoid emoji and decorative symbols. "
+                        "Use simple paragraphs and short bullet lists only when they improve readability."
                     ),
                 },
                 {

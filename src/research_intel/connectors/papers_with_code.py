@@ -11,16 +11,20 @@ class PapersWithCodeConnector(ContentConnector):
     source_name = "papers_with_code"
 
     def fetch(self, profile: UserProfile) -> list[ContentItem]:
+        self.last_errors = []
         items: list[ContentItem] = []
         for query in self._queries(profile):
             try:
                 items.extend(self._search_papers(query))
-            except ConnectorError:
-                continue
+            except ConnectorError as exc:
+                self.last_errors.append(f"papers query={query}: {exc}")
             try:
                 items.extend(self._search_repositories(query))
-            except ConnectorError:
+            except ConnectorError as exc:
+                self.last_errors.append(f"repos query={query}: {exc}")
                 continue
+        if self.last_errors and not items:
+            raise ConnectorError("; ".join(self.last_errors))
         return _dedupe(items)
 
     def _queries(self, profile: UserProfile) -> list[str]:

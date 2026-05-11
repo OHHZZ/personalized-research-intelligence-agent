@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from collections.abc import Callable
 from dataclasses import replace
 
 from research_intel.agents.base import BaseAgent
@@ -14,6 +15,8 @@ from research_intel.models import (
     ValueAnalysis,
 )
 from research_intel.scoring import clamp
+
+ProgressCallback = Callable[[dict[str, object]], None]
 
 
 class ValueAnalysisAgent(BaseAgent):
@@ -29,8 +32,18 @@ class ValueAnalysisAgent(BaseAgent):
         items: list[ContentItem],
         decisions: list[FilterDecision],
         profile: UserProfile | None = None,
+        progress: ProgressCallback | None = None,
     ) -> list[ValueAnalysis]:
         decision_map = {decision.item_id: decision for decision in decisions}
+        if progress:
+            progress(
+                {
+                    "stage": "value_analysis",
+                    "status": "running",
+                    "message": f"Scoring {len(items)} selected items",
+                    "count": len(items),
+                }
+            )
         analyses = [
             self._analyze_item(item, decision_map[item.item_id])
             for item in items
@@ -38,7 +51,7 @@ class ValueAnalysisAgent(BaseAgent):
         ]
         analyses = sorted(analyses, key=lambda item: item.score, reverse=True)
         if self.llm_client.enabled:
-            analyses = self._enhance_with_llm(analyses, items, profile)
+            analyses = self._enhance_with_llm(analyses, items, profile, progress=progress)
         return sorted(analyses, key=lambda item: item.score, reverse=True)
 
     def _enhance_with_llm(
@@ -46,6 +59,7 @@ class ValueAnalysisAgent(BaseAgent):
         analyses: list[ValueAnalysis],
         items: list[ContentItem],
         profile: UserProfile | None,
+        progress: ProgressCallback | None = None,
     ) -> list[ValueAnalysis]:
         item_map = {item.item_id: item for item in items}
         enhanced: list[ValueAnalysis] = []
@@ -54,12 +68,40 @@ class ValueAnalysisAgent(BaseAgent):
             if index >= self.llm_limit or analysis.item_id not in item_map:
                 enhanced.append(analysis)
                 continue
+            if progress:
+                progress(
+                    {
+                        "stage": "value_analysis",
+                        "status": "running",
+                        "message": f"LLM enhancement {index + 1}/{min(len(analyses), self.llm_limit)}",
+                        "item_id": analysis.item_id,
+                        "title": analysis.title,
+                    }
+                )
             try:
                 payload = self.llm_client.analyze_item(profile, item_map[analysis.item_id], analysis)
                 enhanced.append(self._merge_llm_payload(analysis, payload))
+                if progress:
+                    progress(
+                        {
+                            "stage": "value_analysis",
+                            "status": "complete",
+                            "message": f"Enhanced {analysis.title}",
+                            "item_id": analysis.item_id,
+                        }
+                    )
             except (LLMError, ValueError, TypeError, KeyError) as exc:
                 self.last_llm_errors.append(f"{analysis.item_id}: {exc}")
                 enhanced.append(analysis)
+                if progress:
+                    progress(
+                        {
+                            "stage": "value_analysis",
+                            "status": "warning",
+                            "message": f"LLM enhancement skipped for {analysis.item_id}; details kept in backend artifacts",
+                            "item_id": analysis.item_id,
+                        }
+                    )
         return enhanced
 
     def _merge_llm_payload(self, base: ValueAnalysis, payload: dict[str, object]) -> ValueAnalysis:

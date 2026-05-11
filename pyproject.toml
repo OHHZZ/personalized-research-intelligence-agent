@@ -4,7 +4,20 @@ version = "0.1.0"
 description = "Personalized multi-agent research intelligence MVP."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+  "langgraph>=1.1",
+  "langchain-openai>=1.2",
+  "langchain-mcp-adapters>=0.2",
+  "mcp>=1.27",
+]
+
+[project.optional-dependencies]
+embeddings = [
+  "sentence-transformers>=2.7",
+]
+pgvector = [
+  "psycopg[binary]>=3.1",
+]
 
 [project.scripts]
 research-intel = "research_intel.cli:main"
@@ -12,4 +25,3 @@ research-intel = "research_intel.cli:main"
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-

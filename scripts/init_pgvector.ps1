@@ -17,7 +17,7 @@ try {
   }
 
   $env:PYTHONPATH = "src"
-  & $python -m research_intel.cli --root . run-daily --profile default_user --report latest --source hybrid
+  & $python -B -m research_intel.cli --root . init-pgvector --dimensions 384
 }
 finally {
   Pop-Location

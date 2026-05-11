@@ -8,6 +8,7 @@ from research_intel.agents.repo_qa_agent import RepoQAAgent
 from research_intel.config import load_dotenv
 from research_intel.models import ContentItem, ContentType
 from research_intel.pipeline import DailyResearchPipeline
+from research_intel.rag import PgVectorStore
 from research_intel.storage import JsonStore
 from research_intel.web_server import serve
 
@@ -34,6 +35,9 @@ def main() -> None:
     web = subparsers.add_parser("serve-web", help="Start the local web app")
     web.add_argument("--host", default="127.0.0.1", help="Host to bind")
     web.add_argument("--port", type=int, default=8765, help="Port to bind")
+
+    pgvector = subparsers.add_parser("init-pgvector", help="Initialize PostgreSQL + pgvector table from environment")
+    pgvector.add_argument("--dimensions", type=int, default=384, help="Fallback embedding dimensions if index is not built yet")
 
     args = parser.parse_args()
     root = Path(args.root).resolve()
@@ -75,6 +79,15 @@ def main() -> None:
 
     if args.command == "serve-web":
         serve(root, host=args.host, port=args.port)
+        return
+
+    if args.command == "init-pgvector":
+        store = PgVectorStore.from_env()
+        if store is None:
+            raise SystemExit("PGVECTOR_DSN is not configured in .env.")
+        store.initialize(args.dimensions)
+        print(f"Initialized pgvector table `{store.config.table}`.")
+        return
 
 
 if __name__ == "__main__":
