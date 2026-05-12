@@ -1,7 +1,7 @@
 <p align="center">
   <h1 align="center">Personalized Research Intelligence Agent</h1>
   <p align="center">
-    面向论文、代码仓库、工具、基准与有依据研究问答的本地优先多智能体研究情报系统。
+    面向论文、代码仓库、工具与有依据研究问答的多智能体研究情报系统。
   </p>
   <p align="center">
     <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white">
@@ -16,8 +16,6 @@
 ## 项目概览
 
 Personalized Research Intelligence Agent 是一个本地研究助手，可以把分散的研究信号整理成每日决策简报。它会收集候选论文和代码仓库，过滤低价值条目，评估研究价值，检测趋势信号，并基于本地 RAG 证据回答问题。
-
-当前实现刻意保持轻量：一个 Python 包、JSON 文件存储、基于标准库的 Web 服务器，以及静态前端。它既可以完全离线使用示例数据运行，也可以连接 arXiv、Semantic Scholar、OpenAlex、Papers with Code 和 GitHub 等在线来源。
 
 > 图片占位：在 `docs/images/dashboard.png` 添加一张仪表盘截图。
 >
