@@ -4,7 +4,6 @@ const state = {
   candidates: [],
   feedback: [],
   assistantContextItemId: "",
-  health: null,
   runEvents: [],
   runEventSource: null,
   assistantEventSource: null,
@@ -98,7 +97,6 @@ async function loadInitial() {
   }
   state.candidates = await api("/api/candidates");
   state.feedback = await api("/api/feedback?profile=default_user");
-  state.health = await api("/api/health");
   renderReport();
 }
 
@@ -144,7 +142,6 @@ function renderReport() {
   renderFiltered();
   renderSaved();
   renderSourceErrors(report.source_error_count || 0);
-  renderSystemStatus();
   renderAssistantContext();
   drawSignalCanvas(allItems);
 }
@@ -313,31 +310,6 @@ function renderSourceErrors() {
   if (sourceErrors) {
     sourceErrors.innerHTML = "";
   }
-}
-
-function renderSystemStatus() {
-  const health = state.health;
-  if (!health) {
-    $("#systemStatus").innerHTML = "<div>Status unavailable.</div>";
-    return;
-  }
-  const lines = [];
-  const llm = health.llm || {};
-  const network = health.network || {};
-  const embedding = health.embedding || {};
-  const pgvector = health.pgvector || {};
-  lines.push(`LLM: ${llm.enabled ? "enabled" : "disabled"} | model=${escapeHtml(llm.model || "")}`);
-  if (network.connector_timeout_seconds) {
-    lines.push(`Network timeout: ${escapeHtml(network.connector_timeout_seconds)}s`);
-  }
-  lines.push(`Embedding: ${escapeHtml(embedding.status || "unknown")} | provider=${escapeHtml(embedding.provider || "")} | model=${escapeHtml(embedding.model || "")}`);
-  lines.push(`pgvector: ${escapeHtml(pgvector.status || "unknown")}${pgvector.table ? ` | table=${escapeHtml(pgvector.table)}` : ""}`);
-  const liveErrorCount = Number(health.latest_live_error_count || 0);
-  lines.push(`Live sources: ${liveErrorCount ? "partial" : "ok"}`);
-  if (liveErrorCount) {
-    lines.push("Source diagnostics are kept in backend artifacts.");
-  }
-  $("#systemStatus").innerHTML = lines.map((line) => `<div>${line}</div>`).join("");
 }
 
   function shortError(value, limit = 260) {
@@ -591,7 +563,6 @@ async function runPipelineFallback(button) {
     state.report = payload.report;
     state.candidates = await api("/api/candidates");
     state.feedback = await api("/api/feedback?profile=default_user");
-    state.health = await api("/api/health");
     renderReport();
     appendRunEvent({ stage: "run", status: "complete", message: "Pipeline complete" });
   } catch (error) {
@@ -654,12 +625,10 @@ function runPipeline() {
     Promise.all([
       api("/api/candidates"),
       api("/api/feedback?profile=default_user"),
-      api("/api/health"),
     ])
-      .then(([candidates, feedback, health]) => {
+      .then(([candidates, feedback]) => {
         state.candidates = candidates;
         state.feedback = feedback;
-        state.health = health;
         renderReport();
       })
       .catch((error) => {

@@ -1,7 +1,7 @@
 <p align="center">
   <h1 align="center">Personalized Research Intelligence Agent</h1>
   <p align="center">
-    Local-first multi-agent research intelligence for papers, repositories, tools, benchmarks, and grounded research Q&A.
+    面向论文、代码仓库、工具、基准与有依据研究问答的本地优先多智能体研究情报系统。
   </p>
   <p align="center">
     <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white">
@@ -13,47 +13,47 @@
 
 ---
 
-## Overview
+## 项目概览
 
-Personalized Research Intelligence Agent is a local research assistant that turns scattered research signals into a daily decision brief. It collects candidate papers and repositories, filters low-value items, scores research value, detects trend signals, and answers questions with local RAG evidence.
+Personalized Research Intelligence Agent 是一个本地研究助手，可以把分散的研究信号整理成每日决策简报。它会收集候选论文和代码仓库，过滤低价值条目，评估研究价值，检测趋势信号，并基于本地 RAG 证据回答问题。
 
-The current implementation is intentionally lightweight: a Python package, JSON file storage, a standard-library web server, and a static frontend. It can run fully offline from sample data, or connect to live sources such as arXiv, Semantic Scholar, OpenAlex, Papers with Code, and GitHub.
+当前实现刻意保持轻量：一个 Python 包、JSON 文件存储、基于标准库的 Web 服务器，以及静态前端。它既可以完全离线使用示例数据运行，也可以连接 arXiv、Semantic Scholar、OpenAlex、Papers with Code 和 GitHub 等在线来源。
 
-> Image slot: add a dashboard screenshot at `docs/images/dashboard.png`.
+> 图片占位：在 `docs/images/dashboard.png` 添加一张仪表盘截图。
 >
-> Suggested caption: "Daily brief with ranked papers, repositories, trend signals, and assistant context."
+> 建议说明："包含论文、仓库、趋势信号和助手上下文的每日简报。"
 
-## What It Does
+## 功能
 
-| Area | Capability |
+| 模块 | 能力 |
 | --- | --- |
-| Discovery | Pulls candidate content from sample, live, or hybrid source modes. |
-| Filtering | Rejects weakly related content, thin repositories, stale projects, and low-evidence claims. |
-| Value analysis | Scores relevance, novelty, technical depth, evidence, reproducibility, utility, trend signal, and research opportunity. |
-| Trends | Produces short-window trend signals for emerging topics and baseline opportunities. |
-| Assistant | Answers questions from report context and RAG chunks, with sources returned to the UI. |
-| Repo QA | Gives baseline-oriented answers for selected repositories. |
-| Feedback | Records local feedback events and lightly updates profile weights. |
+| 发现 | 从示例、在线或混合数据源模式拉取候选内容。 |
+| 筛选 | 拒绝弱相关内容、内容单薄的仓库、过时项目和证据不足的声明。 |
+| 价值分析 | 评估相关性、新颖性、技术深度、证据、可复现性、实用性、趋势信号和研究机会。 |
+| 趋势 | 为新兴主题和 baseline 机会生成短窗口趋势信号。 |
+| 助手 | 根据报告上下文和 RAG 片段回答问题，并把来源返回到界面。 |
+| 仓库问答 | 为选定仓库提供面向 baseline 的回答。 |
+| 反馈 | 记录本地反馈事件，并轻量更新用户画像权重。 |
 
-## Product Surface
+## 产品界面
 
-The web app has seven core views:
+Web 应用包含七个核心视图：
 
-| View | Purpose |
+| 视图 | 用途 |
 | --- | --- |
-| Brief | Daily recommended actions, signal mix, and highest-value items. |
-| Papers | Ranked paper intelligence with value analysis. |
-| Repos | Repository intelligence for baselines and implementation inspection. |
-| Trends | 7/30/90-day topic signals and implications. |
-| Filtered | Audit trail for accepted, rejected, and low-priority candidates. |
-| Saved | Local feedback and follow-up queue. |
-| Profile | Editable research interests, methods, applications, and goals. |
+| Brief | 每日推荐动作、信号分布和最高价值条目。 |
+| Papers | 带价值分析的论文排序情报。 |
+| Repos | 面向 baseline 和实现检查的仓库情报。 |
+| Trends | 7/30/90 天主题信号及其影响。 |
+| Filtered | 已接受、已拒绝和低优先级候选项的审计记录。 |
+| Saved | 本地反馈和后续跟进队列。 |
+| Profile | 可编辑的研究兴趣、方法、应用和目标。 |
 
-> Image slot: add an assistant screenshot at `docs/images/assistant.png`.
+> 图片占位：在 `docs/images/assistant.png` 添加一张助手截图。
 >
-> Suggested caption: "Assistant drawer answering from selected report or item context."
+> 建议说明："助手抽屉根据选定报告或条目上下文进行回答。"
 
-## Architecture
+## 架构
 
 ```mermaid
 flowchart LR
@@ -70,50 +70,50 @@ flowchart LR
   Assistant --> Web
 ```
 
-On-demand agents:
+按需智能体：
 
-- `ResearchAssistantAgent`: report and RAG-grounded Q&A.
-- `RepoQAAgent`: repository baseline, reproducibility, and integration questions.
-- `LangGraphAssistant`: optional streaming assistant graph when LangGraph dependencies are installed.
+- `ResearchAssistantAgent`：基于报告和 RAG 的有依据问答。
+- `RepoQAAgent`：仓库 baseline、可复现性和集成问题。
+- `LangGraphAssistant`：安装 LangGraph 依赖后可用的可选流式助手图。
 
-## Quick Start
+## 快速开始
 
-Use Python 3.11 or newer. On Windows, make sure you are using a real Python interpreter rather than the Microsoft Store shim.
+使用 Python 3.11 或更高版本。在 Windows 上，请确认你使用的是真实 Python 解释器，而不是 Microsoft Store shim。
 
 ```powershell
 $env:PYTHONPATH = "src"
 & "C:\msys64\ucrt64\bin\python.exe" -m research_intel.cli --root . run-daily --profile default_user --report latest --source sample
 ```
 
-Start the web app:
+启动 Web 应用：
 
 ```powershell
 .\scripts\serve_web.ps1
 ```
 
-Open:
+打开：
 
 ```text
 http://127.0.0.1:8765
 ```
 
-## Source Modes
+## 数据源模式
 
-| Mode | Behavior |
+| 模式 | 行为 |
 | --- | --- |
-| `sample` | Uses only `data/samples/content_items.json`; best for offline testing. |
-| `live` | Uses live connectors only. |
-| `hybrid` | Uses live connectors first, then mixes sample data if live results are sparse. |
+| `sample` | 只使用 `data/samples/content_items.json`；最适合离线测试。 |
+| `live` | 只使用在线连接器。 |
+| `hybrid` | 优先使用在线连接器；如果在线结果较少，再混合示例数据。 |
 
-## Configuration
+## 配置
 
-Create a local `.env`:
+创建本地 `.env`：
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Common settings:
+常用配置：
 
 ```text
 ENABLE_LLM_ANALYSIS=false
@@ -130,7 +130,7 @@ RAG_TOP_K=8
 ASSISTANT_TRACE_LIMIT=100
 ```
 
-To enable DashScope/Qwen-compatible LLM calls:
+启用 DashScope/Qwen 兼容的 LLM 调用：
 
 ```text
 ENABLE_LLM_ANALYSIS=true
@@ -138,11 +138,11 @@ DASHSCOPE_API_KEY=<your key>
 LLM_MODEL=<your model>
 ```
 
-## RAG And Vector Storage
+## RAG 与向量存储
 
-Default retrieval uses a dependency-free local hash embedding provider, so the app can run offline.
+默认检索使用无依赖的本地哈希 embedding provider，因此应用可以离线运行。
 
-Optional sentence-transformer embeddings:
+可选的 sentence-transformer embedding：
 
 ```powershell
 pip install -e .[embeddings]
@@ -153,7 +153,7 @@ EMBEDDING_PROVIDER=sentence_transformers
 EMBEDDING_MODEL=BAAI/bge-base-en-v1.5
 ```
 
-Optional PostgreSQL + pgvector:
+可选的 PostgreSQL + pgvector：
 
 ```powershell
 pip install -e .[pgvector]
@@ -161,28 +161,28 @@ pip install -e .[pgvector]
 .\scripts\init_pgvector.ps1
 ```
 
-Set `PGVECTOR_DSN` in `.env` for local use only. Do not commit real database credentials.
+只在本地使用时，在 `.env` 中设置 `PGVECTOR_DSN`。不要提交真实数据库凭据。
 
 ## Web API
 
-| Endpoint | Description |
+| 端点 | 说明 |
 | --- | --- |
-| `GET /api/profile` | Load a research profile. |
-| `POST /api/profile` | Save profile changes. |
-| `GET /api/report` | Load a sanitized public report payload. |
-| `POST /api/run` | Run the pipeline without streaming. |
-| `GET /api/run/stream` | Stream pipeline progress. |
-| `GET /api/candidates` | Load latest candidate items. |
-| `POST /api/assistant` | Ask the assistant without streaming. |
-| `GET /api/assistant/stream` | Stream assistant progress and answer. |
-| `GET /api/feedback` | Load local feedback events. |
-| `POST /api/feedback` | Record a feedback event. |
+| `GET /api/profile` | 加载研究画像。 |
+| `POST /api/profile` | 保存画像变更。 |
+| `GET /api/report` | 加载经过脱敏处理的公开报告 payload。 |
+| `POST /api/run` | 以非流式方式运行流水线。 |
+| `GET /api/run/stream` | 流式输出流水线进度。 |
+| `GET /api/candidates` | 加载最新候选条目。 |
+| `POST /api/assistant` | 以非流式方式向助手提问。 |
+| `GET /api/assistant/stream` | 流式输出助手进度和回答。 |
+| `GET /api/feedback` | 加载本地反馈事件。 |
+| `POST /api/feedback` | 记录反馈事件。 |
 
-Detailed source-search errors stay in backend artifacts and backend console output. The frontend receives only public status counts.
+详细的数据源搜索错误会保留在后端产物和后端控制台输出中。前端只接收公开状态计数。
 
-## Sensitive Files
+## 敏感文件
 
-Safe to upload:
+可以上传：
 
 - `src/`
 - `tests/`
@@ -192,56 +192,56 @@ Safe to upload:
 - `reports/.gitkeep`
 - `.env.example`
 
-Do not upload:
+不要上传：
 
 - `.env`
-- `reports/*.md` and `reports/*.json`
+- `reports/*.md` 和 `reports/*.json`
 - `data/runs/*.json`
 - `data/runs/*.log`
 - `data/runs/repo_cache/`
 - `data/feedback/*.json`
 - `.vscode/`
-- `.venv/`, `.pgenv/`, caches, and generated indexes
-- Any local profile file that contains private research plans or preferences
+- `.venv/`、`.pgenv/`、缓存和生成的索引
+- 任何包含私有研究计划或偏好的本地画像文件
 
-If a generated or private file has already been tracked, remove it from the Git index while keeping the local file:
+如果生成文件或私有文件已经被 Git 跟踪，可以从 Git 索引中移除，同时保留本地文件：
 
 ```powershell
 git rm --cached <path>
 ```
 
-## Project Layout
+## 项目结构
 
 ```text
 data/
-  samples/                 Public sample content
-  profiles/                Demo or local research profiles
+  samples/                 公开示例内容
+  profiles/                演示或本地研究画像
 docs/
-  architecture.md          System architecture notes
-  roadmap.md               Production roadmap
-reports/                   Generated reports, ignored except .gitkeep
-scripts/                   Local run and service scripts
+  architecture.md          系统架构说明
+  roadmap.md               生产化路线图
+reports/                   生成的报告，除 .gitkeep 外会被忽略
+scripts/                   本地运行和服务脚本
 src/research_intel/
-  agents/                  Pipeline and assistant agents
-  connectors/              External source connectors
-  evaluation/              Assistant answer checks
-  llm/                     DashScope/Qwen-compatible client
-  rag/                     Embeddings, retrieval, and pgvector support
-  web/static/              Static frontend
-  cli.py                   CLI entrypoint
-  pipeline.py              Daily orchestration
-  storage.py               JSON file store
-tests/                     Unit tests
+  agents/                  流水线和助手智能体
+  connectors/              外部数据源连接器
+  evaluation/              助手回答检查
+  llm/                     DashScope/Qwen 兼容客户端
+  rag/                     Embedding、检索和 pgvector 支持
+  web/static/              静态前端
+  cli.py                   CLI 入口
+  pipeline.py              每日编排逻辑
+  storage.py               JSON 文件存储
+tests/                     单元测试
 ```
 
-## Tests
+## 测试
 
 ```powershell
 $env:PYTHONPATH = "src"
 & "C:\msys64\ucrt64\bin\python.exe" -B -m unittest discover -s tests
 ```
 
-## GitHub Publish Checklist
+## GitHub 发布检查清单
 
 ```powershell
 git status --short
