@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import asyncio
 import os
+import re
 from collections.abc import Callable
 from dataclasses import replace
 
@@ -27,6 +29,112 @@ class ValueAnalysisAgent(BaseAgent):
         self.llm_limit = int(os.getenv("LLM_ANALYSIS_LIMIT", "10"))
         self.last_llm_errors: list[str] = []
 
+    async def analyze_async(
+        self,
+        items: list[ContentItem],
+        decisions: list[FilterDecision],
+        profile: UserProfile | None = None,
+        progress: ProgressCallback | None = None,
+    ) -> list[ValueAnalysis]:
+        """Async version: enriches items with tools, then runs LLM enhancement in parallel."""
+        decision_map = {decision.item_id: decision for decision in decisions}
+        if progress:
+            progress(
+                {
+                    "stage": "value_analysis",
+                    "status": "running",
+                    "message": f"Scoring {len(items)} selected items",
+                    "count": len(items),
+                }
+            )
+
+        # Enrich items concurrently (tool calls are I/O bound)
+        enrich_tasks = [
+            self._enrich_async(item) for item in items if item.item_id in decision_map
+        ]
+        enriched_items = await asyncio.gather(*enrich_tasks)
+
+        analyses = [
+            self._analyze_item(item, decision_map[item.item_id])
+            for item in enriched_items
+            if item.item_id in decision_map
+        ]
+        analyses = sorted(analyses, key=lambda a: a.score, reverse=True)
+
+        if self.llm_client.enabled:
+            analyses = await self._enhance_batch_async(analyses, list(enriched_items), profile, progress=progress)
+
+        return sorted(analyses, key=lambda a: a.score, reverse=True)
+
+    async def _enrich_async(self, item: ContentItem) -> ContentItem:
+        try:
+            return await asyncio.to_thread(self._enrich_item_with_tools, item)
+        except Exception:
+            return item
+
+    async def _enhance_batch_async(
+        self,
+        analyses: list[ValueAnalysis],
+        items: list[ContentItem],
+        profile: UserProfile | None,
+        progress: ProgressCallback | None = None,
+    ) -> list[ValueAnalysis]:
+        """Run LLM enhancement for top-N items with bounded concurrency (max 3 at a time)."""
+        item_map = {item.item_id: item for item in items}
+        self.last_llm_errors = []
+        semaphore = asyncio.Semaphore(3)
+
+        async def _enhance_one(index: int, analysis: ValueAnalysis) -> ValueAnalysis:
+            if index >= self.llm_limit or analysis.item_id not in item_map:
+                return analysis
+            if progress:
+                progress(
+                    {
+                        "stage": "value_analysis",
+                        "status": "running",
+                        "message": f"LLM enhancement {index + 1}/{min(len(analyses), self.llm_limit)}",
+                        "item_id": analysis.item_id,
+                        "title": analysis.title,
+                    }
+                )
+            async with semaphore:
+                for attempt in range(2):
+                    try:
+                        payload = await asyncio.to_thread(
+                            self.llm_client.analyze_item, profile, item_map[analysis.item_id], analysis
+                        )
+                        result = self._merge_llm_payload(analysis, payload)
+                        quality = self._evaluate_llm_output(result)
+                        if quality >= 0.5 or attempt == 1:
+                            if progress:
+                                progress(
+                                    {
+                                        "stage": "value_analysis",
+                                        "status": "complete",
+                                        "message": f"Enhanced {analysis.title}",
+                                        "item_id": analysis.item_id,
+                                    }
+                                )
+                            return result
+                        # Quality too low and we have one more attempt
+                        await asyncio.sleep(0.5)
+                    except (LLMError, ValueError, TypeError, KeyError) as exc:
+                        self.last_llm_errors.append(f"{analysis.item_id}: {exc}")
+                        if progress:
+                            progress(
+                                {
+                                    "stage": "value_analysis",
+                                    "status": "warning",
+                                    "message": f"LLM enhancement skipped for {analysis.item_id}; details kept in backend artifacts",
+                                    "item_id": analysis.item_id,
+                                }
+                            )
+                        return analysis
+            return analysis  # fallback
+
+        tasks = [_enhance_one(i, a) for i, a in enumerate(analyses)]
+        return list(await asyncio.gather(*tasks))
+
     def analyze(
         self,
         items: list[ContentItem],
@@ -44,14 +152,14 @@ class ValueAnalysisAgent(BaseAgent):
                     "count": len(items),
                 }
             )
+        enriched_items = [self._enrich_item_with_tools(item) for item in items if item.item_id in decision_map]
         analyses = [
             self._analyze_item(item, decision_map[item.item_id])
-            for item in items
-            if item.item_id in decision_map
+            for item in enriched_items
         ]
         analyses = sorted(analyses, key=lambda item: item.score, reverse=True)
         if self.llm_client.enabled:
-            analyses = self._enhance_with_llm(analyses, items, profile, progress=progress)
+            analyses = self._enhance_with_llm(analyses, enriched_items, profile, progress=progress)
         return sorted(analyses, key=lambda item: item.score, reverse=True)
 
     def _enhance_with_llm(
@@ -78,30 +186,38 @@ class ValueAnalysisAgent(BaseAgent):
                         "title": analysis.title,
                     }
                 )
-            try:
-                payload = self.llm_client.analyze_item(profile, item_map[analysis.item_id], analysis)
-                enhanced.append(self._merge_llm_payload(analysis, payload))
-                if progress:
-                    progress(
-                        {
-                            "stage": "value_analysis",
-                            "status": "complete",
-                            "message": f"Enhanced {analysis.title}",
-                            "item_id": analysis.item_id,
-                        }
-                    )
-            except (LLMError, ValueError, TypeError, KeyError) as exc:
-                self.last_llm_errors.append(f"{analysis.item_id}: {exc}")
-                enhanced.append(analysis)
-                if progress:
-                    progress(
-                        {
-                            "stage": "value_analysis",
-                            "status": "warning",
-                            "message": f"LLM enhancement skipped for {analysis.item_id}; details kept in backend artifacts",
-                            "item_id": analysis.item_id,
-                        }
-                    )
+            result = analysis
+            for attempt in range(2):
+                try:
+                    payload = self.llm_client.analyze_item(profile, item_map[analysis.item_id], analysis)
+                    candidate = self._merge_llm_payload(analysis, payload)
+                    quality = self._evaluate_llm_output(candidate)
+                    if quality >= 0.5 or attempt == 1:
+                        result = candidate
+                        break
+                    # Quality too low, retry once
+                except (LLMError, ValueError, TypeError, KeyError) as exc:
+                    self.last_llm_errors.append(f"{analysis.item_id}: {exc}")
+                    if progress:
+                        progress(
+                            {
+                                "stage": "value_analysis",
+                                "status": "warning",
+                                "message": f"LLM enhancement skipped for {analysis.item_id}; details kept in backend artifacts",
+                                "item_id": analysis.item_id,
+                            }
+                        )
+                    break
+            enhanced.append(result)
+            if result is not analysis and progress:
+                progress(
+                    {
+                        "stage": "value_analysis",
+                        "status": "complete",
+                        "message": f"Enhanced {analysis.title}",
+                        "item_id": analysis.item_id,
+                    }
+                )
         return enhanced
 
     def _merge_llm_payload(self, base: ValueAnalysis, payload: dict[str, object]) -> ValueAnalysis:
@@ -185,6 +301,84 @@ class ValueAnalysisAgent(BaseAgent):
             evidence=self._evidence(item, decision),
             confidence=confidence,
         )
+
+    # ── LLM quality evaluation ────────────────────────────────────────────
+
+    # The generic rule-based fallback templates – if LLM returned one of
+    # these verbatim it means it didn't improve the analysis.
+    _FALLBACK_WHY: frozenset[str] = frozenset(
+        {
+            "It may change how the field frames the task or evaluates progress, especially if its experiments are reusable.",
+            "It is worth inspecting because implementation quality and runnable demos can turn an idea into a practical baseline.",
+            "It can shape what the community optimizes for and expose under-measured weaknesses.",
+            "It is relevant as a capability signal for research workflows and product-level AI systems.",
+            "It is useful if it contains grounded technical analysis rather than surface-level commentary.",
+        }
+    )
+
+    def _evaluate_llm_output(self, analysis: ValueAnalysis) -> float:
+        """Score LLM output quality in [0, 1]. Pure rule check, no extra LLM call."""
+        why = analysis.why_it_matters or ""
+        if why in self._FALLBACK_WHY:
+            return 0.0  # LLM failed to improve the generic fallback
+
+        score = 1.0
+        if len(why) < 60:
+            score -= 0.3
+        elif not re.search(r"\d+[%x]?|\bSOTA\b|\bstate.of.the.art\b|benchmark|experiment|dataset", why, re.I):
+            score -= 0.15
+        if len(analysis.technical_core or "") < 50:
+            score -= 0.2
+        if len(analysis.strengths or []) < 2:
+            score -= 0.2
+        if not (analysis.possible_actions or []):
+            score -= 0.1
+        return max(0.0, score)
+
+    # ── Tool enrichment ───────────────────────────────────────────────────
+
+    def _enrich_item_with_tools(self, item: ContentItem) -> ContentItem:
+        """Best-effort tool enrichment before rule-based analysis.
+
+        Tries to fill missing summary, citation count, or repo star velocity
+        by calling registered tools (wrapping existing connector logic).
+        Never raises – returns item unchanged on any failure.
+        """
+        try:
+            from research_intel.tools import paper_tools, repo_tools  # noqa: F401 – ensures registration
+            from research_intel.tools.tool_registry import ToolRegistry
+
+            if item.content_type == ContentType.PAPER and not item.summary.strip():
+                arxiv_id = item.raw.get("arxiv_id", "") if isinstance(item.raw, dict) else ""
+                if arxiv_id:
+                    abstract = ToolRegistry.call("fetch_paper_abstract", arxiv_id=str(arxiv_id))
+                    if abstract:
+                        item.summary = str(abstract)
+
+            if item.content_type == ContentType.PAPER and item.metrics.get("citations", 0) == 0:
+                arxiv_id = item.raw.get("arxiv_id", "") if isinstance(item.raw, dict) else ""
+                cites = ToolRegistry.call(
+                    "get_citation_count",
+                    title=item.title,
+                    arxiv_id=str(arxiv_id),
+                )
+                if cites:
+                    item.metrics["citations"] = float(cites)
+
+            if item.content_type == ContentType.REPO and "stars" not in item.metrics:
+                from research_intel.tools.repo_tools import _parse_github_url
+
+                parsed = _parse_github_url(item.url)
+                if parsed:
+                    owner, repo_name = parsed
+                    velocity = ToolRegistry.call("get_repo_star_velocity", owner=owner, repo=repo_name)
+                    if isinstance(velocity, dict):
+                        item.metrics.update(velocity)
+        except Exception:
+            pass
+        return item
+
+    # ── Scoring helpers ───────────────────────────────────────────────────
 
     def _novelty(self, item: ContentItem) -> float:
         value = float(item.technical_signals.get("novelty", 5.0))

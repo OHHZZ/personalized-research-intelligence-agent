@@ -19,6 +19,17 @@ from research_intel.evaluation import evaluate_assistant_response
 from research_intel.llm import QwenChatClient
 from research_intel.models import ContentItem, ContentType, DailyReport, FeedbackEvent, to_plain_dict
 from research_intel.pipeline import DailyResearchPipeline
+
+try:
+    from research_intel.langgraph_pipeline import LangGraphDailyPipeline as _LGPipeline
+except ImportError:
+    _LGPipeline = None  # type: ignore[assignment,misc]
+
+
+def _make_pipeline(project_root: Path) -> DailyResearchPipeline:
+    if _LGPipeline is not None and os.getenv("USE_LANGGRAPH_PIPELINE", "false").lower() == "true":
+        return _LGPipeline(project_root)  # type: ignore[return-value]
+    return DailyResearchPipeline(project_root)
 from research_intel.rag import RagIndex, create_embedding_model, pgvector_health, sync_pgvector_from_env
 from research_intel.storage import JsonStore
 
@@ -83,7 +94,7 @@ class ResearchIntelHandler(BaseHTTPRequestHandler):
             report_stem = str(payload.get("report", "latest"))
             source_mode = str(payload.get("source", "hybrid"))
             try:
-                result = DailyResearchPipeline(self.project_root).run(
+                result = _make_pipeline(self.project_root).run(
                     profile_id=profile_id,
                     report_stem=report_stem,
                     source_mode=source_mode,

@@ -1,113 +1,163 @@
 <p align="center">
   <h1 align="center">Personalized Research Intelligence Agent</h1>
   <p align="center">
-    面向论文、代码仓库、工具与有依据研究问答的多智能体研究情报系统。
+    A multi-agent research intelligence system for daily paper, repo, and trend curation — with RAG-grounded Q&A.
   </p>
   <p align="center">
     <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white">
-    <img alt="Status" src="https://img.shields.io/badge/status-MVP-0f766e?style=flat-square">
+    <img alt="LangGraph" src="https://img.shields.io/badge/LangGraph-1.1%2B-0f766e?style=flat-square">
+    <img alt="asyncio" src="https://img.shields.io/badge/async-parallel%20pipeline-6d28d9?style=flat-square">
     <img alt="Storage" src="https://img.shields.io/badge/storage-JSON%20%7C%20pgvector-2563eb?style=flat-square">
-    <img alt="Frontend" src="https://img.shields.io/badge/frontend-static%20HTML%2FCSS%2FJS-b45309?style=flat-square">
   </p>
 </p>
 
 ---
 
-## 项目概览
+## Overview
 
-Personalized Research Intelligence Agent 是一个本地研究助手，可以把分散的研究信号整理成每日决策简报。它会收集候选论文和代码仓库，过滤低价值条目，评估研究价值，检测趋势信号，并基于本地 RAG 证据回答问题。
+Personalized Research Intelligence Agent turns scattered research signals into a daily decision brief. It discovers candidate papers and repos from 5 live sources, filters by profile relevance, runs 8-dimensional value analysis with optional LLM enhancement, detects trending topics, and answers questions with RAG-grounded evidence and a hallucination risk score.
 
-![每日简报首页](docs/images/home_page.png)
+![Daily Brief](docs/images/home_page.png)
 
-_包含论文、仓库、趋势信号和助手上下文的每日简报。_
+---
 
+## Architecture
 
-## 功能
-
-| 模块 | 能力 |
-| --- | --- |
-| 发现 | 从示例、在线或混合数据源模式拉取候选内容。 |
-| 筛选 | 拒绝弱相关内容、内容单薄的仓库、过时项目和证据不足的声明。 |
-| 价值分析 | 评估相关性、新颖性、技术深度、证据、可复现性、实用性、趋势信号和研究机会。 |
-| 趋势 | 为新兴主题和 baseline 机会生成短窗口趋势信号。 |
-| 助手 | 根据报告上下文和 RAG 片段回答问题，并把来源返回到界面。 |
-| 仓库问答 | 为选定仓库提供面向 baseline 的回答。 |
-| 反馈 | 记录本地反馈事件，并轻量更新用户画像权重。 |
-
-## 产品界面
-
-Web 应用包含七个核心视图：
-
-| 视图 | 用途 |
-| --- | --- |
-| Brief | 每日推荐动作、信号分布和最高价值条目。 |
-| Papers | 带价值分析的论文排序情报。 |
-| Repos | 面向 baseline 和实现检查的仓库情报。 |
-| Trends | 7/30/90 天主题信号及其影响。 |
-| Filtered | 已接受、已拒绝和低优先级候选项的审计记录。 |
-| Saved | 本地反馈和后续跟进队列。 |
-| Profile | 可编辑的研究兴趣、方法、应用和目标。 |
-
-![研究助手抽屉](docs/images/assistant.png)
-
-_助手抽屉根据选定报告或条目上下文进行回答。_
-
-## 架构
+The system is built as a **LangGraph StateGraph** with 11 nodes and conditional routing. All 5 data-source connectors run in parallel via `asyncio.gather`, and LLM enhancement runs with bounded concurrency (semaphore=3).
 
 ```mermaid
 flowchart LR
-  Profile[ProfileAgent] --> Discovery[DiscoveryAgent]
-  Discovery --> Filtering[FilteringAgent]
-  Filtering --> Value[ValueAnalysisAgent]
+  Profile[ProfileAgent] --> Discovery[DiscoveryAgent\nasync parallel]
+  Discovery -->|"live=0 → sample fallback"| Filter[FilteringAgent]
+  Filter -->|"passed<3 → relax"| Supervisor[SupervisorNode]
+  Supervisor --> Value[ValueAnalysisAgent\ntools + reflection]
   Value --> Evidence[EvidenceAgent]
   Evidence --> Trends[TrendAgent]
   Trends --> Recommend[RecommendationAgent]
-  Recommend --> Report[DailyReport]
-  Report --> RAG[RagIndex]
-  RAG --> Assistant[ResearchAssistantAgent]
-  Report --> Web[Static Web UI]
+  Recommend --> RAG[RagIndex]
+  RAG --> Assistant[ResearchAssistantAgent\ngrounding check]
+  Recommend --> Web[Static Web UI]
   Assistant --> Web
 ```
 
-按需智能体：
+**On-demand agents:**
+- `ResearchAssistantAgent` — RAG-grounded Q&A with grounding score
+- `RepoQAAgent` — Baseline readiness, reproducibility, and integration Q&A
+- `LangGraphAssistant` — Streaming multi-turn assistant (optional, requires OpenAI key)
 
-- `ResearchAssistantAgent`：基于报告和 RAG 的有依据问答。
-- `RepoQAAgent`：仓库 baseline、可复现性和集成问题。
-- `LangGraphAssistant`：基于 LangGraph 的流式助手。
+---
 
-## 数据源模式
+## Features
 
-| 模式 | 行为 |
-| --- | --- |
-| `sample` | 只使用 `data/samples/content_items.json`；用于离线测试。 |
-| `live` | 只使用在线api。 |
-| `hybrid` | 优先使用在线连接器；如果在线结果较少，再混合知识库数据。 |
+| Module | Capability |
+|--------|------------|
+| Discovery | 5 parallel connectors (arXiv, Semantic Scholar, OpenAlex, PapersWithCode, GitHub) with sample fallback |
+| Filtering | 4-tier relevance × quality scoring; auto-relaxes threshold when candidates are sparse |
+| Tool Enrichment | Fills missing abstracts (arXiv), citation counts (S2), and star velocity (GitHub) before scoring |
+| Value Analysis | 8-dimension scoring; LLM enhancement with reflection loop (max 2 retries, quality gate) |
+| Evidence Review | Downgrades confidence when evidence or reproducibility signals are weak |
+| Trends | 7 / 30 / 90-day topic frequency windows cross-referenced with user profile |
+| Report | Ranked top papers, repos, tools, trends, and 5 actionable recommendations |
+| Assistant Q&A | Hybrid dense + BM25 RAG retrieval; LLM answer with grounding score (hallucination detection) |
+| Supervisor | Dynamic strategy node: raises LLM limit on high-priority overflow, skips unused tools |
 
-## RAG 与向量存储
+---
 
-默认检索使用sentence-transformer embedding
+## Web UI
 
-sentence-transformer embedding：
+Seven views in the single-page app:
 
-```powershell
+| View | Purpose |
+|------|---------|
+| Brief | Daily actions, signal distribution, highest-value items |
+| Papers | Ranked paper intelligence with value analysis |
+| Repos | Baseline and implementation readiness |
+| Trends | Topic signals across 7 / 30 / 90-day windows |
+| Filtered | Audit trail: accepted, rejected, low-priority |
+| Saved | Local feedback and follow-up queue |
+| Profile | Editable research domains, methods, applications, goals |
+
+![Assistant drawer](docs/images/assistant.png)
+
+---
+
+## Quick Start
+
+```bash
+# Install
+pip install -e .
+
+# Run with sample data (offline)
+research-intel run-daily --source sample
+
+# Run with live sources
+research-intel run-daily --source hybrid
+
+# Use LangGraph pipeline (parallel connectors + conditional routing)
+research-intel run-daily --source hybrid --use-langgraph
+
+# Start web UI
+research-intel serve-web
+```
+
+---
+
+## Configuration
+
+Copy `.env.example` to `.env` and fill in what you need:
+
+```env
+# Pipeline
+USE_LANGGRAPH_PIPELINE=false   # true = LangGraph state machine
+
+# LLM enhancement (optional)
+ENABLE_LLM_ANALYSIS=false
+DASHSCOPE_API_KEY=
+
+# Data sources (optional but recommended)
+GITHUB_TOKEN=
+SEMANTIC_SCHOLAR_API_KEY=
+
+# Embeddings (optional, improves RAG quality)
+EMBEDDING_PROVIDER=local_hash  # or sentence_transformers
+```
+
+**sentence-transformers:**
+```bash
 pip install -e .[embeddings]
 ```
 
-```text
-EMBEDDING_PROVIDER=sentence_transformers
-EMBEDDING_MODEL=BAAI/bge-base-en-v1.5
-```
-
-PostgreSQL + pgvector：
-
-```powershell
+**PostgreSQL + pgvector:**
+```bash
 pip install -e .[pgvector]
-.\scripts\start_pgvector.ps1
-.\scripts\init_pgvector.ps1
+research-intel init-pgvector
 ```
 
-## 项目总结
+---
 
-Personalized Research Intelligence Agent 面向研究人员在日常论文、代码仓库和趋势信息筛选中的高频痛点，提供了一个本地优先、可审计、可扩展的研究情报工作台。它把候选发现、相关性筛选、价值分析、趋势判断、RAG 问答和用户反馈组织成一条流水线，让研究者可以更快判断“今天最值得读什么、哪些仓库值得作为 baseline、哪些方向正在形成机会”。
+## Project Structure
 
-当前为初始版本：核心能力已经覆盖端到端研究简报生成和本地 Web 交互。后续可以继续增强在线连接器稳定性、长期用户画像学习、团队协作、评估体系和生产级向量存储，使其从个人研究助手逐步演进为可持续使用的研究情报系统。
+```
+src/research_intel/
+├── agents/          # 10 agents (pipeline + on-demand)
+├── connectors/      # 5 data-source connectors
+├── tools/           # Tool registry + paper/repo tools
+├── rag/             # Hybrid dense+BM25 RAG index
+├── llm/             # Qwen/DashScope client
+├── evaluation/      # Response evaluation
+├── web/static/      # Static web UI (HTML/CSS/JS)
+├── pipeline.py      # Original sequential pipeline
+├── langgraph_pipeline.py  # LangGraph state-machine pipeline
+├── mcp_server.py    # MCP tool server
+└── web_server.py    # HTTP server
+```
+
+---
+
+## Data Source Modes
+
+| Mode | Behavior |
+|------|---------|
+| `sample` | Uses `data/samples/content_items.json` only; fully offline |
+| `live` | Queries all 5 live connectors in parallel |
+| `hybrid` | Live-first; blends sample data if live results are sparse |

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -17,6 +18,7 @@ class AssistantAnswer:
     sources: list[dict[str, Any]] = field(default_factory=list)
     mode: str = "local"
     llm_error: str | None = None
+    grounding: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -24,6 +26,7 @@ class AssistantAnswer:
             "sources": self.sources,
             "mode": self.mode,
             "llm_error": self.llm_error,
+            "grounding": self.grounding,
         }
 
 
@@ -74,7 +77,8 @@ class ResearchAssistantAgent(BaseAgent):
                     question,
                     [self._llm_context(result) for result in retrieved],
                 )
-                return AssistantAnswer(answer=answer, sources=sources, mode="qwen_rag")
+                grounding = self._check_grounding(answer, retrieved)
+                return AssistantAnswer(answer=answer, sources=sources, mode="qwen_rag", grounding=grounding)
             except LLMError as exc:
                 fallback = self._fallback_answer(question, lowered, report, candidates, selected_item, retrieved)
                 return AssistantAnswer(
@@ -223,6 +227,45 @@ class ResearchAssistantAgent(BaseAgent):
         if retrieved:
             lines.append(f"- 检索证据：{', '.join(result.chunk.title for result in retrieved[:3])}")
         return "\n".join(lines)
+
+    def _check_grounding(self, answer: str, chunks: list[RagSearchResult]) -> dict[str, Any]:
+        """Check how well the LLM answer is grounded in the retrieved chunks.
+
+        Extracts concrete claims (numbers, percentages, Title-Case sequences that
+        could be model/paper/author names) from the answer and checks whether each
+        appears in the combined chunk texts.
+
+        Returns a dict with:
+            grounding_score  – float in [0, 1]
+            total_claims     – number of specific claims detected
+            grounded_claims  – how many were found in chunks
+            confidence       – "high" | "medium" | "low"
+        """
+        if not chunks:
+            return {"grounding_score": 0.0, "total_claims": 0, "grounded_claims": 0, "confidence": "low"}
+
+        chunk_text = " ".join(r.chunk.text for r in chunks).lower()
+
+        # Numbers and percentages are often hallucinated
+        numeric_claims = re.findall(r"\b\d+\.?\d*\s*%?|\b\d{4}\b", answer)
+        # Title-Case sequences (likely model names, paper names, authors)
+        title_claims = re.findall(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b", answer)
+
+        all_claims = [c.strip() for c in numeric_claims + title_claims if c.strip()]
+
+        if not all_claims:
+            # No verifiable claims → moderate default (answer may be valid but unverifiable)
+            return {"grounding_score": 0.6, "total_claims": 0, "grounded_claims": 0, "confidence": "medium"}
+
+        grounded = sum(1 for c in all_claims if c.lower() in chunk_text)
+        score = grounded / len(all_claims)
+
+        return {
+            "grounding_score": round(score, 2),
+            "total_claims": len(all_claims),
+            "grounded_claims": grounded,
+            "confidence": "high" if score > 0.7 else "medium" if score > 0.4 else "low",
+        }
 
     def _llm_context(self, result: RagSearchResult) -> dict[str, str]:
         chunk = result.chunk

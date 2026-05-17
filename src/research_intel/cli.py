@@ -8,6 +8,11 @@ from research_intel.agents.repo_qa_agent import RepoQAAgent
 from research_intel.config import load_dotenv
 from research_intel.models import ContentItem, ContentType
 from research_intel.pipeline import DailyResearchPipeline
+
+try:
+    from research_intel.langgraph_pipeline import LangGraphDailyPipeline
+except ImportError:
+    LangGraphDailyPipeline = None  # type: ignore[assignment,misc]
 from research_intel.rag import PgVectorStore
 from research_intel.storage import JsonStore
 from research_intel.web_server import serve
@@ -27,6 +32,12 @@ def main() -> None:
         default="hybrid",
         help="Candidate source mode. hybrid uses live sources and falls back to sample data.",
     )
+    daily.add_argument(
+        "--use-langgraph",
+        action="store_true",
+        default=False,
+        help="Use the LangGraph state-machine pipeline (parallel connectors + conditional routing).",
+    )
 
     ask = subparsers.add_parser("ask-repo", help="Ask a question about a discovered repo")
     ask.add_argument("--repo-id", required=True, help="Repository item id from sample data")
@@ -44,7 +55,14 @@ def main() -> None:
     load_dotenv(root)
 
     if args.command == "run-daily":
-        result = DailyResearchPipeline(root).run(
+        import os
+        use_langgraph = args.use_langgraph or os.getenv("USE_LANGGRAPH_PIPELINE", "false").lower() == "true"
+        if use_langgraph and LangGraphDailyPipeline is not None:
+            pipeline = LangGraphDailyPipeline(root)
+            print("[LangGraph pipeline enabled]")
+        else:
+            pipeline = DailyResearchPipeline(root)
+        result = pipeline.run(
             profile_id=args.profile,
             report_stem=args.report,
             source_mode=args.source,
