@@ -9,13 +9,13 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from research_intel.agents.filtering_agent import FilteringAgent
 from research_intel.models import FilterStatus
-from research_intel.pipeline import DailyResearchPipeline
+from research_intel.langgraph_pipeline import LangGraphDailyPipeline
 from research_intel.storage import JsonStore
 
 
 class PipelineTest(unittest.TestCase):
     def test_daily_pipeline_generates_report(self) -> None:
-        result = DailyResearchPipeline(ROOT).run(
+        result = LangGraphDailyPipeline(ROOT).run(
             profile_id="default_user",
             report_stem="test_latest",
             source_mode="sample",

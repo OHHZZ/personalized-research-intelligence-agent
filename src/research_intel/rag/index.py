@@ -111,7 +111,7 @@ class RagIndex:
     @classmethod
     def load(cls, path: Path) -> "RagIndex":
         payload = json.loads(path.read_text(encoding="utf-8"))
-        dimensions = int(payload.get("dimensions", 384))
+        dimensions = int(payload.get("dimensions", 768))
         chunks = [RagChunk.from_dict(item) for item in payload.get("chunks", [])]
         return cls(
             chunks=chunks,

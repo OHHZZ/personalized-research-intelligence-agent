@@ -1,13 +1,10 @@
 """LangGraph-based daily research pipeline.
 
-Replaces the linear DailyResearchPipeline with a StateGraph that supports:
+StateGraph that supports:
 - Parallel connector fetching (via DiscoveryAgent.discover_async)
 - Parallel LLM enhancement (via ValueAnalysisAgent.analyze_async)
 - Conditional routing: fallback to sample on live failure, relax filter on sparse results
 - Supervisor node: dynamically adjusts LLM limit and skips unnecessary tools
-- Supervisor sits between filter and analysis, inspecting results before choosing strategy
-
-Activate via USE_LANGGRAPH_PIPELINE=true in .env, or --use-langgraph CLI flag.
 """
 from __future__ import annotations
 
@@ -71,8 +68,7 @@ class PipelineResult:
 class LangGraphDailyPipeline:
     """Research pipeline implemented as a LangGraph StateGraph.
 
-    Exposes the same ``run()`` interface as ``DailyResearchPipeline`` so it can
-    be used as a drop-in replacement.
+    Exposes a ``run()`` interface matching the old sequential pipeline.
     """
 
     def __init__(self, project_root: Path | str | None = None) -> None:
@@ -392,18 +388,12 @@ class LangGraphDailyPipeline:
 # ── asyncio helpers ───────────────────────────────────────────────────────────
 
 def _run_async(coro: Any) -> Any:
-    """Run a coroutine from synchronous code, compatible with ThreadingHTTPServer."""
+    """Run a coroutine from synchronous code, safe whether or not a loop is already running."""
     try:
-        loop = asyncio.get_event_loop()
-        if loop.is_running():
-            # Already inside an event loop (e.g., Jupyter) – run in a new thread
-            import concurrent.futures
-
-            def _in_thread() -> Any:
-                return asyncio.run(coro)
-
-            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
-                return pool.submit(_in_thread).result()
-        return loop.run_until_complete(coro)
+        asyncio.get_running_loop()
+        # Already inside a running loop — spawn a thread to avoid nesting
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+            return pool.submit(asyncio.run, coro).result()
     except RuntimeError:
         return asyncio.run(coro)

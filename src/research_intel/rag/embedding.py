@@ -161,15 +161,15 @@ class SentenceTransformerEmbeddingModel:
             from sentence_transformers import SentenceTransformer
         except ImportError as exc:
             raise RuntimeError(
-                "sentence-transformers is not installed. Install optional dependencies with "
-                "`pip install -e .[embeddings]`, or set EMBEDDING_PROVIDER=local_hash."
+                "sentence-transformers is not installed. Run `pip install sentence-transformers`."
             ) from exc
 
         self.provider = "sentence_transformers"
         self.model_name = model_name or os.getenv("EMBEDDING_MODEL", "BAAI/bge-base-en-v1.5")
         self._model = SentenceTransformer(self.model_name)
-        dimension = getattr(self._model, "get_sentence_embedding_dimension", lambda: None)()
-        self.dimensions = int(dimension or 768)
+        get_dim = getattr(self._model, "get_embedding_dimension",
+                          getattr(self._model, "get_sentence_embedding_dimension", None))
+        self.dimensions = int(get_dim() if callable(get_dim) else 768)
 
     def embed_query(self, text: str) -> list[float]:
         return self._encode(_query_text(text, self.model_name))
@@ -183,10 +183,10 @@ class SentenceTransformerEmbeddingModel:
 
 
 def create_embedding_model(provider: str | None = None, dimensions: int | None = None) -> EmbeddingModel:
-    requested = (provider or os.getenv("EMBEDDING_PROVIDER", "local_hash")).strip().lower()
-    if requested in {"sentence_transformers", "sentence-transformer", "bge", "bge-base-en-v1.5"}:
+    requested = (provider or os.getenv("EMBEDDING_PROVIDER", "sentence_transformers")).strip().lower()
+    if requested in {"sentence_transformers", "sentence-transformer", "bge", "bge-base-en-v1.5", ""}:
         return SentenceTransformerEmbeddingModel()
-    if requested in {"local_hash", "hash", "hashed", ""}:
+    if requested in {"local_hash", "hash", "hashed"}:
         return HashedEmbeddingModel(dimensions)
     raise ValueError(f"Unknown EMBEDDING_PROVIDER `{requested}`")
 
