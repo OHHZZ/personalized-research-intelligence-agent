@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m pytest tests/ -v)",
+      "PowerShell(Get-Command *)",
+      "PowerShell(cmd /c \"where python\" 2>&1; cmd /c \"python --version\" 2>&1)",
+      "PowerShell(& \"C:\\\\msys64\\\\ucrt64\\\\bin\\\\python.exe\" --version 2>&1; & \"C:\\\\msys64\\\\ucrt64\\\\bin\\\\python.exe\" -c \"import sys; print\\(sys.executable, sys.version\\)\")",
+      "PowerShell(& \"C:\\\\msys64\\\\ucrt64\\\\bin\\\\python.exe\" -c \"import sys; sys.path.insert\\(0, r'D:\\\\Personalized Research Intelligence Agent\\\\src'\\); from research_intel.tools.tool_registry import ToolRegistry; from research_intel.tools import paper_tools, repo_tools; print\\('Registered tools:', ToolRegistry.list_tools\\(\\)\\)\" 2>&1)",
+      "PowerShell(head *)",
+      "PowerShell(Get-ChildItem \"D:\\\\Personalized Research Intelligence Agent\" | Select-Object Name, PSIsContainer | Where-Object {$_.PSIsContainer -eq $false -or $_.Name -match \"venv|env|\\\\.venv\"})",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(git pull *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git rebase *)",
+      "Bash(dir /b \"D:\\\\Personalized Research Intelligence Agent\")",
+      "Bash(dir *)"
+    ]
+  }
+}

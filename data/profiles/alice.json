@@ -1,0 +1,19 @@
+{
+  "user_id": "alice",
+  "display_name": "",
+  "research_domains": [],
+  "methods": [],
+  "applications": [],
+  "preferred_content": [
+    "paper",
+    "repo",
+    "benchmark",
+    "tool",
+    "article"
+  ],
+  "excluded_topics": [],
+  "technical_level": "researcher",
+  "current_goals": [],
+  "feedback_weights": {},
+  "updated_at": "2026-05-25T04:46:02+00:00"
+}

@@ -1,0 +1,27 @@
+{
+  "user_id": "zx",
+  "display_name": "zx",
+  "research_domains": [
+    "agent",
+    "LLM implement"
+  ],
+  "methods": [
+    "rag",
+    "sft"
+  ],
+  "applications": [],
+  "preferred_content": [
+    "paper",
+    "repo",
+    "benchmark",
+    "tool",
+    "article"
+  ],
+  "excluded_topics": [],
+  "technical_level": "researcher",
+  "current_goals": [
+    "find some useful tools"
+  ],
+  "feedback_weights": {},
+  "updated_at": "2026-05-25T10:54:41+00:00"
+}
