@@ -12,7 +12,10 @@
         <div class="brand-mark">RI</div>
         <div>
           <h1>Research Intelligence</h1>
-          <p id="profileName">default_user</p>
+          <div class="brand-user">
+            <p id="profileName"></p>
+            <button id="switchUserBtn" class="switch-user-btn" title="Switch user">&#8644;</button>
+          </div>
         </div>
       </div>
       <nav class="nav">
@@ -215,6 +218,32 @@
       <div id="drawerBody" class="drawer-body"></div>
     </aside>
     <div id="drawerBackdrop" class="drawer-backdrop"></div>
+    <div id="onboarding" class="onboarding hidden">
+      <div class="onboarding-card">
+        <div class="onboarding-brand">
+          <div class="brand-mark">RI</div>
+          <h2>Research Intelligence</h2>
+        </div>
+
+        <div id="stepUsername" class="onboarding-step">
+          <p class="onboarding-desc">Enter a username to get started. Each username has its own research profile.</p>
+          <input id="onboardingUserId" type="text" placeholder="e.g. alice" autocomplete="username" maxlength="64">
+          <button id="startBtn" class="primary-btn">Continue</button>
+        </div>
+
+        <div id="stepProfile" class="onboarding-step hidden">
+          <p class="onboarding-desc">Tell us about your research so we can personalize your feed.</p>
+          <form id="onboardingForm" class="profile-form">
+            <label>Display name<input id="ob_displayName" type="text" placeholder="Your name"></label>
+            <label>Research domains <small>(one per line)</small><textarea id="ob_domains" rows="3" placeholder="e.g. video generation&#10;multimodal agents"></textarea></label>
+            <label>Methods <small>(one per line)</small><textarea id="ob_methods" rows="2" placeholder="e.g. diffusion models&#10;evaluation benchmark"></textarea></label>
+            <label>Current goals <small>(one per line)</small><textarea id="ob_goals" rows="2" placeholder="e.g. find publishable research gaps"></textarea></label>
+            <button class="primary-btn" type="submit">Start researching</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <script src="/assets/app.js"></script>
   </body>
 </html>

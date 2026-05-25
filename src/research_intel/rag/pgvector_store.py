@@ -189,7 +189,7 @@ def pgvector_health() -> dict[str, Any]:
         store = PgVectorStore.from_env()
         if store is None:
             return {"enabled": False, "status": "disabled", "detail": "PGVECTOR_DSN is not configured"}
-        with store._psycopg.connect(store.config.dsn) as conn:  # type: ignore[attr-defined]
+        with store._psycopg.connect(store.config.dsn, connect_timeout=3) as conn:  # type: ignore[attr-defined]
             with conn.cursor() as cur:
                 cur.execute("SELECT version()")
                 version = str(cur.fetchone()[0])

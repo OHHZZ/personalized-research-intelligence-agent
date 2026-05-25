@@ -15,6 +15,7 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+from research_intel.agents.profile_agent import ProfileAgent, validate_profile_id
 from research_intel.agents.research_assistant_agent import ResearchAssistantAgent
 from research_intel.agents.repo_qa_agent import RepoQAAgent
 from research_intel.assistant_context import content_items_from_payloads, content_payloads
@@ -65,6 +66,7 @@ if STATIC_DIR.exists():
     app.mount("/assets", StaticFiles(directory=str(STATIC_DIR)), name="assets")
 
 
+
 # ---------------------------------------------------------------------------
 # Request body schemas
 # ---------------------------------------------------------------------------
@@ -108,6 +110,11 @@ class FeedbackRequest(BaseModel):
 # Static / index
 # ---------------------------------------------------------------------------
 
+@app.get("/ping")
+async def ping() -> JSONResponse:
+    return JSONResponse({"pong": True})
+
+
 @app.get("/")
 async def serve_index() -> FileResponse:
     return FileResponse(str(STATIC_DIR / "index.html"))
@@ -118,8 +125,15 @@ async def serve_index() -> FileResponse:
 # ---------------------------------------------------------------------------
 
 @app.get("/api/profile")
-async def get_profile(profile: str = Query(default="default_user")) -> JSONResponse:
-    return JSONResponse(to_plain_dict(_get_store().load_profile(profile)))
+async def get_profile(profile: str = Query(...)) -> JSONResponse:
+    try:
+        validate_profile_id(profile)
+    except ValueError as exc:
+        return JSONResponse({"error": "invalid_profile_id", "detail": str(exc)}, status_code=400)
+    p = ProfileAgent(_get_store()).load_or_create(profile)
+    payload = to_plain_dict(p)
+    payload["configured"] = bool(p.research_domains)
+    return JSONResponse(payload)
 
 
 @app.get("/api/report")
@@ -143,7 +157,9 @@ async def get_feedback(profile: str = Query(default="default_user")) -> JSONResp
 
 @app.get("/api/health")
 async def get_health() -> JSONResponse:
-    return JSONResponse(_health_payload(_project_root, _get_store()))
+    loop = asyncio.get_running_loop()
+    payload = await loop.run_in_executor(None, _health_payload, _project_root, _get_store())
+    return JSONResponse(payload)
 
 
 # ---------------------------------------------------------------------------
@@ -348,8 +364,9 @@ async def post_run(body: RunRequest) -> JSONResponse:
 @app.post("/api/profile")
 async def post_profile(body: ProfileUpdateRequest) -> JSONResponse:
     try:
+        validate_profile_id(body.user_id)
         store = _get_store()
-        profile = store.load_profile(body.user_id)
+        profile = ProfileAgent(store).load_or_create(body.user_id)
         for key in (
             "display_name", "research_domains", "methods", "applications",
             "preferred_content", "excluded_topics", "technical_level", "current_goals",
@@ -560,10 +577,20 @@ def _assistant_response(
     return response
 
 
+_cached_embedding_model: Any = None
+
+
+def _get_embedding_model() -> Any:
+    global _cached_embedding_model
+    if _cached_embedding_model is None:
+        _cached_embedding_model = create_embedding_model()
+    return _cached_embedding_model
+
+
 def _health_payload(project_root: Path, store: JsonStore) -> dict[str, Any]:
     qwen_client = QwenChatClient()
     try:
-        embedding_model = create_embedding_model()
+        embedding_model = _get_embedding_model()
         embedding: dict[str, Any] = {
             "provider": embedding_model.provider,
             "model": embedding_model.model_name,
@@ -647,6 +674,13 @@ def serve(project_root: Path | str, host: str = "127.0.0.1", port: int = 8765) -
     global _project_root, _store
     _project_root = Path(project_root).resolve()
     _store = JsonStore(_project_root)
+
+    print("Loading embedding model...", flush=True)
+    try:
+        _get_embedding_model()
+        print("Embedding model ready.", flush=True)
+    except Exception as exc:
+        print(f"Warning: embedding model failed to load: {exc}", flush=True)
 
     import uvicorn
     print(f"Research Intelligence web app: http://{host}:{port}")

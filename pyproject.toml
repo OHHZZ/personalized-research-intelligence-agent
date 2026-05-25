@@ -10,7 +10,11 @@ dependencies = [
   "langchain-mcp-adapters>=0.2",
   "mcp>=1.27",
   "sentence-transformers>=2.7",
+  "fastapi>=0.136",
+  "uvicorn[standard]>=0.46",
 ]
+
+[project.optional-dependencies]
 pgvector = [
   "psycopg[binary]>=3.1",
 ]

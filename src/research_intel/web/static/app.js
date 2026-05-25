@@ -1,4 +1,5 @@
 const state = {
+  userId: localStorage.getItem("ri_user_id") || null,
   profile: null,
   report: null,
   candidates: [],
@@ -23,6 +24,10 @@ async function api(path, options = {}) {
     throw new Error(payload.detail || payload.error || "Request failed");
   }
   return payload;
+}
+
+function profileParam() {
+  return `profile=${encodeURIComponent(state.userId)}`;
 }
 
 function escapeHtml(value) {
@@ -87,8 +92,106 @@ function joinLines(values) {
   return (values || []).join("\n");
 }
 
+// ── Onboarding ────────────────────────────────────────────────────────────────
+
+function showOnboardingStep(step) {
+  $("#onboarding").classList.remove("hidden");
+  $("#stepUsername").classList.toggle("hidden", step !== "username");
+  $("#stepProfile").classList.toggle("hidden", step !== "profile");
+  if (step === "username") {
+    setTimeout(() => $("#onboardingUserId").focus(), 50);
+  } else {
+    setTimeout(() => $("#ob_displayName").focus(), 50);
+  }
+}
+
+function hideOnboarding() {
+  $("#onboarding").classList.add("hidden");
+}
+
+function handleUsernameStep() {
+  const raw = $("#onboardingUserId").value.trim();
+  const userId = raw.replace(/[^a-zA-Z0-9_\-]/g, "");
+  if (!userId) {
+    alert("Please enter a valid username (letters, digits, _ or -).");
+    return;
+  }
+  state.userId = userId;
+  localStorage.setItem("ri_user_id", userId);
+  api(`/api/profile?${profileParam()}`)
+    .then((profile) => {
+      state.profile = profile;
+      if (!profile.configured) {
+        showOnboardingStep("profile");
+      } else {
+        hideOnboarding();
+        loadInitial().catch((error) => alert(error.message));
+      }
+    })
+    .catch((error) => alert(error.message));
+}
+
+async function handleProfileSetup(event) {
+  event.preventDefault();
+  const domains = splitLines($("#ob_domains").value);
+  if (!domains.length) {
+    alert("Please enter at least one research domain.");
+    return;
+  }
+  const payload = {
+    user_id: state.userId,
+    display_name: $("#ob_displayName").value.trim() || state.userId,
+    research_domains: domains,
+    methods: splitLines($("#ob_methods").value),
+    applications: [],
+    preferred_content: ["paper", "repo", "benchmark", "tool", "article"],
+    excluded_topics: [],
+    current_goals: splitLines($("#ob_goals").value),
+    technical_level: "researcher",
+  };
+  try {
+    state.profile = await api("/api/profile", { method: "POST", body: JSON.stringify(payload) });
+    hideOnboarding();
+    await loadInitial();
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+function switchUser() {
+  if (!confirm("Switch to a different user? This clears your local session (your data is saved on the server).")) return;
+  localStorage.removeItem("ri_user_id");
+  state.userId = null;
+  state.profile = null;
+  state.report = null;
+  state.candidates = [];
+  state.feedback = [];
+  $("#onboardingUserId").value = "";
+  showOnboardingStep("username");
+}
+
+// ── App initialization ────────────────────────────────────────────────────────
+
+function initApp() {
+  if (!state.userId) {
+    showOnboardingStep("username");
+    return;
+  }
+  api(`/api/profile?${profileParam()}`)
+    .then((profile) => {
+      state.profile = profile;
+      if (!profile.configured) {
+        showOnboardingStep("profile");
+      } else {
+        hideOnboarding();
+        loadInitial().catch((error) => alert(error.message));
+      }
+    })
+    .catch(() => showOnboardingStep("username"));
+}
+
 async function loadInitial() {
-  state.profile = await api("/api/profile?profile=default_user");
+  state.profile = await api(`/api/profile?${profileParam()}`);
   renderProfile();
   try {
     state.report = await api("/api/report?report=latest");
@@ -96,7 +199,7 @@ async function loadInitial() {
     state.report = null;
   }
   state.candidates = await api("/api/candidates");
-  state.feedback = await api("/api/feedback?profile=default_user");
+  state.feedback = await api(`/api/feedback?${profileParam()}`);
   renderReport();
 }
 
@@ -555,14 +658,14 @@ async function runPipelineFallback(button) {
     const payload = await api("/api/run", {
       method: "POST",
       body: JSON.stringify({
-        profile: "default_user",
+        profile: state.userId,
         source: $("#sourceMode").value,
         report: "latest",
       }),
     });
     state.report = payload.report;
     state.candidates = await api("/api/candidates");
-    state.feedback = await api("/api/feedback?profile=default_user");
+    state.feedback = await api(`/api/feedback?${profileParam()}`);
     renderReport();
     appendRunEvent({ stage: "run", status: "complete", message: "Pipeline complete" });
   } catch (error) {
@@ -589,7 +692,7 @@ function runPipeline() {
   }
 
   const params = new URLSearchParams({
-    profile: "default_user",
+    profile: state.userId,
     source: $("#sourceMode").value,
     report: "latest",
   });
@@ -624,7 +727,7 @@ function runPipeline() {
     state.report = payload.report;
     Promise.all([
       api("/api/candidates"),
-      api("/api/feedback?profile=default_user"),
+      api(`/api/feedback?${profileParam()}`),
     ])
       .then(([candidates, feedback]) => {
         state.candidates = candidates;
@@ -674,7 +777,7 @@ function runPipeline() {
 async function saveProfile(event) {
   event.preventDefault();
   const payload = {
-    user_id: "default_user",
+    user_id: state.userId,
     display_name: $("#displayName").value.trim() || "Researcher",
     research_domains: splitLines($("#researchDomains").value),
     methods: splitLines($("#methods").value),
@@ -691,10 +794,10 @@ async function saveProfile(event) {
 async function sendFeedback(itemId, action) {
   const payload = await api("/api/feedback", {
     method: "POST",
-    body: JSON.stringify({ profile_id: "default_user", item_id: itemId, action }),
+    body: JSON.stringify({ profile_id: state.userId, item_id: itemId, action }),
   });
   state.feedback.push(payload);
-  state.profile = await api("/api/profile?profile=default_user");
+  state.profile = await api(`/api/profile?${profileParam()}`);
   renderProfile();
   renderSaved();
 }
@@ -991,5 +1094,9 @@ $("#assistantQuestion").addEventListener("keydown", (event) => {
 $("#filterStatusSelect").addEventListener("change", renderFiltered);
 $("#closeDrawerBtn").addEventListener("click", closeDetail);
 $("#drawerBackdrop").addEventListener("click", closeDetail);
+$("#startBtn").addEventListener("click", handleUsernameStep);
+$("#onboardingUserId").addEventListener("keydown", (e) => { if (e.key === "Enter") handleUsernameStep(); });
+$("#onboardingForm").addEventListener("submit", handleProfileSetup);
+$("#switchUserBtn").addEventListener("click", switchUser);
 bindTabs();
-loadInitial().catch((error) => alert(error.message));
+initApp();
