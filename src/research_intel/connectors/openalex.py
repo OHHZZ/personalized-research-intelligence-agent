@@ -4,6 +4,7 @@ import os
 
 from research_intel.connectors.base import ContentConnector
 from research_intel.connectors.http_client import ConnectorError, build_url, get_url, stable_id
+from research_intel.connectors.signal_helpers import dedupe_items, enrich_with_profile_tags, text_paper_signals, unique
 from research_intel.models import ContentItem, ContentType, UserProfile
 
 
@@ -21,7 +22,7 @@ class OpenAlexConnector(ContentConnector):
                 continue
         if self.last_errors and not items:
             raise ConnectorError("; ".join(self.last_errors))
-        return _dedupe(items)
+        return enrich_with_profile_tags(dedupe_items(items), profile)
 
     def _queries(self, profile: UserProfile) -> list[str]:
         terms = [
@@ -137,25 +138,11 @@ def _infer_tags(title: str, abstract: str, concepts: list[object]) -> list[str]:
 
 
 def _paper_signals(title: str, abstract: str, work: dict[str, object], pdf_url: str) -> dict[str, object]:
-    text = f"{title} {abstract}".lower()
-    has_eval = any(term in text for term in ("experiment", "evaluation", "benchmark", "metric", "dataset"))
-    has_baseline = any(term in text for term in ("baseline", "state-of-the-art", "sota", "compare"))
     citations = float(work.get("cited_by_count") or 0)
-    return {
-        "has_experiments": has_eval,
-        "has_ablation": "ablation" in text,
-        "has_strong_baselines": has_baseline,
-        "has_code": any(term in text for term in ("github", "code", "implementation")),
-        "has_benchmark": "benchmark" in text,
-        "baseline_count": 2 if has_baseline else 0,
-        "novelty": 6.7 if any(term in text for term in ("novel", "propose", "introduce")) else 5.8,
-        "technical_depth": "high" if has_eval and has_baseline else "medium" if has_eval else "low",
-        "trend_signal": min(8.0, 5.0 + citations / 250.0),
-        "has_known_gap": any(term in text for term in ("limitation", "challenge", "gap")),
-        "benchmark_gap": any(term in text for term in ("metric", "benchmark")),
-        "technical_core": abstract[:500],
-        "openalex_has_pdf": bool(pdf_url),
-    }
+    signals = text_paper_signals(title, abstract)
+    signals["trend_signal"] = min(8.0, 5.0 + citations / 250.0)
+    signals["openalex_has_pdf"] = bool(pdf_url)
+    return signals
 
 
 def _unique(values: list[str]) -> list[str]:

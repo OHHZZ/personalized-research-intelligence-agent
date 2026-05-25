@@ -5,6 +5,7 @@ import time
 
 from research_intel.connectors.base import ContentConnector
 from research_intel.connectors.http_client import ConnectorError, build_url, get_url, stable_id
+from research_intel.connectors.signal_helpers import dedupe_items, enrich_with_profile_tags, text_paper_signals, unique
 from research_intel.models import ContentItem, ContentType, UserProfile
 
 
@@ -27,7 +28,7 @@ class SemanticScholarConnector(ContentConnector):
                 continue
         if self.last_errors and not items:
             raise ConnectorError("; ".join(self.last_errors))
-        return _dedupe(items)
+        return enrich_with_profile_tags(dedupe_items(items), profile)
 
     def _queries(self, profile: UserProfile) -> list[str]:
         terms = [
@@ -104,24 +105,7 @@ class SemanticScholarConnector(ContentConnector):
 
 
 def _infer_tags(title: str, abstract: str, fields: list[str]) -> list[str]:
-    text = f"{title} {abstract} {' '.join(fields)}".lower()
-    tags: list[str] = []
-    mapping = {
-        "video generation": ["video generation", "text-to-video", "video diffusion"],
-        "controllable video editing": ["video editing", "controllable", "editing"],
-        "diffusion models": ["diffusion"],
-        "evaluation benchmark": ["benchmark", "evaluation", "metric"],
-        "temporal consistency evaluation": ["temporal consistency", "temporal"],
-        "multimodal agents": ["agent", "multimodal", "vision-language"],
-        "retrieval augmented generation": ["retrieval", "rag", "citation"],
-        "academic writing": ["writing", "citation", "paper"],
-        "AI drawing": ["image generation", "drawing"],
-    }
-    for tag, needles in mapping.items():
-        if any(needle in text for needle in needles):
-            tags.append(tag)
-    tags.extend(fields[:3])
-    return _unique(tags)
+    return unique(fields[:3])
 
 
 def _paper_signals(
@@ -130,47 +114,10 @@ def _paper_signals(
     paper: dict[str, object],
     links: dict[str, str],
 ) -> dict[str, object]:
-    text = f"{title} {abstract}".lower()
-    has_eval = any(term in text for term in ("experiment", "evaluation", "benchmark", "dataset", "metric"))
-    has_baseline = any(term in text for term in ("baseline", "state-of-the-art", "sota", "compare"))
     citations = float(paper.get("citationCount") or 0)
     influential = float(paper.get("influentialCitationCount") or 0)
-    has_code_hint = any(term in text for term in ("code", "github", "implementation")) or bool(links.get("pdf"))
-    return {
-        "has_experiments": has_eval,
-        "has_ablation": "ablation" in text,
-        "has_strong_baselines": has_baseline,
-        "has_code": "github" in text,
-        "has_benchmark": "benchmark" in text,
-        "baseline_count": 2 if has_baseline else 0,
-        "novelty": 6.7 if any(term in text for term in ("novel", "propose", "introduce")) else 5.8,
-        "technical_depth": "high" if has_eval and has_baseline else "medium" if has_eval else "low",
-        "trend_signal": min(8.5, 5.0 + citations / 200.0 + influential / 30.0),
-        "has_known_gap": any(term in text for term in ("limitation", "challenge", "gap")),
-        "benchmark_gap": any(term in text for term in ("metric", "benchmark")),
-        "technical_core": abstract[:500],
-        "semantic_scholar_open_access": bool(paper.get("isOpenAccess")),
-        "semantic_scholar_has_pdf": has_code_hint,
-    }
-
-
-def _unique(values: list[str]) -> list[str]:
-    seen: set[str] = set()
-    output: list[str] = []
-    for value in values:
-        key = value.strip().lower()
-        if key and key not in seen:
-            seen.add(key)
-            output.append(value.strip())
-    return output
-
-
-def _dedupe(items: list[ContentItem]) -> list[ContentItem]:
-    seen: set[str] = set()
-    output: list[ContentItem] = []
-    for item in items:
-        key = item.url.lower() or item.title.lower()
-        if key not in seen:
-            seen.add(key)
-            output.append(item)
-    return output
+    signals = text_paper_signals(title, abstract)
+    signals["trend_signal"] = min(8.5, 5.0 + citations / 200.0 + influential / 30.0)
+    signals["semantic_scholar_open_access"] = bool(paper.get("isOpenAccess"))
+    signals["semantic_scholar_has_pdf"] = signals["has_code"] or bool(links.get("pdf"))
+    return signals

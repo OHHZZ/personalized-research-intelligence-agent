@@ -7,6 +7,7 @@ from research_intel.agents.base import BaseAgent
 from research_intel.connectors import (
     ContentConnector,
     GitHubConnector,
+    HuggingFaceConnector,
     OpenAlexConnector,
     PapersWithCodeConnector,
     PaperSourceConnector,
@@ -38,6 +39,7 @@ class DiscoveryAgent(BaseAgent):
             OpenAlexConnector(),
             PapersWithCodeConnector(),
             GitHubConnector(),
+            HuggingFaceConnector(),
         ]
         self.last_errors: list[str] = []
 

@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 
 from research_intel.connectors.base import ContentConnector
 from research_intel.connectors.http_client import ConnectorError, build_url, get_url, stable_id
+from research_intel.connectors.signal_helpers import dedupe_items, enrich_with_profile_tags, text_paper_signals, unique
 from research_intel.models import ContentItem, ContentType, UserProfile
 
 
@@ -40,7 +41,7 @@ class PaperSourceConnector(ContentConnector):
                 continue
         if self.last_errors and not items:
             raise ConnectorError("; ".join(self.last_errors))
-        return _dedupe(items)
+        return enrich_with_profile_tags(dedupe_items(items), profile)
 
     def _queries(self, profile: UserProfile) -> list[str]:
         seed_terms = [
@@ -121,71 +122,12 @@ def _clean_text(value: str) -> str:
 
 
 def _infer_tags(title: str, summary: str, categories: list[str]) -> list[str]:
-    text = f"{title} {summary}".lower()
-    keyword_tags = {
-        "video generation": ["video generation", "text-to-video", "video diffusion"],
-        "controllable video editing": ["video editing", "controllable", "instruction-guided"],
-        "diffusion models": ["diffusion", "latent diffusion"],
-        "evaluation benchmark": ["benchmark", "evaluation", "metric", "leaderboard"],
-        "temporal consistency evaluation": ["temporal consistency", "temporal"],
-        "multimodal agents": ["agent", "multimodal", "vision-language"],
-        "retrieval augmented generation": ["retrieval", "rag", "citation"],
-        "academic writing": ["scientific writing", "academic writing", "citation"],
-        "AI drawing": ["image generation", "drawing", "layout"],
-    }
-    tags = [tag for tag, needles in keyword_tags.items() if any(needle in text for needle in needles)]
-    tags.extend(categories[:3])
-    return _unique(tags)
+    return unique(categories[:3])
 
 
 def _paper_signals(title: str, summary: str, links: dict[str, str]) -> dict[str, object]:
-    text = f"{title} {summary}".lower()
-    has_eval = any(term in text for term in ("experiment", "evaluation", "benchmark", "metric", "dataset"))
-    has_ablation = "ablation" in text
-    has_baseline = any(term in text for term in ("baseline", "state-of-the-art", "sota", "compare"))
-    has_code = any("github" in value.lower() or "code" in key.lower() for key, value in links.items())
-    novelty = 6.2
-    if any(term in text for term in ("new", "novel", "first", "propose", "introduce")):
-        novelty += 0.8
-    if any(term in text for term in ("benchmark", "dataset", "evaluation")):
-        novelty += 0.5
-    depth = "medium" if has_eval else "low"
-    if has_eval and (has_ablation or has_baseline):
-        depth = "high"
-    return {
-        "has_experiments": has_eval,
-        "has_ablation": has_ablation,
-        "has_strong_baselines": has_baseline,
-        "has_code": has_code,
-        "has_benchmark": "benchmark" in text,
-        "baseline_count": 2 if has_baseline else 0,
-        "novelty": min(9.0, novelty),
-        "technical_depth": depth,
-        "trend_signal": 6.0 if has_eval else 4.8,
-        "has_known_gap": any(term in text for term in ("limitation", "challenge", "gap", "future work")),
-        "benchmark_gap": any(term in text for term in ("metric", "benchmark", "evaluation gap")),
-        "technical_core": summary[:500],
-    }
-
-
-def _unique(values: list[str]) -> list[str]:
-    seen: set[str] = set()
-    output: list[str] = []
-    for value in values:
-        normalized = value.strip()
-        key = normalized.lower()
-        if normalized and key not in seen:
-            seen.add(key)
-            output.append(normalized)
-    return output
-
-
-def _dedupe(items: list[ContentItem]) -> list[ContentItem]:
-    seen: set[str] = set()
-    output: list[ContentItem] = []
-    for item in items:
-        key = item.url.lower() or item.title.lower()
-        if key not in seen:
-            seen.add(key)
-            output.append(item)
-    return output
+    signals = text_paper_signals(title, summary)
+    has_code_link = any("github" in value.lower() or "code" in key.lower() for key, value in links.items())
+    signals["has_code"] = signals["has_code"] or has_code_link
+    signals["trend_signal"] = 6.0 if signals["has_experiments"] else 4.8
+    return signals
