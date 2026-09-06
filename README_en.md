@@ -1,137 +1,153 @@
 <p align="center">
-  <h1 align="center">Personalized Research Intelligence Agent</h1>
-  <p align="center">
-    A multi-agent research intelligence system for daily paper, repo, and trend curation — with RAG-grounded Q&A.
-  </p>
-  <p align="center">
-    <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white">
-    <img alt="LangGraph" src="https://img.shields.io/badge/LangGraph-1.1%2B-0f766e?style=flat-square">
-    <img alt="asyncio" src="https://img.shields.io/badge/async-parallel%20pipeline-6d28d9?style=flat-square">
-    <img alt="Storage" src="https://img.shields.io/badge/storage-JSON%20%7C%20pgvector-2563eb?style=flat-square">
-  </p>
+  <img src="docs/images/readme_hero.svg" alt="Personalized Research Intelligence Agent" width="100%">
 </p>
 
----
+<p align="center">
+  Personalized paper, repository, and trend intelligence for researchers.<br>
+  Bounded agents, traceable evidence, and reproducible experiments turn scattered signals into a daily research decision brief.
+</p>
+
+<p align="center">
+  <a href="README.md">中文</a> ·
+  <a href="#quick-start">Quick Start</a> ·
+  <a href="docs/architecture.md">Architecture</a> ·
+  <a href="docs/assistant-agent-evaluation.md">Agent Evaluation</a>
+</p>
+
+<p align="center">
+  <img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <img alt="LangGraph" src="https://img.shields.io/badge/LangGraph-1.1%2B-0F766E?style=for-the-badge">
+  <img alt="Qwen" src="https://img.shields.io/badge/Qwen-Tool_Calling-615CED?style=for-the-badge">
+  <img alt="Agent Evals" src="https://img.shields.io/badge/Agent_Evals-180_Trajectories-2563EB?style=for-the-badge">
+</p>
 
 ## Overview
 
-Personalized Research Intelligence Agent turns scattered research signals into a daily decision brief. It discovers candidate papers and repos from 5 live sources, filters by profile relevance, runs 8-dimensional value analysis with optional LLM enhancement, detects trending topics, and answers questions with RAG-grounded evidence and a hallucination risk score.
+Personalized Research Intelligence Agent collects research signals from arXiv, Semantic Scholar, OpenAlex, PapersWithCode, GitHub, and Hugging Face, then filters, ranks, diversifies, and turns them into a daily brief. After a report is generated, a separate research agent answers follow-up questions with RAG and model-selected tools, verifying claims against cited evidence before returning an answer.
 
-![Daily Brief](docs/images/home_page.png)
+The engineering focus is controlled autonomy: tool choice, execution budgets, evidence boundaries, deterministic fallback, and experiment traces are explicit system concerns rather than hidden model behavior.
 
----
+![Daily research brief](docs/images/home_page.png)
+
+## Engineering Highlights
+
+| Capability | Implementation | Verifiable result |
+|---|---|---|
+| **Bounded Agent execution** | A LangGraph `decide → execute_tools → decide` loop lets the model select tools while the runtime bounds iterations, tool calls, and invalid attempts, then verifies evidence before deterministic fallback | **180 Qwen trajectories** from 60 bilingual development tasks repeated three times, with **100% budget compliance** |
+| **Trajectory evaluation and reproducibility** | Traces capture tools, arguments, evidence, citations, terminal mode, and configuration fingerprints; completed records can be reused while only incomplete calls are rerun | Evaluated **60 tasks / 180 trajectories** by reusing **121** valid records and rerunning **59** incomplete records |
+| **RAG cache and concurrency control** | Intermediates are bound to data/config versions, while Single-flight coalesces identical concurrent requests to prevent duplicate index construction and stale reuse | In a local 1,000-chunk microbenchmark, cached-path P50 fell from **46.43 ms to 0.210 ms (~99.55%)**; 32 identical requests triggered **one** backend computation |
+
+> Metrics are backed by committed evaluation and benchmark artifacts. Cache figures cover process-local index construction/search and cache paths; network and model time are excluded.
+
+## How It Works
+
+```mermaid
+flowchart LR
+    A[Research profile and current goal] --> B[Query planning]
+    B --> C[Six source families in parallel]
+    C --> D[Filter · rank · diversify]
+    D --> E[Daily research brief]
+    E --> F[Bounded research agent]
+    F --> G{Model selects a tool}
+    G --> H[RAG / report / item / action tools]
+    H --> I[Evidence and citation verification]
+    I --> J[Grounded answer or deterministic fallback]
+```
+
+The product uses two boundary-separated LangGraph workflows:
+
+- **Recommendation workflow:** profile loading, query planning, multi-source discovery, personalized ranking, diversity control, quality gating, trends, and idempotent report persistence.
+- **Research agent workflow:** post-report Q&A with a bounded tool loop, structured trace capture, claim-evidence verification, and safe fallback. It does not participate in recommendation ranking.
+
+![Research agent assistant](docs/images/assistant.png)
 
 ## Features
 
-| Module | Capability |
-|--------|------------|
-| Discovery | 5 parallel connectors (arXiv, Semantic Scholar, OpenAlex, PapersWithCode, GitHub) with sample fallback |
-| Filtering | 4-tier relevance × quality scoring; auto-relaxes threshold when candidates are sparse |
-| Tool Enrichment | Fills missing abstracts (arXiv), citation counts (S2), and star velocity (GitHub) before scoring |
-| Value Analysis | 8-dimension scoring; LLM enhancement with reflection loop (max 2 retries, quality gate) |
-| Evidence Review | Downgrades confidence when evidence or reproducibility signals are weak |
-| Trends | 7 / 30 / 90-day topic frequency windows cross-referenced with user profile |
-| Report | Ranked top papers, repos, tools, trends, and 5 actionable recommendations |
-| Assistant Q&A | Hybrid dense + BM25 RAG retrieval; LLM answer with grounding score (hallucination detection) |
-| Supervisor | Dynamic strategy node: raises LLM limit on high-priority overflow, skips unused tools |
-
----
-
-## Web UI
-
-Seven views in the single-page app:
-
-| View | Purpose |
-|------|---------|
-| Brief | Daily actions, signal distribution, highest-value items |
-| Papers | Ranked paper intelligence with value analysis |
-| Repos | Baseline and implementation readiness |
-| Trends | Topic signals across 7 / 30 / 90-day windows |
-| Filtered | Audit trail: accepted, rejected, low-priority |
-| Saved | Local feedback and follow-up queue |
-| Profile | Editable research domains, methods, applications, goals |
-
-![Assistant drawer](docs/images/assistant.png)
-
----
+- Six paper, model, and repository connector families with parallel retrieval and source isolation.
+- Ranking over explicit, long-term, short-term, negative, seen-item, and novelty signals.
+- MMR diversity, source caps, exploration slots, and deterministic quality gates.
+- Dense + BM25 RAG plus report, selected-item, and recommended-action tools.
+- SQLite checkpoints, run-ID idempotency, exposure receipts, and feedback learning.
+- Node-level traces with token/latency, cache-hit, and terminal-mode telemetry.
+- Optional PostgreSQL + pgvector storage and an external MCP tool surface.
 
 ## Quick Start
+
+Requires Python 3.11+ on Linux or macOS.
 
 ```bash
 # Install
 pip install -e .
 
-# Run with sample data (offline)
+# Generate a daily brief from bundled sample data (no API key required)
 research-intel run-daily --source sample
 
-# Run with live sources
+# Prefer live sources and fall back to sample data when none are usable
 research-intel run-daily --source hybrid
 
-# Use LangGraph pipeline (parallel connectors + conditional routing)
-research-intel run-daily --source hybrid --use-langgraph
-
-# Start web UI
+# Start the Web UI
 research-intel serve-web
 ```
 
----
+Open the local URL printed by the server. Without model credentials, sample mode and deterministic local capabilities remain available.
 
 ## Configuration
 
-Copy `.env.example` to `.env` and fill in what you need:
+Copy `.env.example` to `.env` and fill in only what you need:
 
 ```env
-# Pipeline
-USE_LANGGRAPH_PIPELINE=false   # true = LangGraph state machine
-
-# LLM enhancement (optional)
 ENABLE_LLM_ANALYSIS=false
+LLM_MODEL=qwen3.7-max-2026-06-08
 DASHSCOPE_API_KEY=
+DASHSCOPE_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
 
-# Data sources (optional but recommended)
 GITHUB_TOKEN=
 SEMANTIC_SCHOLAR_API_KEY=
 
-# Embeddings (optional, improves RAG quality)
-EMBEDDING_PROVIDER=local_hash  # or sentence_transformers
+EMBEDDING_PROVIDER=local_hash
 ```
 
-**sentence-transformers:**
-```bash
-pip install -e .[embeddings]
-```
+- To enable Qwen tool calling, set `DASHSCOPE_API_KEY` and `ENABLE_LLM_ANALYSIS=true`.
+- The default `local_hash` embedding provider is offline and downloads no model.
+- For semantic embeddings, run `pip install -e ".[embeddings]"` and set `EMBEDDING_PROVIDER=sentence_transformers`.
+- For PostgreSQL + pgvector, run `pip install -e ".[pgvector]"`, then `research-intel init-pgvector`.
 
-**PostgreSQL + pgvector:**
-```bash
-pip install -e .[pgvector]
-research-intel init-pgvector
-```
+Keep credentials in the local environment or protected CI secrets. Never commit `.env`, traces, or runtime artifacts.
 
----
+## Evaluation and Benchmarks
+
+### Agent trajectory evaluation
+
+The repository includes an offline evaluator, self-test fixtures, a public development set, and a split-aware live-Qwen protocol. Evaluation traces backwards from the final answer through tool choice, arguments, execution evidence, citations, and claim support. Dataset hashes, configuration fingerprints, and run manifests keep experiments attributable and reproducible.
+
+The evaluation covers 60 bilingual development tasks and 180 Qwen trajectories, recording tool calls, citation evidence, and budget compliance.
+
+### RAG cache benchmark
+
+The benchmark covers a 1,000-chunk cache path and 32 identical concurrent requests, measuring cache-hit latency and Single-flight request coalescing.
 
 ## Project Structure
 
-```
+```text
 src/research_intel/
-├── agents/          # 10 agents (pipeline + on-demand)
-├── connectors/      # 5 data-source connectors
-├── tools/           # Tool registry + paper/repo tools
-├── rag/             # Hybrid dense+BM25 RAG index
-├── llm/             # Qwen/DashScope client
-├── evaluation/      # Response evaluation
-├── web/static/      # Static web UI (HTML/CSS/JS)
-├── pipeline.py      # Original sequential pipeline
-├── langgraph_pipeline.py  # LangGraph state-machine pipeline
-├── mcp_server.py    # MCP tool server
+├── agents/          # bounded agent, context, evidence verification, cache
+├── workflows/       # recommendation state, nodes, and routes
+├── connectors/      # six external source connector families
+├── recommendation/  # profiles, ranking, diversity, critic, reports
+├── tools/           # paper, repository, and report tool registry
+├── rag/             # dense + BM25 and pgvector storage
+├── evaluation/      # trajectory, model, and personalization evaluation
+├── llm/             # Qwen / DashScope client
+├── web/static/      # product UI
+├── mcp_server.py    # external MCP server
 └── web_server.py    # HTTP server
 ```
 
----
+## Further Reading
 
-## Data Source Modes
+- [Architecture](docs/architecture.md)
+- [Roadmap](docs/roadmap.md)
 
-| Mode | Behavior |
-|------|---------|
-| `sample` | Uses `data/samples/content_items.json` only; fully offline |
-| `live` | Queries all 5 live connectors in parallel |
-| `hybrid` | Live-first; blends sample data if live results are sparse |
+## Maintainer
+
+Designed and maintained by [@OHHZZ](https://github.com/OHHZZ).

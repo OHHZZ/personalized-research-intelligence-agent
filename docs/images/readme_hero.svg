@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="500" viewBox="0 0 1600 500" role="img" aria-labelledby="title desc">
+  <title id="title">Personalized Research Intelligence Agent</title>
+  <desc id="desc">A dark project banner for a bounded research agent with grounded retrieval and reproducible evaluation.</desc>
+  <rect width="1600" height="500" fill="#0b1118"/>
+  <g transform="translate(150 102)">
+    <rect x="0" y="0" width="104" height="104" rx="24" fill="#f8fafc" transform="rotate(-8 52 52)"/>
+    <rect x="118" y="22" width="76" height="76" rx="18" fill="#94a3b8" transform="rotate(8 156 60)"/>
+    <rect x="22" y="124" width="76" height="76" rx="18" fill="#38bdf8" transform="rotate(8 60 162)"/>
+    <rect x="112" y="116" width="116" height="116" rx="26" fill="#2563eb" transform="rotate(-8 170 174)"/>
+    <circle cx="286" cy="112" r="9" fill="#22c55e"/>
+    <path d="M228 166 C264 146 276 126 286 112" fill="none" stroke="#22c55e" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <g font-family="Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" fill="#f8fafc">
+    <text x="520" y="194" font-size="76" font-weight="750" letter-spacing="-3">research intelligence</text>
+    <text x="524" y="254" font-size="28" font-weight="500" fill="#94a3b8">bounded agent · grounded retrieval · reproducible evaluation</text>
+    <rect x="522" y="304" width="204" height="50" rx="7" fill="#1e293b"/>
+    <text x="546" y="337" font-size="20" font-weight="650">LANGGRAPH AGENT</text>
+    <rect x="742" y="304" width="154" height="50" rx="7" fill="#0f766e"/>
+    <text x="772" y="337" font-size="20" font-weight="650">RAG + TOOLS</text>
+    <rect x="912" y="304" width="170" height="50" rx="7" fill="#1d4ed8"/>
+    <text x="943" y="337" font-size="20" font-weight="650">TRACE EVALS</text>
+    <rect x="1098" y="304" width="198" height="50" rx="7" fill="#166534"/>
+    <text x="1125" y="337" font-size="20" font-weight="650">CACHE 32 → 1</text>
+  </g>
+  <rect x="72" y="438" width="1456" height="4" rx="2" fill="#334155"/>
+</svg>
