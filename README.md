@@ -41,18 +41,7 @@ Personalized Research Intelligence Agent 从 arXiv、Semantic Scholar、OpenAlex
 
 ## 系统如何工作
 
-```mermaid
-flowchart LR
-    A[研究画像与当前目标] --> B[查询规划]
-    B --> C[6 类数据源并行采集]
-    C --> D[过滤 · 排序 · 多样化]
-    D --> E[每日研究简报]
-    E --> F[有界研究 Agent]
-    F --> G{模型选择工具}
-    G --> H[RAG / 报告 / 条目 / 行动工具]
-    H --> I[证据与引用校验]
-    I --> J[有据回答或确定性降级]
-```
+![科研情报系统工程执行流程](docs/images/execution-architecture.png)
 
 系统包含两个边界清晰的 LangGraph 工作流：
 

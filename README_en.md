@@ -41,18 +41,7 @@ The engineering focus is controlled autonomy: tool choice, execution budgets, ev
 
 ## How It Works
 
-```mermaid
-flowchart LR
-    A[Research profile and current goal] --> B[Query planning]
-    B --> C[Six source families in parallel]
-    C --> D[Filter · rank · diversify]
-    D --> E[Daily research brief]
-    E --> F[Bounded research agent]
-    F --> G{Model selects a tool}
-    G --> H[RAG / report / item / action tools]
-    H --> I[Evidence and citation verification]
-    I --> J[Grounded answer or deterministic fallback]
-```
+![Research intelligence engineering execution flow](docs/images/execution-architecture.png)
 
 The product uses two boundary-separated LangGraph workflows:
 
